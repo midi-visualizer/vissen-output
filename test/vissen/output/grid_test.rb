@@ -101,6 +101,11 @@ describe Vissen::Output::Grid do
       assert_kind_of Array, buffer
       assert_equal (rows * columns), buffer.length
     end
+
+    it 'accepts a block' do
+      buffer = grid.alloc_points { 0 }
+      assert_equal 0, buffer[0]
+    end
   end
 
   describe '#position' do
