@@ -8,6 +8,8 @@ module Vissen
     #
     # Aspect ratio is defined as width/height. If it is not given each grid cell
     # is assumed to be square, meaning the aspect_ratio will equal columns/rows.
+    #
+    # TODO: Handle single row/column grids.
     module Grid
       attr_reader :rows, :columns, :width, :height
 
@@ -86,6 +88,8 @@ module Vissen
       #
       # Returns the x and y coordinates of the grid point at the given row and
       # column.
+      #
+      # TODO: Fix bug when either row or column is 1
       def position(row, column)
         [
           column.to_f / (columns - 1) * width,
@@ -116,6 +120,8 @@ module Vissen
       # - the row and columns or
       # - the index, row and column.
       def each_point(&block)
+        return to_enum(__callee__) unless block_given?
+
         case block.arity
         when 2
           points.times { |i| yield(*row_column_from(i)) }
@@ -126,6 +132,26 @@ module Vissen
       end
 
       alias each_grid_point each_point
+
+      # Each Position
+      #
+      # Iterates over each point in the grid and yields the point index and x
+      # and y coordinates.
+      def each_position
+        return to_enum(__callee__) unless block_given?
+
+        x_coef = width / (columns - 1)
+        y_coef = height / (rows - 1)
+
+        points.times do |index|
+          row, column = row_column_from index
+
+          x = column * x_coef
+          y = row * y_coef
+
+          yield index, x, y
+        end
+      end
     end
   end
 end

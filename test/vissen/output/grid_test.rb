@@ -187,5 +187,25 @@ describe Vissen::Output::Grid do
       grid.each_point(&block)
       assert_equal grid.points - 1, last_index
     end
+
+    it 'returns an enumerator when no block is given' do
+      assert_kind_of Enumerator, grid.each_point
+    end
+  end
+
+  describe '#each_position' do
+    it 'iterates over each point and yields its position' do
+      grid.each_position do |index, x, y|
+        row, column = grid.row_column_from index
+        x_ref, y_ref = grid.position row, column
+
+        assert_in_epsilon x_ref, x
+        assert_in_epsilon y_ref, y
+      end
+    end
+
+    it 'returns an enumerator when no block is given' do
+      assert_kind_of Enumerator, grid.each_position
+    end
   end
 end
