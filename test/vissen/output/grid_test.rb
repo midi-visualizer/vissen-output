@@ -102,6 +102,11 @@ describe Vissen::Output::Grid do
       assert_equal (rows * columns), buffer.length
     end
 
+    it 'returns a frozen array' do
+      buffer = grid.alloc_points klass
+      assert buffer.frozen?
+    end
+
     it 'accepts a block' do
       buffer = grid.alloc_points { 0 }
       assert_equal 0, buffer[0]

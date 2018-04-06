@@ -59,7 +59,7 @@ module Vissen
           block = proc { klass.new }
         end
 
-        Array.new(grid_points, &block)
+        Array.new(grid_points, &block).freeze
       end
 
       # Index From
