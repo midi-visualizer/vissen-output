@@ -33,7 +33,7 @@ module Vissen
         super
       end
 
-      # Vixel Accessor
+      # Vixel Accessor 
       #
       # Returns the vixel at the given layer, row and column
       def [](layer, row, column)
