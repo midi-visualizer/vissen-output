@@ -11,7 +11,8 @@ require 'vissen/output/vixel_grid'
 module Vissen
   # Output
   #
-  #
+  # The main job of the output module is to transform a multi layered grid of
+  # Vixels, a VixelGrid, into a single layered grid of Pixels, a PixelGrid.
   module Output
   end
 end

@@ -2,7 +2,7 @@ module Vissen
   module Output
     # Pixel
     #
-    #
+    # TODO: How do we want the pixel to saturate? When written or when read?
     class Pixel
       attr_accessor :r, :g, :b
 
