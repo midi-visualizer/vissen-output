@@ -1,11 +1,10 @@
-require 'color'
-
 module Vissen
   module Output
     # Palette
     #
-    # The Palette implemnts a color lookup table that maps a value between 0
-    # and 1 either to a countinous or a discrete color palette.
+    # The Palette is, at its core, a transformation between a position (0..1)
+    # and a pixel value {(0..1) x 3}. It can either be continous or be based on
+    # a preallocated lookup table.
     class Palette
       def initialize(*colors, steps: nil)
         @colors = colors.map { |c| c.to_rgb.to_a.freeze }
@@ -48,8 +47,8 @@ module Vissen
       end
 
       def color_at(pos)
-        return Color::RGB.new(*@colors[0],  1.0) if pos <= 0
-        return Color::RGB.new(*@colors[-1], 1.0) if pos >= 1
+        return Pixel.new(*@colors[0]) if pos <= 0
+        return Pixel.new(*@colors[-1]) if pos >= 1
 
         # Find the two colors we are between
         bin, r = color_bin pos
@@ -63,9 +62,8 @@ module Vissen
         # r = 0 -> 100 % of color A
         # r = 1 -> 100 % of color B
         def mix_ab(a, b, r)
-          Color::RGB.new(
-            *a.map.with_index { |e, i| e * (1 - r) + b[i] * r },
-            1.0
+          Pixel.new(
+            *a.map.with_index { |e, i| e * (1 - r) + b[i] * r }
           )
         end
       end

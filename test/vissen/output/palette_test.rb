@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'color'
 
 describe Vissen::Output::Palette do
   subject { Vissen::Output::Palette }
@@ -15,17 +16,17 @@ describe Vissen::Output::Palette do
 
   describe '.new' do
     it 'accepts an arbitrarily long list of colors' do
-      assert_equal(colors[0], palette[0])
-      assert_equal(colors[1], palette[0.5])
-      assert_equal(colors[2], palette[1])
+      assert_color_equal(colors[0], palette[0])
+      assert_color_equal(colors[1], palette[0.5])
+      assert_color_equal(colors[2], palette[1])
     end
 
     it 'accepts an optional number of discrete steps' do
       palette = subject.new(*colors, steps: 5)
       
-      assert_equal(colors[0], palette[0])
-      assert_equal(colors[1], palette[0.5])
-      assert_equal(colors[2], palette[1])
+      assert_color_equal(colors[0], palette[0])
+      assert_color_equal(colors[1], palette[0.5])
+      assert_color_equal(colors[2], palette[1])
     end
   end
 
@@ -34,8 +35,8 @@ describe Vissen::Output::Palette do
       ab = colors[0].mix_with(colors[1], 50)
       bc = colors[1].mix_with(colors[2], 50)
 
-      assert_equal(ab, palette[0.25])
-      assert_equal(bc, palette[0.75])
+      assert_color_equal(ab, palette[0.25])
+      assert_color_equal(bc, palette[0.75])
     end
     
     it 'returns the nearest color down when discrete' do
@@ -44,9 +45,9 @@ describe Vissen::Output::Palette do
       ab = colors[0].mix_with(colors[1], 50)
       bc = colors[1].mix_with(colors[2], 50)
       
-      assert_equal(ab,        palette[0.30])
-      assert_equal(colors[1], palette[0.70])
-      assert_equal(bc,        palette[0.80])
+      assert_color_equal(ab,        palette[0.30])
+      assert_color_equal(colors[1], palette[0.70])
+      assert_color_equal(bc,        palette[0.80])
     end
   end
 end
