@@ -26,12 +26,14 @@ module Vissen
           end
       end
 
-      # Grid Points
+      # Points
       #
       # Returns the number of grid points.
-      def grid_points
+      def points
         @rows * @columns
       end
+
+      alias grid_points points
 
       # Grid Point Accessor
       #
@@ -59,7 +61,7 @@ module Vissen
           block = proc { klass.new }
         end
 
-        Array.new(grid_points, &block).freeze
+        Array.new(points, &block).freeze
       end
 
       # Index From
@@ -113,15 +115,17 @@ module Vissen
       # - the point index,
       # - the row and columns or
       # - the index, row and column.
-      def each_grid_point(&block)
+      def each_point(&block)
         case block.arity
         when 2
-          grid_points.times { |i| yield(*row_column_from(i)) }
+          points.times { |i| yield(*row_column_from(i)) }
         when 3
-          grid_points.times { |i| yield(i, *row_column_from(i)) }
-        else grid_points.times(&block)
+          points.times { |i| yield(i, *row_column_from(i)) }
+        else points.times(&block)
         end
       end
+
+      alias each_grid_point each_point
     end
   end
 end

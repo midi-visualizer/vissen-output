@@ -13,9 +13,9 @@ describe Vissen::Output::Grid do
   let(:real_height) { 5.0 }
   let(:grid)        { subject.new rows, columns }
 
-  describe '#grid_points' do
+  describe '#points' do
     it 'returns the number of points in the grid' do
-      assert_equal (rows * columns), grid.grid_points
+      assert_equal (rows * columns), grid.points
     end
   end
 
@@ -154,7 +154,7 @@ describe Vissen::Output::Grid do
     end
   end
 
-  describe '#each_grid_point' do
+  describe '#each_point' do
     it 'yields the index to arity 1 blocks' do
       last_index = -1
 
@@ -163,8 +163,8 @@ describe Vissen::Output::Grid do
         last_index += 1
       end
 
-      grid.each_grid_point(&block)
-      assert_equal grid.grid_points - 1, last_index
+      grid.each_point(&block)
+      assert_equal grid.points - 1, last_index
     end
 
     it 'yields the row and column to arity 2 blocks' do
@@ -176,8 +176,8 @@ describe Vissen::Output::Grid do
         last_index += 1
       end
 
-      grid.each_grid_point(&block)
-      assert_equal grid.grid_points - 1, last_index
+      grid.each_point(&block)
+      assert_equal grid.points - 1, last_index
     end
 
     it 'yields the index, row and column to arity 3 blocks' do
@@ -189,8 +189,8 @@ describe Vissen::Output::Grid do
         last_index += 1
       end
 
-      grid.each_grid_point(&block)
-      assert_equal grid.grid_points - 1, last_index
+      grid.each_point(&block)
+      assert_equal grid.points - 1, last_index
     end
   end
 end
