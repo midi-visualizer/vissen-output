@@ -61,8 +61,20 @@ describe Vissen::Output::VixelGrid do
     end
   end
   
+  describe '#pixel_grid' do
+    it 'returns a pixel grid of the same size' do
+      pixel_grid = vixel_grid.pixel_grid
+
+      assert_kind_of Vissen::Output::PixelGrid, pixel_grid
+      assert_equal vixel_grid.rows,    pixel_grid.rows
+      assert_equal vixel_grid.columns, pixel_grid.columns
+      assert_equal vixel_grid.width,   pixel_grid.width
+      assert_equal vixel_grid.height,  pixel_grid.height
+    end
+  end
+  
   describe '#render' do
-    let(:pixel_grid) { Vissen::Output::PixelGrid.new(rows, columns) }
+    let(:pixel_grid) { vixel_grid.pixel_grid }
     let(:pixels)     { pixel_grid.pixels }
     
     before do
@@ -93,9 +105,10 @@ describe Vissen::Output::VixelGrid do
         assert_in_epsilon (c_bg.b * v_bg.i) * (1 - r) + c_fg.b * r, pixel.b
       end
     end
-    
+
     it 'raises an error if the given grid is not sized right' do
-      
+      pixel_grid = Vissen::Output::PixelGrid.new rows - 1, columns
+      assert_raises(TypeError) { vixel_grid.render(pixel_grid) }
     end
   end
 end

@@ -37,6 +37,14 @@ module Vissen
         @layers[layer][index_from(row, column)]
       end
 
+      # Pixel Grid
+      #
+      # Create a matching pixel grid that share the same number of rows, columns
+      # and aspect ratio.
+      def pixel_grid
+        PixelGrid.new rows, columns, aspect_ratio: width / height
+      end
+
       # Render
       #
       # Renders each layer and combines the result in the given buffer.

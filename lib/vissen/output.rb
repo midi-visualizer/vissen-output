@@ -8,7 +8,6 @@ require 'vissen/output/grid'
 require 'vissen/output/pixel_grid'
 require 'vissen/output/vixel_grid'
 
-
 module Vissen
   # Output
   #
