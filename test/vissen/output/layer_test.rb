@@ -69,7 +69,7 @@ describe Vissen::Output::Layer do
       layer.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel   = layer[index]
+        vixel   = layer.vixels[index]
         palette = palettes[vixel.p]
         color   = palette[vixel.q]
 
@@ -84,7 +84,7 @@ describe Vissen::Output::Layer do
       layer.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel   = layer[index]
+        vixel   = layer.vixels[index]
         palette = palettes[vixel.p]
         color   = palette[vixel.q]
 
@@ -102,7 +102,7 @@ describe Vissen::Output::Layer do
       layer.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel   = layer[index]
+        vixel   = layer.vixels[index]
         palette = palettes[vixel.p]
         color   = palette[vixel.q]
 

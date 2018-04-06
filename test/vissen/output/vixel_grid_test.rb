@@ -55,7 +55,7 @@ describe Vissen::Output::VixelGrid do
       row    = rand rows
       column = rand columns
       index  = vixel_grid.index_from row, column
-      vixel  = vixel_grid.layers[layer][index]
+      vixel  = vixel_grid.layers[layer].vixels[index]
 
       assert_equal vixel, vixel_grid[layer, row, column]
     end
@@ -92,8 +92,8 @@ describe Vissen::Output::VixelGrid do
       vixel_grid.render(pixel_grid)
 
       pixels.each_with_index do |pixel, index|
-        v_bg = vixel_grid.layers[0][index]
-        v_fg = vixel_grid.layers[1][index]
+        v_bg = vixel_grid.layers[0].vixels[index]
+        v_fg = vixel_grid.layers[1].vixels[index]
 
         c_bg   = palettes[v_bg.p][v_bg.q]
         c_fg   = palettes[v_fg.p][v_fg.q]

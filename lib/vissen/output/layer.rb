@@ -17,13 +17,20 @@ module Vissen
       attr_accessor :intensity
       attr_reader   :vixels
 
-      def_delegators :@vixels, :each, :each_with_index, :[], :length
-      alias vixel_count length
+      def_delegators :@grid, :vixel_count, :rows, :columns, :width, :height
+      def_delegators :@vixels, :each, :each_with_index
 
       def initialize(grid, intensity: 1.0)
         @grid      = grid
         @vixels    = grid.alloc_points(Vixel).freeze
         @intensity = intensity
+      end
+
+      # Vixel Accessor
+      #
+      # Returns the vixel at the given row and column
+      def [](row, column)
+        @vixels[@grid.index_from row, column]
       end
 
       # Render

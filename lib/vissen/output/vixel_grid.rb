@@ -33,8 +33,11 @@ module Vissen
         super
       end
 
+      # Vixel Accessor
+      #
+      # Returns the vixel at the given layer, row and column
       def [](layer, row, column)
-        @layers[layer][index_from(row, column)]
+        @layers[layer][row, column]
       end
 
       # Pixel Grid

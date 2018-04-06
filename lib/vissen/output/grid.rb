@@ -61,7 +61,7 @@ module Vissen
           block = proc { klass.new }
         end
 
-        Array.new(points, &block).freeze
+        Array.new(points, &block)
       end
 
       # Index From
