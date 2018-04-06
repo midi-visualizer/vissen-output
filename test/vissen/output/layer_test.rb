@@ -24,8 +24,8 @@ describe Vissen::Output::Layer do
       Vissen::Output::Palette.new(*colors.reverse)
     ]
   end
-  let(:grid)       { GridMock.new vixel_count, palettes }
-  let(:layer)       { subject.new grid }
+  let(:grid) { GridMock.new vixel_count, palettes }
+  let(:layer) { subject.new grid }
 
   describe '.new' do
     it 'accepts a grid' do

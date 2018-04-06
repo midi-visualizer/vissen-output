@@ -18,11 +18,11 @@ describe Vissen::Output::Vixel do
       assert_equal 0.0, vixel.i
     end
   end
-  
+
   describe '#inspect' do
     it 'returns a string representation of the vixel' do
       vixel = subject.new 5, 0.6, 0.23333
-      
+
       assert_equal '(5 | 0.6, 0.2)', vixel.inspect
     end
   end

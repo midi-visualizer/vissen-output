@@ -20,7 +20,7 @@ describe Vissen::Output::PixelGrid do
         pixel.b = rand
       end
       pixel_grid.clear!
-      
+
       pixel_grid.pixels.each do |pixel|
         assert_equal 0, pixel.r
         assert_equal 0, pixel.g
@@ -32,7 +32,7 @@ describe Vissen::Output::PixelGrid do
   describe '#[]' do
     it 'returns a valid pixel' do
       pixel = pixel_grid[rand(rows * columns)]
-      
+
       assert_respond_to pixel, :r
       assert_respond_to pixel, :g
       assert_respond_to pixel, :b
