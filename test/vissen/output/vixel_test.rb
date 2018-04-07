@@ -5,25 +5,25 @@ describe Vissen::Output::Vixel do
 
   describe '.new' do
     it 'truncates values greater than 1' do
-      vixel = subject.new 0, 1.1, 4.3
+      vixel = subject.new 1.1, 4.3
 
-      assert_equal 1.0, vixel.q
+      assert_equal 1.0, vixel.p
       assert_equal 1.0, vixel.i
     end
 
     it 'truncates values smaller than 0' do
-      vixel = subject.new(0, -4.2, -1.1)
+      vixel = subject.new(-4.2, -1.1)
 
-      assert_equal 0.0, vixel.q
+      assert_equal 0.0, vixel.p
       assert_equal 0.0, vixel.i
     end
   end
 
   describe '#inspect' do
     it 'returns a string representation of the vixel' do
-      vixel = subject.new 5, 0.6, 0.23333
+      vixel = subject.new 0.6, 0.23333
 
-      assert_equal '(5 | 0.6, 0.2)', vixel.inspect
+      assert_equal '(0.6, 0.2)', vixel.inspect
     end
   end
 end

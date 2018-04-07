@@ -41,8 +41,7 @@ describe Vissen::Output::VixelGrid do
       # Test the individual vixels
       count =
         vixel_grid.vixels.each.reduce(0) do |c, vixel|
-          assert_equal 0,   vixel.p
-          assert_equal 0.0, vixel.q
+          assert_equal 0.0, vixel.p
           assert_equal 0.0, vixel.i
           c + 1
         end
@@ -65,8 +64,7 @@ describe Vissen::Output::VixelGrid do
     before do
       # Randomize the vixels
       vixel_grid.each do |vixel|
-        vixel.p = rand 0..1
-        vixel.q = rand
+        vixel.p = rand
         vixel.i = rand
       end
     end
@@ -75,9 +73,8 @@ describe Vissen::Output::VixelGrid do
       vixel_grid.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel   = vixel_grid.vixels[index]
-        palette = palettes[vixel.p]
-        color   = palette[vixel.q]
+        vixel = vixel_grid.vixels[index]
+        color = palettes[0][vixel.p]
 
         assert_in_epsilon color.r * vixel.i, pixel.r
         assert_in_epsilon color.g * vixel.i, pixel.g
@@ -90,9 +87,8 @@ describe Vissen::Output::VixelGrid do
       vixel_grid.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel   = vixel_grid.vixels[index]
-        palette = palettes[vixel.p]
-        color   = palette[vixel.q]
+        vixel = vixel_grid.vixels[index]
+        color = palettes[0][vixel.p]
 
         r = vixel.i
         s = (1 - r) * 0.5
@@ -108,11 +104,26 @@ describe Vissen::Output::VixelGrid do
       vixel_grid.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel   = vixel_grid.vixels[index]
-        palette = palettes[vixel.p]
-        color   = palette[vixel.q]
+        vixel = vixel_grid.vixels[index]
+        color = palettes[0][vixel.p]
 
         r = vixel.i * 0.5
+
+        assert_in_epsilon color.r * r, pixel.r
+        assert_in_epsilon color.g * r, pixel.g
+        assert_in_epsilon color.b * r, pixel.b
+      end
+    end
+
+    it 'renders from the given palette' do
+      vixel_grid.palette = 1
+      vixel_grid.render(buffer)
+
+      buffer.each_with_index do |pixel, index|
+        vixel = vixel_grid.vixels[index]
+        color = palettes[1][vixel.p]
+
+        r = vixel.i
 
         assert_in_epsilon color.r * r, pixel.r
         assert_in_epsilon color.g * r, pixel.g

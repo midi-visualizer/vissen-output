@@ -3,23 +3,20 @@ module Vissen
     # Vixel
     #
     # The Vixel (Vissen pixel) represents the two dimensional representation of
-    # each grid pixel, for each layer. Each vixel has a palette value (p), a
-    # palette position (q) and an intensity (i). The first is an integer while
-    # the last two both lie in the range 0..1.
+    # each grid pixel, for each grid. Each vixel has a palette position (p) and
+    # an intensity (i), both in the range 0..1.
     #
     # TODO: How do we want the vixel to saturate? When written or when read?
     class Vixel
-      attr_accessor :p
-      attr_reader :i, :q
+      attr_reader :i, :p
 
-      def initialize(p = 0, q = 0.0, i = 0.0)
+      def initialize(p = 0.0, i = 0.0)
         self.p = p
-        self.q = q
         self.i = i
       end
 
-      def q=(value)
-        @q = self.class.truncate value
+      def p=(value)
+        @p = self.class.truncate value
       end
 
       def i=(value)
@@ -27,7 +24,7 @@ module Vissen
       end
 
       def inspect
-        format '(%d | %.1f, %.1f)', @p, @q, @i
+        format '(%.1f, %.1f)', @p, @i
       end
 
       class << self

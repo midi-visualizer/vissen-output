@@ -81,8 +81,7 @@ describe Vissen::Output::Stack do
       # Randomize the vixels
       stack.layers.each do |layer|
         layer.each do |vixel|
-          vixel.p = rand layer_count
-          vixel.q = rand
+          vixel.p = rand
           vixel.i = rand
         end
       end
@@ -95,8 +94,8 @@ describe Vissen::Output::Stack do
         v_bg = stack.layers[0].vixels[index]
         v_fg = stack.layers[1].vixels[index]
 
-        c_bg   = palettes[v_bg.p][v_bg.q]
-        c_fg   = palettes[v_fg.p][v_fg.q]
+        c_bg   = palettes[v_bg.p][v_bg.p]
+        c_fg   = palettes[v_fg.p][v_fg.p]
 
         r = v_fg.i
 

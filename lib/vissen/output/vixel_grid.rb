@@ -8,11 +8,13 @@ module Vissen
     class VixelGrid
       include Grid
 
-      attr_accessor :intensity
+      attr_accessor :intensity, :palette
       alias vixels elements
 
-      def initialize(context, intensity: 1.0)
+      def initialize(context, palette: 0, intensity: 1.0)
         super(context, Vixel)
+
+        @palette   = palette
         @intensity = intensity
       end
 
@@ -20,12 +22,13 @@ module Vissen
       #
       # Render the layer vixels to the given buffer.
       def render(buffer, intensity: 1.0)
+        palette = context.palettes[@palette]
         buffer.each_with_index do |color, index|
           vixel = vixels[index]
           next unless vixel.i > 0
 
           ratio = vixel.i * intensity * @intensity
-          self.class.mix_color color, context.palettes[vixel.p][vixel.q], ratio
+          self.class.mix_color color, palette[vixel.p], ratio
         end
       end
 
