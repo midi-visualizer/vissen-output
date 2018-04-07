@@ -1,12 +1,17 @@
 require 'test_helper'
 
+class MockPixelGridContext
+  include Vissen::Output::GridContext
+end
+
 describe Vissen::Output::PixelGrid do
   subject { Vissen::Output::PixelGrid }
 
-  let(:rows)        { 2 }
-  let(:columns)     { 3 }
+  let(:rows)         { 6 }
+  let(:columns)      { 8 }
+  let(:grid_context) { MockPixelGridContext.new rows, columns }
 
-  let(:pixel_grid) { subject.new rows, columns }
+  let(:pixel_grid)   { subject.new grid_context }
 
   it 'is a grid' do
     assert_kind_of Vissen::Output::Grid, pixel_grid
@@ -19,6 +24,7 @@ describe Vissen::Output::PixelGrid do
         pixel.g = rand
         pixel.b = rand
       end
+
       pixel_grid.clear!
 
       pixel_grid.pixels.each do |pixel|
@@ -31,7 +37,7 @@ describe Vissen::Output::PixelGrid do
 
   describe '#[]' do
     it 'returns a valid pixel' do
-      pixel = pixel_grid[rand(rows * columns)]
+      pixel = pixel_grid[rand(rows), rand(columns)]
 
       assert_respond_to pixel, :r
       assert_respond_to pixel, :g

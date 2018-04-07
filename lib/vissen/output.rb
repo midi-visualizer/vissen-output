@@ -3,10 +3,11 @@ require 'vissen/output/version'
 require 'vissen/output/pixel'
 require 'vissen/output/vixel'
 require 'vissen/output/palette'
-require 'vissen/output/layer'
+require 'vissen/output/grid_context'
 require 'vissen/output/grid'
 require 'vissen/output/pixel_grid'
 require 'vissen/output/vixel_grid'
+require 'vissen/output/stack'
 
 module Vissen
   # Output

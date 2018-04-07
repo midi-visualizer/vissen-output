@@ -1,11 +1,22 @@
 require 'test_helper'
 
+class MockVixelGridContext
+  include Vissen::Output::GridContext
+
+  attr_reader :palettes
+
+  def initialize(rows, columns, palettes)
+    super(rows, columns)
+    @palettes = palettes
+  end
+end
+
 describe Vissen::Output::VixelGrid do
   subject { Vissen::Output::VixelGrid }
 
-  let(:rows)        { 2 }
-  let(:columns)     { 3 }
-  let(:layer_count) { 2 }
+  let(:intensity) { rand }
+  let(:rows) { 6 }
+  let(:columns) { 8 }
   let(:colors) do
     [
       Color::RGB.new(0xFF, 0, 0),
@@ -19,96 +30,94 @@ describe Vissen::Output::VixelGrid do
       Vissen::Output::Palette.new(*colors.reverse)
     ]
   end
-  let(:vixel_grid) { subject.new rows, columns, layer_count, palettes }
-
-  it 'is a grid' do
-    assert_kind_of Vissen::Output::Grid, vixel_grid
-  end
+  let(:grid_context) { MockVixelGridContext.new rows, columns, palettes }
+  let(:vixel_grid) { subject.new grid_context }
 
   describe '.new' do
-    it 'raises a RangeError when layer_count <= 0' do
-      assert_raises(RangeError) do
-        subject.new rows, columns, 0, palettes
-      end
+    it 'accepts a grid context' do
+      assert_equal (rows * columns), vixel_grid.vixel_count
+      assert_equal 1.0, vixel_grid.intensity
+
+      # Test the individual vixels
+      count =
+        vixel_grid.vixels.each.reduce(0) do |c, vixel|
+          assert_equal 0,   vixel.p
+          assert_equal 0.0, vixel.q
+          assert_equal 0.0, vixel.i
+          c + 1
+        end
+
+      assert_equal vixel_grid.vixel_count, count
     end
 
-    it 'raises an ArgumentError if no palettes are given' do
-      assert_raises(ArgumentError) do
-        subject.new rows, columns, layer_count, []
-      end
-    end
-
-    it 'raises an TypeError if the palettes do not respond to #[]' do
-      assert_raises(TypeError) do
-        subject.new rows, columns, layer_count, [[], Object.new]
-      end
-    end
-  end
-
-  describe '#[]' do
-    it 'returns a vixel' do
-      assert_kind_of Vissen::Output::Vixel, vixel_grid[0, 0, 0]
-    end
-
-    it 'returns the correct vixel' do
-      layer  = rand layer_count
-      row    = rand rows
-      column = rand columns
-      index  = vixel_grid.index_from row, column
-      vixel  = vixel_grid.layers[layer].vixels[index]
-
-      assert_equal vixel, vixel_grid[layer, row, column]
-    end
-  end
-
-  describe '#pixel_grid' do
-    it 'returns a pixel grid of the same size' do
-      pixel_grid = vixel_grid.pixel_grid
-
-      assert_kind_of Vissen::Output::PixelGrid, pixel_grid
-      assert_equal vixel_grid.rows,    pixel_grid.rows
-      assert_equal vixel_grid.columns, pixel_grid.columns
-      assert_equal vixel_grid.width,   pixel_grid.width
-      assert_equal vixel_grid.height,  pixel_grid.height
+    it 'accepts a grid context and an initial intensity' do
+      vixel_grid = subject.new grid_context, intensity: intensity
+      assert_equal intensity, vixel_grid.intensity
     end
   end
 
   describe '#render' do
-    let(:pixel_grid) { vixel_grid.pixel_grid }
-    let(:pixels)     { pixel_grid.pixels }
+    # A pixel should be anything with red, green and blue
+    # components
+    let(:pixel)  { Struct.new :r, :g, :b }
+    let(:buffer) { Array.new(vixel_grid.vixel_count) { pixel.new 0, 0, 0 } }
 
     before do
       # Randomize the vixels
-      vixel_grid.layers.each do |layer|
-        layer.each do |vixel|
-          vixel.p = rand layer_count
-          vixel.q = rand
-          vixel.i = rand
-        end
+      vixel_grid.each do |vixel|
+        vixel.p = rand 0..1
+        vixel.q = rand
+        vixel.i = rand
       end
     end
 
-    it 'renders the vixels to a pixel grid' do
-      vixel_grid.render(pixel_grid)
+    it 'renders the vixels to an empty buffer' do
+      vixel_grid.render(buffer)
 
-      pixels.each_with_index do |pixel, index|
-        v_bg = vixel_grid.layers[0].vixels[index]
-        v_fg = vixel_grid.layers[1].vixels[index]
+      buffer.each_with_index do |pixel, index|
+        vixel   = vixel_grid.vixels[index]
+        palette = palettes[vixel.p]
+        color   = palette[vixel.q]
 
-        c_bg   = palettes[v_bg.p][v_bg.q]
-        c_fg   = palettes[v_fg.p][v_fg.q]
-
-        r = v_fg.i
-
-        assert_in_epsilon (c_bg.r * v_bg.i) * (1 - r) + c_fg.r * r, pixel.r
-        assert_in_epsilon (c_bg.g * v_bg.i) * (1 - r) + c_fg.g * r, pixel.g
-        assert_in_epsilon (c_bg.b * v_bg.i) * (1 - r) + c_fg.b * r, pixel.b
+        assert_in_epsilon color.r * vixel.i, pixel.r
+        assert_in_epsilon color.g * vixel.i, pixel.g
+        assert_in_epsilon color.b * vixel.i, pixel.b
       end
     end
 
-    it 'raises an error if the given grid is not sized right' do
-      pixel_grid = Vissen::Output::PixelGrid.new rows - 1, columns
-      assert_raises(TypeError) { vixel_grid.render(pixel_grid) }
+    it 'renders the vixels to a non-empty buffer' do
+      buffer.each { |p| p.r = 0.5; p.g = 0.5; p.b = 0.5 }
+      vixel_grid.render(buffer)
+
+      buffer.each_with_index do |pixel, index|
+        vixel   = vixel_grid.vixels[index]
+        palette = palettes[vixel.p]
+        color   = palette[vixel.q]
+
+        r = vixel.i
+        s = (1 - r) * 0.5
+
+        assert_in_epsilon color.r * r + s, pixel.r
+        assert_in_epsilon color.g * r + s, pixel.g
+        assert_in_epsilon color.b * r + s, pixel.b
+      end
+    end
+
+    it 'renders the vixels with a global intensity' do
+      vixel_grid.intensity = 0.5
+      vixel_grid.render(buffer)
+
+      buffer.each_with_index do |pixel, index|
+        vixel   = vixel_grid.vixels[index]
+        palette = palettes[vixel.p]
+        color   = palette[vixel.q]
+
+        r = vixel.i * 0.5
+
+        assert_in_epsilon color.r * r, pixel.r
+        assert_in_epsilon color.g * r, pixel.g
+        assert_in_epsilon color.b * r, pixel.b
+      end
     end
   end
 end

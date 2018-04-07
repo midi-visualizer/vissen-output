@@ -4,22 +4,17 @@ module Vissen
     #
     #
     class PixelGrid
-      extend  Forwardable
       include Grid
 
-      attr_reader :pixels
+      alias pixels elements
 
-      def_delegators :@pixels, :[], :each
-
-      def initialize(*)
-        super
-
-        @pixels = alloc_points(Pixel).freeze
+      def initialize(context)
+        super context, Pixel
         freeze
       end
 
       def clear!
-        @pixels.each(&:clear!)
+        pixels.each(&:clear!)
       end
     end
   end

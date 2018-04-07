@@ -1,63 +1,47 @@
+require 'forwardable'
+
 module Vissen
   module Output
     # Vixel Grid
     #
     #
     class VixelGrid
-      extend  Forwardable
       include Grid
 
-      attr_reader :palettes, :layers
+      attr_accessor :intensity
+      alias vixels elements
 
-      alias vixel_count grid_points
-
-      def initialize(rows, columns, layer_count, palettes, **args)
-        super(rows, columns, **args)
-
-        raise RangeError if layer_count <= 0
-        raise ArgumentError unless palettes.is_a?(Array) && !palettes.empty?
-        raise TypeError unless palettes.all? { |pa| pa.respond_to?(:[]) }
-
-        @palettes = palettes
-        @layers   = Array.new(layer_count) { Layer.new self }
-
-        freeze
-      end
-
-      # Freeze
-      #
-      # Prevents any more layers and palettes from being added.
-      def freeze
-        @palettes.freeze
-        @layers.freeze
-        super
-      end
-
-      # Vixel Accessor
-      #
-      # Returns the vixel at the given layer, row and column
-      def [](layer, row, column)
-        @layers[layer][row, column]
-      end
-
-      # Pixel Grid
-      #
-      # Create a matching pixel grid that share the same number of rows, columns
-      # and aspect ratio.
-      def pixel_grid
-        PixelGrid.new rows, columns, aspect_ratio: width / height
+      def initialize(context, intensity: 1.0)
+        super(context, Vixel)
+        @intensity = intensity
       end
 
       # Render
       #
-      # Renders each layer and combines the result in the given buffer.
-      def render(pixel_grid, intensity: 1.0)
-        raise TypeError unless self === pixel_grid
+      # Render the layer vixels to the given buffer.
+      def render(buffer, intensity: 1.0)
+        buffer.each_with_index do |color, index|
+          vixel = vixels[index]
+          next unless vixel.i > 0
 
-        pixel_grid.clear!
+          ratio = vixel.i * intensity * @intensity
+          self.class.mix_color color, context.palettes[vixel.p][vixel.q], ratio
+        end
+      end
 
-        @layers.reduce(pixel_grid.pixels) do |a, e|
-          e.render a, intensity: intensity
+      def vixel_count
+        vixels.length
+      end
+
+      class << self
+        # Mix Color
+        #
+        # Mixes a with b using the given ratio and updates a with the new color.
+        # When ratio = 0.0 a will be untouched and when ratio = 1.0 then a == b.
+        def mix_color(a, b, ratio)
+          a.r = b.r * ratio + a.r * (1 - ratio)
+          a.g = b.g * ratio + a.g * (1 - ratio)
+          a.b = b.b * ratio + a.b * (1 - ratio)
         end
       end
     end

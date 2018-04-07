@@ -1,211 +1,84 @@
-require 'test_helper'
-
-class TestTarget
+class TestGridTarget
   include Vissen::Output::Grid
 end
 
+class TestGridContextTarget
+  include Vissen::Output::GridContext
+end
+
 describe Vissen::Output::Grid do
-  subject { TestTarget }
+  subject { TestGridTarget }
 
   let(:rows)        { 6 }
   let(:columns)     { 8 }
-  let(:real_width)  { 10.0 }
-  let(:real_height) { 5.0 }
-  let(:grid)        { subject.new rows, columns }
-
-  describe '#points' do
-    it 'returns the number of points in the grid' do
-      assert_equal (rows * columns), grid.points
-    end
-  end
+  let(:context)     { TestGridContextTarget.new rows, columns }
+  let(:point_klass) { Class.new }
+  let(:grid)        { subject.new context, point_klass }
 
   describe '.new' do
-    it 'accepts row and column counts' do
-      assert_equal rows,    grid.rows
-      assert_equal columns, grid.columns
-      # The points are assumed to be placed in a square grid
-      assert_equal 1.00, grid.width
-      assert_equal 0.75, grid.height
-    end
-
-    it 'accepts an aspect ratio defined as w/h greater than 1' do
-      grid =
-        subject.new(rows, columns, aspect_ratio: real_width / real_height)
-
-      assert_equal 1.0, grid.width
-      assert_equal 0.5, grid.height
-    end
-
-    it 'accepts an aspect ratio defined as w/h less than 1' do
-      grid =
-        subject.new(rows, columns, aspect_ratio: real_height / real_width)
-
-      assert_equal 0.5, grid.width
-      assert_equal 1.0, grid.height
-    end
-
-    it 'raises a RangeError when rows <= 0' do
-      assert_raises(RangeError) do
-        subject.new 0, columns
-      end
-    end
-
-    it 'raises a RangeError when columns <= 0' do
-      assert_raises(RangeError) do
-        subject.new rows, 0
-      end
+    it 'allocates elements using the given point class' do
+      assert_kind_of point_klass, grid.elements[0]
     end
   end
 
-  describe '#[]' do
-    it 'raises an error if it is not implemented' do
-      assert_raises(NotImplementedError) { grid[0] }
+  describe '#each_with_row_and_column' do
+    it 'returns an enumerator when no block is given' do
+      assert_kind_of Enumerator, grid.each_with_row_and_column
+    end
+
+    it 'yields the element, row and column to the block' do
+      index = 0
+      grid.each_with_row_and_column do |element, row, column|
+        true_row, true_column = context.row_column_from index
+
+        assert_equal grid.elements[index], element
+        assert_equal true_row, row
+        assert_equal true_column, column
+
+        index += 1
+      end
+      assert_equal (rows * columns), index
+    end
+  end
+
+  describe '#each_with_position' do
+    it 'returns an enumerator when no block is given' do
+      assert_kind_of Enumerator, grid.each_with_position
+    end
+
+    it 'yields the element and x and y coordinates to the block' do
+      index = 0
+      grid.each_with_position do |element, x, y|
+        row, column = context.row_column_from index
+        true_x, true_y = context.position row, column
+
+        assert_equal grid.elements[index], element
+        assert_in_epsilon true_x, x
+        assert_in_epsilon true_y, y
+
+        index += 1
+      end
+      assert_equal (rows * columns), index
     end
   end
 
   describe '#===' do
-    it 'returns true when two grids have the same number of rows and columns' do
-      other = subject.new rows, columns
-      assert_operator grid, :===, other
+    it 'returns true for grids that share the same context' do
+      other_grid = subject.new context, point_klass
+
+      assert_operator grid, :===, grid
+      assert_operator grid, :===, other_grid
     end
 
-    it 'returns true even though the aspect_ratio differs' do
-      other = subject.new rows, columns, aspect_ratio: 1.0
-      assert_operator grid, :===, other
+    it 'returns false for grids with different contexts' do
+      other_context = TestGridContextTarget.new rows, columns
+      other_grid = subject.new other_context, point_klass
+
+      refute_operator grid, :===, other_grid
     end
 
-    it 'returns false when the number of rows and columns differ' do
-      other_a = subject.new rows - 1, columns
-      other_b = subject.new rows, columns + 1
-
-      refute_operator grid, :===, other_a
-      refute_operator grid, :===, other_b
-    end
-
-    it 'returns false when the other object does not have rows and columns' do
-      other = Object.new
-      refute_operator grid, :===, other
-    end
-  end
-
-  describe '#alloc_points' do
-    let(:klass) { Class.new }
-
-    it 'accepts a klass that will be used to fill the buffer' do
-      buffer = grid.alloc_points klass
-      buffer.each { |obj| assert_kind_of klass, obj }
-    end
-
-    it 'returns an array of the correct size' do
-      buffer = grid.alloc_points klass
-      assert_kind_of Array, buffer
-      assert_equal (rows * columns), buffer.length
-    end
-
-    it 'accepts a block' do
-      buffer = grid.alloc_points { 0 }
-      assert_equal 0, buffer[0]
-    end
-  end
-
-  describe '#position' do
-    it 'returns the position of a row and column' do
-      assert_equal [0.00, 0.00], grid.position(0, 0)
-      assert_equal [1.00, 0.00], grid.position(0, columns - 1)
-      assert_equal [0.00, 0.75], grid.position(rows - 1, 0)
-      assert_equal [1.00, 0.75], grid.position(rows - 1, columns - 1)
-    end
-  end
-
-  describe '#distance_squared' do
-    it 'populates the array with squared distances' do
-      target = Array.new(rows * columns)
-      grid.distance_squared 0, 0, target
-      x = grid.width
-      y = grid.height
-
-      assert_in_epsilon 0, target[0]
-      assert_in_epsilon y**2, target[grid.index_from(rows - 1, 0)]
-      assert_in_epsilon x**2, target[grid.index_from(0, columns - 1)]
-      assert_in_epsilon x**2 + y**2, target[-1]
-    end
-  end
-
-  describe '#index_from' do
-    it 'converts a row and a column to an index' do
-      row   = rand rows
-      col   = rand columns
-      index = grid.index_from row, col
-
-      assert_equal (col * rows + row), index
-    end
-
-    it 'is consistent with #row_column_from' do
-      (rows * columns).times do |index|
-        row, col = grid.row_column_from index
-        index_calc = grid.index_from row, col
-        assert_equal index, index_calc
-      end
-    end
-  end
-
-  describe '#each_point' do
-    it 'yields the index to arity 1 blocks' do
-      last_index = -1
-
-      block = proc do |index|
-        assert_equal last_index + 1, index
-        last_index += 1
-      end
-
-      grid.each_point(&block)
-      assert_equal grid.points - 1, last_index
-    end
-
-    it 'yields the row and column to arity 2 blocks' do
-      last_index = -1
-
-      block = proc do |row, column|
-        index = grid.index_from row, column
-        assert_equal last_index + 1, index
-        last_index += 1
-      end
-
-      grid.each_point(&block)
-      assert_equal grid.points - 1, last_index
-    end
-
-    it 'yields the index, row and column to arity 3 blocks' do
-      last_index = -1
-
-      block = proc do |index, row, column|
-        assert_equal index, grid.index_from(row, column)
-        assert_equal last_index + 1, index
-        last_index += 1
-      end
-
-      grid.each_point(&block)
-      assert_equal grid.points - 1, last_index
-    end
-
-    it 'returns an enumerator when no block is given' do
-      assert_kind_of Enumerator, grid.each_point
-    end
-  end
-
-  describe '#each_position' do
-    it 'iterates over each point and yields its position' do
-      grid.each_position do |index, x, y|
-        row, column = grid.row_column_from index
-        x_ref, y_ref = grid.position row, column
-
-        assert_in_epsilon x_ref, x
-        assert_in_epsilon y_ref, y
-      end
-    end
-
-    it 'returns an enumerator when no block is given' do
-      assert_kind_of Enumerator, grid.each_position
+    it 'returns false for other objects' do
+      refute_operator grid, :===, Object.new
     end
   end
 end
