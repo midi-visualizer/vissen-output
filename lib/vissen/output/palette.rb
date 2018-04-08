@@ -6,14 +6,26 @@ module Vissen
     # and a pixel value {(0..1) x 3}. It can either be continous or be based on
     # a preallocated lookup table.
     class Palette
-      def initialize(*colors, steps: nil)
+      attr_reader :label
+
+      def initialize(*colors, steps: nil, label: nil)
         @colors = colors.map { |c| c.to_a.freeze }
+        @label  = label
 
         if steps
           define_discrete_accessor steps
         else
           define_continous_accessor
         end
+
+        freeze
+      end
+
+      def freeze
+        @colors.freeze
+        @label.freeze
+
+        super
       end
 
       def to_a(n)

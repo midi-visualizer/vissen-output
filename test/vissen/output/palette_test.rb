@@ -28,6 +28,15 @@ describe Vissen::Output::Palette do
       assert_color_equal(colors[1], palette[0.5])
       assert_color_equal(colors[2], palette[1])
     end
+
+    it 'produces a frozen palette' do
+      assert palette.frozen?
+    end
+
+    it 'accepts a label' do
+      palette = subject.new(*colors, label: 'rainbow')
+      assert_equal 'rainbow', palette.label
+    end
   end
 
   describe '#[]' do
