@@ -3,19 +3,7 @@ module Vissen
     # Pixel
     #
     # TODO: How do we want the pixel to saturate? When written or when read?
-    class Pixel
-      attr_accessor :r, :g, :b
-
-      def initialize(r = 0.0, g = 0.0, b = 0.0)
-        @r = r
-        @g = g
-        @b = b
-      end
-
-      def to_a
-        [@r, @g, @b]
-      end
-
+    class Pixel < Color
       def clear!
         @r = @g = @b = 0
       end

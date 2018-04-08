@@ -1,5 +1,6 @@
 require 'vissen/output/version'
 
+require 'vissen/output/color'
 require 'vissen/output/pixel'
 require 'vissen/output/vixel'
 require 'vissen/output/palette'

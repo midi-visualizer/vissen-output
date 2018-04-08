@@ -9,7 +9,7 @@ module Vissen
       attr_reader :label
 
       def initialize(*colors, steps: nil, label: nil)
-        @colors = colors.map { |c| c.to_a.freeze }
+        @colors = colors.map { |c| Color.from(c).freeze }
         @label  = label
 
         if steps
@@ -59,25 +59,13 @@ module Vissen
       end
 
       def color_at(pos)
-        return Pixel.new(*@colors[0]) if pos <= 0
-        return Pixel.new(*@colors[-1]) if pos >= 1
+        return @colors[0]  if pos <= 0
+        return @colors[-1] if pos >= 1
 
         # Find the two colors we are between
         bin, r = color_bin pos
         a, b = @colors[bin, 2]
-        self.class.mix_ab a, b, r
-      end
-
-      class << self
-        # Mix color A with color B
-        #
-        # r = 0 -> 100 % of color A
-        # r = 1 -> 100 % of color B
-        def mix_ab(a, b, r)
-          Pixel.new(
-            *a.map.with_index { |e, i| e * (1 - r) + b[i] * r }
-          )
-        end
+        a.mix_with b, r
       end
     end
   end
