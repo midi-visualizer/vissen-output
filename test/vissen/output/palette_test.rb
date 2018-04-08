@@ -59,4 +59,17 @@ describe Vissen::Output::Palette do
       assert_color_equal(bc,        palette[0.80])
     end
   end
+
+  describe '#inspect' do
+    it 'returns a string representation of the palette' do
+      assert_equal '#FF0000 -> #00FF00 -> #0000FF',
+                   palette.inspect
+    end
+
+    it 'includes the palette label' do
+      palette = subject.new(*colors[0..1], label: 'rainbow')
+      assert_equal '#FF0000 -> #00FF00 (rainbow)',
+                   palette.inspect
+    end
+  end
 end

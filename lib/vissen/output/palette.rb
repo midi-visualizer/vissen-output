@@ -3,8 +3,8 @@ module Vissen
     # Palette
     #
     # The Palette is, at its core, a transformation between a position (0..1)
-    # and a pixel value {(0..1) x 3}. It can either be continous or be based on
-    # a preallocated lookup table.
+    # and a color value {(0..1) x 3}. It can either be continous or be based on
+    # a pre-allocated lookup table.
     class Palette
       attr_reader :label
 
@@ -28,8 +28,18 @@ module Vissen
         super
       end
 
+      # To Array
+      #
+      # Discretize the palette into the given number of values. Palettes defined
+      # with a step count are sampled as if they where continuous.
       def to_a(n)
         Array.new(n) { |i| color_at(i.to_f / (n - 1)).freeze }
+      end
+
+      def inspect
+        @colors.map(&:inspect).join(' -> ').tap do |base|
+          break "#{base} (#{@label})" if @label
+        end
       end
 
       private
