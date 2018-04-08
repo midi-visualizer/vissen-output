@@ -12,12 +12,29 @@ describe Vissen::Output::Grid do
   let(:rows)        { 6 }
   let(:columns)     { 8 }
   let(:context)     { TestGridContextTarget.new rows, columns }
-  let(:point_klass) { Class.new }
+  let(:point_klass) { Struct.new :row, :column }
   let(:grid)        { subject.new context, point_klass }
 
   describe '.new' do
-    it 'allocates elements using the given point class' do
+    it 'allocates elements using the given element class' do
       assert_kind_of point_klass, grid.elements[0]
+    end
+    
+    it 'accepts a block used for allocating the elements' do
+      index = 0
+      grid = subject.new(context) do |row, column|
+        true_row, true_column = context.row_column_from index
+        assert_equal true_row, row
+        assert_equal true_column, column
+        index += 1
+        point_klass.new row, column
+      end
+      
+      assert_equal (rows * columns), index
+      grid.each_with_row_and_column do |element, row, column|
+        assert_equal row, element.row
+        assert_equal column, element.column
+      end
     end
   end
 

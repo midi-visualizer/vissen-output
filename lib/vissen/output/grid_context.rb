@@ -41,14 +41,15 @@ module Vissen
       # Alloc Grid Points
       #
       # Returns an array of objects of the given class. Optionally takes a block
-      # that is expected to return each new object.
+      # that is expected to return each new object. The row and column of each
+      # element are passed to the given block.
       def alloc_points(klass = nil, &block)
         if klass
           raise ArgumentError if block_given?
           block = proc { klass.new }
         end
 
-        Array.new(points, &block)
+        Array.new(points) { |i| block.call(*row_column_from(i)) }
       end
 
       # Index From

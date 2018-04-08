@@ -14,9 +14,15 @@ module Vissen
       #
       # The grid is setup with a grid context as well as a class to places
       # instances of in every grid point.
-      def initialize(grid_context, elements_klass)
+      def initialize(grid_context, elements_klass = nil, &block)
         @context  = grid_context
-        @elements = grid_context.alloc_points(elements_klass).freeze
+        @elements =
+          if block_given?
+            raise ArgumentError if elements_klass
+            grid_context.alloc_points(&block).freeze
+          else
+            grid_context.alloc_points(elements_klass).freeze
+          end
       end
 
       def each_with_row_and_column
