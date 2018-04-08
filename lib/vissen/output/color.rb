@@ -57,6 +57,11 @@ module Vissen
           case obj
           when self then obj
           when Array then new(*obj)
+          when Integer
+            r = ((obj >> 16) & 0xFF) / 255.0
+            g = ((obj >> 8) & 0xFF) / 255.0
+            b = (obj & 0xFF) / 255.0
+            new r, g, b
           else
             new(*obj.to_a)
           end

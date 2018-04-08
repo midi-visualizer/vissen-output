@@ -29,6 +29,14 @@ describe Vissen::Output::Color do
 
       assert_equal other, color
     end
+
+    it 'accepts an integer' do
+      color = subject.from 0x78993B
+      delta = 0.5 / 255
+      assert_in_delta components[0], color.r, delta
+      assert_in_delta components[1], color.g, delta
+      assert_in_delta components[2], color.b, delta
+    end
   end
 
   describe '#to_a' do
