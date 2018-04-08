@@ -7,7 +7,7 @@ module Vissen
     # a preallocated lookup table.
     class Palette
       def initialize(*colors, steps: nil)
-        @colors = colors.map { |c| c.to_rgb.to_a.freeze }
+        @colors = colors.map { |c| c.to_a.freeze }
 
         if steps
           define_discrete_accessor steps

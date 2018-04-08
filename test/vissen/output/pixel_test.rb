@@ -2,7 +2,8 @@ require 'test_helper'
 
 describe Vissen::Output::Pixel do
   subject { Vissen::Output::Pixel }
-  let(:pixel) { subject.new 0.47, 0.6, 0.23333 }
+  let(:components) { [0.47, 0.6, 0.23333] }
+  let(:pixel)      { subject.new(*components) }
 
   describe '.new' do
     it 'defaults to 0 values' do
@@ -10,6 +11,12 @@ describe Vissen::Output::Pixel do
       assert_equal 0.0, pixel.r
       assert_equal 0.0, pixel.g
       assert_equal 0.0, pixel.b
+    end
+  end
+
+  describe '#to_a' do
+    it 'returns an array with the three elemenets' do
+      assert_equal components, pixel.to_a
     end
   end
 

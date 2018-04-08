@@ -19,7 +19,7 @@ describe Vissen::Output::Grid do
     it 'allocates elements using the given element class' do
       assert_kind_of point_klass, grid.elements[0]
     end
-    
+
     it 'accepts a block used for allocating the elements' do
       index = 0
       grid = subject.new(context) do |row, column|
@@ -29,7 +29,7 @@ describe Vissen::Output::Grid do
         index += 1
         point_klass.new row, column
       end
-      
+
       assert_equal (rows * columns), index
       grid.each_with_row_and_column do |element, row, column|
         assert_equal row, element.row

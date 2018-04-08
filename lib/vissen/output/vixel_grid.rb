@@ -1,5 +1,3 @@
-require 'forwardable'
-
 module Vissen
   module Output
     # Vixel Grid

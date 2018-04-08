@@ -12,6 +12,10 @@ module Vissen
         @b = b
       end
 
+      def to_a
+        [@r, @g, @b]
+      end
+
       def clear!
         @r = @g = @b = 0
       end

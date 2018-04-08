@@ -54,7 +54,7 @@ module Vissen
 
         pixel_grid.clear!
 
-        @layers.reduce(pixel_grid.pixels) do |a, e|
+        @layers.reduce(pixel_grid) do |a, e|
           e.render a, intensity: intensity
         end
       end
