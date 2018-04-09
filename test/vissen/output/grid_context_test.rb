@@ -44,6 +44,18 @@ describe Vissen::Output::GridContext do
       assert_equal 1.0, grid_context.height
     end
 
+    it 'works for single row contexts' do
+      grid_context = subject.new(1, columns)
+
+      assert_equal 0, grid_context.height
+    end
+
+    it 'works for single column contexts' do
+      grid_context = subject.new(rows, 1)
+
+      assert_equal 0, grid_context.width
+    end
+
     it 'raises a RangeError when rows <= 0' do
       assert_raises(RangeError) do
         subject.new 0, columns
@@ -83,6 +95,20 @@ describe Vissen::Output::GridContext do
       assert_equal [1.00, 0.00], grid_context.position(0, columns - 1)
       assert_equal [0.00, 0.75], grid_context.position(rows - 1, 0)
       assert_equal [1.00, 0.75], grid_context.position(rows - 1, columns - 1)
+    end
+
+    it 'works for 0 width contexts' do
+      grid_context = subject.new(rows, 1)
+
+      assert_equal [0.00, 0.00], grid_context.position(0, 0)
+      assert_equal [0.00, 1.00], grid_context.position(rows - 1, 0)
+    end
+
+    it 'works for 0 height contexts' do
+      grid_context = subject.new(1, columns)
+
+      assert_equal [0.00, 0.00], grid_context.position(0, 0)
+      assert_equal [1.00, 0.00], grid_context.position(0, columns - 1)
     end
   end
 

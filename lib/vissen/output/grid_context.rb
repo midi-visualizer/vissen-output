@@ -21,11 +21,31 @@ module Vissen
         @columns = columns
 
         @width, @height =
-          if aspect_ratio < 1.0
+          if rows == 1
+            [1.0, 0.0]
+          elsif columns == 1
+            [0.0, 1.0]
+          elsif aspect_ratio < 1.0
             [aspect_ratio, 1.0]
           else
             [1.0, 1.0 / aspect_ratio]
           end
+
+        # Define #position dynamically based on the
+        # calculated width and height
+        x_factor = columns == 1 ? 0.0 : width / (columns - 1)
+        y_factor = rows == 1 ? 0.0 : height / (rows - 1)
+
+        # Position
+        #
+        # Returns the x and y coordinates of the grid point at the given row and
+        # column.
+        define_singleton_method :position do |row, column|
+          [
+            x_factor * column,
+            y_factor * row
+          ].freeze
+        end
       end
 
       # Point Count
@@ -68,19 +88,6 @@ module Vissen
         row    = (index % @rows)
         column = (index / @rows)
         [row, column]
-      end
-
-      # Position
-      #
-      # Returns the x and y coordinates of the grid point at the given row and
-      # column.
-      #
-      # TODO: Fix bug when either row or column is 1
-      def position(row, column)
-        [
-          column.to_f / (columns - 1) * width,
-          row.to_f / (rows - 1) * height
-        ].freeze
       end
 
       # Distance Squared
