@@ -57,6 +57,8 @@ module Vissen
         @layers.reduce(pixel_grid) do |a, e|
           e.render a, intensity: intensity
         end
+
+        # TODO: Apply filters to pixel_grid
       end
     end
   end

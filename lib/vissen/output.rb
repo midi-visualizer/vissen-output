@@ -9,6 +9,7 @@ require 'vissen/output/grid_context'
 require 'vissen/output/grid'
 require 'vissen/output/pixel_grid'
 require 'vissen/output/vixel_grid'
+require 'vissen/output/filter'
 require 'vissen/output/stack'
 
 module Vissen
