@@ -7,10 +7,10 @@ end
 describe Vissen::Output::GridContext do
   subject { TestGridContextTarget }
 
-  let(:rows)        { 6 }
-  let(:columns)     { 8 }
-  let(:real_width)  { 10.0 }
-  let(:real_height) { 5.0 }
+  let(:rows)         { 6 }
+  let(:columns)      { 8 }
+  let(:real_width)   { 10.0 }
+  let(:real_height)  { 5.0 }
   let(:grid_context) { subject.new rows, columns }
 
   describe '#points' do
