@@ -1,17 +1,8 @@
 AllCops:
   Exclude:
     - 'vendor/**/*'
-   # - 'test/fixtures/**/*'
     - 'tmp/**/*'
   TargetRubyVersion: 2.5
-
-Naming/PredicateName:
-  # Method define macros for dynamically generated method.
-  MethodDefinitionMacros:
-    - define_method
-    - define_singleton_method
-    - def_node_matcher
-    - def_node_search
 
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
@@ -36,7 +27,7 @@ Layout/ClassStructure:
       - private_methods
 
 Layout/IndentHeredoc:
-  EnforcedStyle: powerpack
+  EnforcedStyle: squiggly
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
@@ -45,14 +36,6 @@ Lint/AmbiguousBlockAssociation:
 Lint/InterpolationCheck:
   Exclude:
     - 'test/**/*.rb'
-
-Lint/UselessAccessModifier:
-  MethodCreatingMethods:
-    - 'def_matcher'
-    - 'def_node_matcher'
-
-Lint/BooleanSymbol:
-  Enabled: false
 
 Metrics/BlockLength:
   Exclude:
