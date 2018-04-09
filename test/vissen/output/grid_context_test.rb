@@ -174,6 +174,28 @@ describe Vissen::Output::GridContext do
       end
     end
 
+    it 'works for 0 width contexts' do
+      grid_context = subject.new rows, 1
+      grid_context.each_position do |index, x, y|
+        row, column = grid_context.row_column_from index
+        x_ref, y_ref = grid_context.position row, column
+
+        assert_in_epsilon x_ref, x
+        assert_in_epsilon y_ref, y
+      end
+    end
+
+    it 'works for 0 height contexts' do
+      grid_context = subject.new 1, columns
+      grid_context.each_position do |index, x, y|
+        row, column = grid_context.row_column_from index
+        x_ref, y_ref = grid_context.position row, column
+
+        assert_in_epsilon x_ref, x
+        assert_in_epsilon y_ref, y
+      end
+    end
+
     it 'returns an enumerator when no block is given' do
       assert_kind_of Enumerator, grid_context.each_position
     end

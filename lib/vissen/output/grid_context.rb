@@ -112,7 +112,7 @@ module Vissen
       def each
         return to_enum(__callee__) unless block_given?
 
-        points.times { |i| yield(i, *row_column_from(i)) }
+        point_count.times { |i| yield(i, *row_column_from(i)) }
       end
 
       # Each Position
@@ -122,16 +122,8 @@ module Vissen
       def each_position
         return to_enum(__callee__) unless block_given?
 
-        x_coef = width / (columns - 1)
-        y_coef = height / (rows - 1)
-
-        points.times do |index|
-          row, column = row_column_from index
-
-          x = column * x_coef
-          y = row * y_coef
-
-          yield index, x, y
+        point_count.times do |index|
+          yield(index, *position(*row_column_from(index)))
         end
       end
     end
