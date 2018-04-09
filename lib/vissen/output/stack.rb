@@ -10,7 +10,7 @@ module Vissen
 
       alias vixel_count grid_points
 
-      def initialize(rows, columns, layer_count, palettes, **args)
+      def initialize(rows, columns, layer_count, palettes = PALETTES, **args)
         super(rows, columns, **args)
 
         raise RangeError if layer_count <= 0
