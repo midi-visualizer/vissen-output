@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 describe Vissen::Output::Stack do
@@ -43,7 +45,7 @@ describe Vissen::Output::Stack do
         subject.new rows, columns, layer_count, [[], Object.new]
       end
     end
-    
+
     it 'defaults to using the built in palettes' do
       stack = subject.new rows, columns, layer_count
       assert_equal Vissen::Output::PALETTES, stack.palettes

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Vissen
   module Output
     # Color
@@ -26,9 +28,11 @@ module Vissen
       # ratio = 0 -> 100 % of this color
       # ratio = 1 -> 100 % of the other color
       def mix_with!(other, ratio)
-        @r = @r * (1 - ratio) + other.r * ratio
-        @g = @g * (1 - ratio) + other.g * ratio
-        @b = @b * (1 - ratio) + other.b * ratio
+        anti_ratio = (1 - ratio)
+
+        @r = @r * anti_ratio + other.r * ratio
+        @g = @g * anti_ratio + other.g * ratio
+        @b = @b * anti_ratio + other.b * ratio
 
         self
       end
@@ -55,16 +59,24 @@ module Vissen
         # Cast a given object to a color.
         def from(obj)
           case obj
-          when self then obj
-          when Array then new(*obj)
-          when Integer
-            r = ((obj >> 16) & 0xFF) / 255.0
-            g = ((obj >> 8) & 0xFF) / 255.0
-            b = (obj & 0xFF) / 255.0
-            new r, g, b
+          when self    then obj
+          when Array   then new(*obj)
+          when Integer then from_integer obj
           else
             new(*obj.to_a)
           end
+        end
+
+        private
+
+        def from_integer(int)
+          b = (int & 0xFF) / 255.0
+          int >>= 8
+          g = (int & 0xFF) / 255.0
+          int >>= 8
+          r = (int & 0xFF) / 255.0
+
+          new r, g, b
         end
       end
     end

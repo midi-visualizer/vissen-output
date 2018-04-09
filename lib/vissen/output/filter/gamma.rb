@@ -1,6 +1,11 @@
+# frozen_string_literal: true
+
 module Vissen
   module Output
     module Filter
+      # Gamma
+      #
+      # Applies gamma correction to the given PixelGrid.
       class Gamma
         include Filter
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'vissen/output/version'
 
 require 'vissen/output/color'

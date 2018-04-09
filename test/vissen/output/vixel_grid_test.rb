@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class MockVixelGridContext
@@ -19,9 +21,9 @@ describe Vissen::Output::VixelGrid do
   let(:columns) { 8 }
   let(:colors) do
     [
-      Color::RGB.new(0xFF, 0, 0),
-      Color::RGB.new(0, 0xFF, 0),
-      Color::RGB.new(0, 0, 0xFF)
+      Vissen::Output::Color.new(1, 0, 0),
+      Vissen::Output::Color.new(0, 1, 0),
+      Vissen::Output::Color.new(0, 0, 1)
     ]
   end
   let(:palettes) do
@@ -58,7 +60,7 @@ describe Vissen::Output::VixelGrid do
   describe '#render' do
     # A pixel should be anything with red, green and blue
     # components
-    let(:pixel)  { Struct.new :r, :g, :b }
+    let(:pixel)  { Vissen::Output::Color }
     let(:buffer) { Array.new(vixel_grid.vixel_count) { pixel.new 0, 0, 0 } }
 
     before do
@@ -83,7 +85,12 @@ describe Vissen::Output::VixelGrid do
     end
 
     it 'renders the vixels to a non-empty buffer' do
-      buffer.each { |p| p.r = 0.5; p.g = 0.5; p.b = 0.5 }
+      buffer.each do |pixel|
+        pixel.r = 0.5
+        pixel.g = 0.5
+        pixel.b = 0.5
+      end
+
       vixel_grid.render(buffer)
 
       buffer.each_with_index do |pixel, index|

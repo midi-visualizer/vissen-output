@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TestGridTarget
   include Vissen::Output::Grid
 end
