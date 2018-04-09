@@ -10,6 +10,9 @@ module Vissen
 
       alias vixel_count grid_points
 
+      # Initialize
+      #
+      # TODO: Make palettes a keyword argument in the next minor version.
       def initialize(rows, columns, layer_count, palettes = PALETTES, **args)
         super(rows, columns, **args)
 
@@ -49,6 +52,10 @@ module Vissen
       # Render
       #
       # Renders each layer and combines the result in the given buffer.
+      #
+      # TODO: Could we cache the result of this operation at time t to an
+      #       internal PixelGrid and copy the stored information for subsequent
+      #       requests at or around the same time?
       def render(pixel_grid, intensity: 1.0)
         raise TypeError unless self == pixel_grid.context
 
@@ -58,7 +65,8 @@ module Vissen
           e.render a, intensity: intensity
         end
 
-        # TODO: Apply filters to pixel_grid
+        # TODO: Apply filters to pixel_grid. Perhaps through
+        #       pixel_grid.finalize! or something similar.
       end
     end
   end
