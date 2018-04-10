@@ -17,3 +17,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Made the PixelGrid into a PixelCloud.
 - The GridContext is now a class instead of a module.
 - The Stack is now longer a GridContext but instead accepts one as its first argument.
+- The argument order of Vixel.new is now reversed, so that is is alphabetical.
