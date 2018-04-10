@@ -12,25 +12,25 @@ module Vissen
     class Vixel
       attr_reader :i, :p
 
-      def initialize(p = 0.0, i = 0.0)
-        self.p = p
+      def initialize(i = 0.0, p = 0.0)
         self.i = i
+        self.p = p
       end
 
       def ==(other)
-        @p == other.p && @i == other.i
-      end
-
-      def p=(value)
-        @p = self.class.truncate value
+        @i == other.i && @p == other.p
       end
 
       def i=(value)
         @i = self.class.truncate value
       end
 
+      def p=(value)
+        @p = self.class.truncate value
+      end
+
       def inspect
-        format '(%.1f, %.1f)', @p, @i
+        format '(%.1f, %.1f)', @i, @p
       end
 
       class << self

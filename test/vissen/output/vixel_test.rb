@@ -10,7 +10,7 @@ describe Vissen::Output::Vixel do
       p = rand
       i = rand
 
-      vixel = subject.new p, i
+      vixel = subject.new i, p
 
       assert_equal p, vixel.p
       assert_equal i, vixel.i
@@ -36,16 +36,13 @@ describe Vissen::Output::Vixel do
       p = rand
       i = rand
 
-      vixel = subject.new p, i
-      other = subject.new p, i
+      vixel = subject.new i, p
+      other = subject.new i, p
 
       assert_operator vixel, :==, other
     end
 
     it 'returns false when two vixels do not have the same values' do
-      p = rand
-      i = rand
-
       vixel = subject.new 0.2, 0.4
       other = subject.new 0.3, 0.5
 
