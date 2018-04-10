@@ -16,6 +16,7 @@ require 'vissen/output/grid'
 require 'vissen/output/pixel_cloud'
 require 'vissen/output/vixel_cloud'
 require 'vissen/output/filter'
+require 'vissen/output/filter/quantizer'
 require 'vissen/output/filter/gamma'
 require 'vissen/output/stack'
 
