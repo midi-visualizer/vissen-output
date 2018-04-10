@@ -71,6 +71,15 @@ module Vissen
         end
       end
 
+      # Index From
+      #
+      # Context specific method to convert any domain specifc property (like row
+      # and column) to an index. The Cloud module calls this method when
+      # resolving the index given to its #[] method.
+      def index_from(index)
+        index
+      end
+
       # Distance Squared
       #
       # This utility method traverses the given target array and calculates for
