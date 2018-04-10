@@ -18,7 +18,7 @@ module Vissen
       #
       # Returns a new array containing the red, green and blue color values.
       def to_a
-        [@r, @g, @b]
+        [r, g, b]
       end
 
       # Mix With (destructive)
@@ -30,9 +30,9 @@ module Vissen
       def mix_with!(other, ratio)
         anti_ratio = (1 - ratio)
 
-        @r = @r * anti_ratio + other.r * ratio
-        @g = @g * anti_ratio + other.g * ratio
-        @b = @b * anti_ratio + other.b * ratio
+        self.r = r * anti_ratio + other.r * ratio
+        self.g = g * anti_ratio + other.g * ratio
+        self.b = b * anti_ratio + other.b * ratio
 
         self
       end
