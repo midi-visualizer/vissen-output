@@ -2,10 +2,10 @@
 
 module Vissen
   module Output
-    # Pixel Grid
+    # Pixel Cloud
     #
-    # TODO: Rename to pixel buffer.
-    class PixelGrid
+    #
+    class PixelCloud
       include Grid
 
       alias pixels elements
@@ -19,7 +19,7 @@ module Vissen
       #
       # Replaces the pixel values of this buffer with those of the given object.
       def copy!(other)
-        raise TypeError unless other.is_a? PixelGrid
+        raise TypeError unless other.is_a? self.class
 
         other.each_with_index do |src_pixel, index|
           dst_pixel = pixels[index]

@@ -14,7 +14,7 @@ module Vissen
         @context = grid_context
       end
 
-      def apply(_pixel_grid)
+      def apply(_pixel_cloud)
         raise NotImplementedError
       end
     end

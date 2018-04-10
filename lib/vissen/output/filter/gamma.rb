@@ -19,8 +19,8 @@ module Vissen
           freeze
         end
 
-        def apply(pixel_grid)
-          pixel_grid.each do |pixel|
+        def apply(pixel_cloud)
+          pixel_cloud.each do |pixel|
             pixel.r = pixel.r**@value
             pixel.g = pixel.g**@value
             pixel.b = pixel.b**@value

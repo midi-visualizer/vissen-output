@@ -9,12 +9,12 @@ end
 describe Vissen::Output::Filter::Gamma do
   subject { Vissen::Output::Filter::Gamma }
 
-  let(:context)    { TestGridContextTarget.new 2, 3 }
-  let(:pixel_grid) { Vissen::Output::PixelGrid.new context }
-  let(:filter)     { subject.new context }
-  let(:red)        { rand }
-  let(:green)      { rand }
-  let(:blue)       { rand }
+  let(:context)     { TestGridContextTarget.new 2, 3 }
+  let(:pixel_cloud) { Vissen::Output::PixelCloud.new context }
+  let(:filter)      { subject.new context }
+  let(:red)         { rand }
+  let(:green)       { rand }
+  let(:blue)        { rand }
 
   describe '.new' do
     it 'sets the default gamma value' do
@@ -29,7 +29,7 @@ describe Vissen::Output::Filter::Gamma do
 
   describe '#apply' do
     before do
-      pixel_grid.each do |pixel|
+      pixel_cloud.each do |pixel|
         pixel.r = red
         pixel.g = green
         pixel.b = blue
@@ -37,13 +37,13 @@ describe Vissen::Output::Filter::Gamma do
     end
 
     it 'changes the color gamut' do
-      filter.apply pixel_grid
+      filter.apply pixel_cloud
 
       corrected_red   = red**2.2
       corrected_green = green**2.2
       corrected_blue  = blue**2.2
 
-      pixel_grid.each do |pixel|
+      pixel_cloud.each do |pixel|
         assert_in_epsilon corrected_red,   pixel.r
         assert_in_epsilon corrected_green, pixel.g
         assert_in_epsilon corrected_blue,  pixel.b

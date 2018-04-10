@@ -44,11 +44,11 @@ module Vissen
         @layers[layer][row, column]
       end
 
-      # Pixel Grid
+      # Pixel Cloud
       #
-      # Returns a new, uninitialized pixel grid.
-      def pixel_grid
-        PixelGrid.new self
+      # Returns a new, uninitialized pixel cloud.
+      def pixel_cloud
+        PixelCloud.new self
       end
 
       # Render
@@ -58,17 +58,17 @@ module Vissen
       # TODO: Could we cache the result of this operation at time t to an
       #       internal PixelGrid and copy the stored information for subsequent
       #       requests at or around the same time?
-      def render(pixel_grid, intensity: 1.0)
-        raise TypeError unless self == pixel_grid.context
+      def render(pixel_cloud, intensity: 1.0)
+        raise TypeError unless self == pixel_cloud.context
 
-        pixel_grid.clear!
+        pixel_cloud.clear!
 
-        @layers.reduce(pixel_grid) do |a, e|
+        @layers.reduce(pixel_cloud) do |a, e|
           e.render a, intensity: intensity
         end
 
-        # TODO: Apply filters to pixel_grid. Perhaps through
-        #       pixel_grid.finalize! or something similar.
+        # TODO: Apply filters to pixel_cloud. Perhaps through
+        #       pixel_cloud.finalize! or something similar.
       end
     end
   end
