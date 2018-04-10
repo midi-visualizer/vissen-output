@@ -20,9 +20,8 @@ module Vissen
       end
 
       class << self
-        def from(obj)
-          return obj if obj.is_a? self
-          new(*obj.to_a)
+        def from(obj, **args)
+          new(*obj.to_a, **args)
         end
       end
     end
