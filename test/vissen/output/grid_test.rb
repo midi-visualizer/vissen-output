@@ -71,6 +71,16 @@ describe Vissen::Output::Grid do
       assert_equal (rows * columns), index
     end
   end
+  
+  describe '#[]' do
+    it 'returns the element at the given row and column' do
+      row    = rand rows
+      column = rand columns
+      index  = context.index_from row, column
+      
+      assert_equal grid.elements[index], grid[row, column]
+    end
+  end
 
   describe '#===' do
     it 'returns true for grids that share the same context' do
