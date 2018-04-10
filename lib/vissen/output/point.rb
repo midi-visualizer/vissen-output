@@ -14,9 +14,21 @@ module Vissen
         @position = [x * scale, y * scale]
       end
 
+      def x
+        @position[0]
+      end
+
+      def y
+        @position[1]
+      end
+
       def freeze
         @position.freeze
         super
+      end
+
+      def inspect
+        format('(%0.2f,%0.2f)', *@position)
       end
 
       class << self
