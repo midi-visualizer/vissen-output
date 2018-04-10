@@ -2,16 +2,12 @@
 
 require 'test_helper'
 
-class MockPixelCloudContext
-  include Vissen::Output::GridContext
-end
-
 describe Vissen::Output::PixelCloud do
   subject { Vissen::Output::PixelCloud }
 
   let(:rows)         { 6 }
   let(:columns)      { 8 }
-  let(:grid_context) { MockPixelCloudContext.new rows, columns }
+  let(:grid_context) { Vissen::Output::GridContext.new rows, columns }
 
   let(:pixel_cloud) { subject.new grid_context }
 

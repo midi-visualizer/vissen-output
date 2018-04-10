@@ -1,29 +1,29 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module Vissen
   module Output
     # Stack
     #
     #
     class Stack
-      include GridContext
+      extend Forwardable
 
-      attr_reader :palettes, :layers
+      attr_reader :layers, :context
+
+      def_delegators :@context, :point_count
 
       alias vixel_count point_count
 
       # Initialize
       #
       # TODO: Make palettes a keyword argument in the next minor version.
-      def initialize(rows, columns, layer_count, palettes = PALETTES, **args)
-        super(rows, columns, **args)
-
+      def initialize(context, layer_count)
         raise RangeError if layer_count <= 0
-        raise ArgumentError unless palettes.is_a?(Array) && !palettes.empty?
-        raise TypeError unless palettes.all? { |pa| pa.respond_to?(:[]) }
 
-        @palettes = palettes
-        @layers   = Array.new(layer_count) { VixelCloud.new self }
+        @context = context
+        @layers  = Array.new(layer_count) { VixelCloud.new context }
 
         freeze
       end
@@ -32,23 +32,22 @@ module Vissen
       #
       # Prevents any more layers and palettes from being added.
       def freeze
-        @palettes.freeze
         @layers.freeze
         super
       end
 
       # Vixel Accessor
       #
-      # Returns the vixel at the given layer, row and column
-      def [](layer, row, column)
-        @layers[layer][row, column]
+      # Returns the vixel at the given layer.
+      def [](layer, *args)
+        @layers[layer][*args]
       end
 
       # Pixel Cloud
       #
       # Returns a new, uninitialized pixel cloud.
       def pixel_cloud
-        PixelCloud.new self
+        PixelCloud.new context
       end
 
       # Render
@@ -59,7 +58,7 @@ module Vissen
       #       internal PixelGrid and copy the stored information for subsequent
       #       requests at or around the same time?
       def render(pixel_cloud, intensity: 1.0)
-        raise TypeError unless self == pixel_cloud.context
+        raise TypeError unless context == pixel_cloud.context
 
         pixel_cloud.clear!
 

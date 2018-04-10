@@ -10,12 +10,12 @@ module Vissen
     #
     # Aspect ratio is defined as width/height. If it is not given each grid cell
     # is assumed to be square, meaning the aspect_ratio will equal columns/rows.
-    module GridContext
+    class GridContext
       include Context
 
       attr_reader :rows, :columns
 
-      def initialize(rows, columns, aspect_ratio: columns.to_f / rows)
+      def initialize(rows, columns, aspect_ratio: columns.to_f / rows, **args)
         raise RangeError if rows <= 0 || columns <= 0
         raise ArgumentError if aspect_ratio <= 0
 
@@ -33,7 +33,7 @@ module Vissen
             [1.0, 1.0 / aspect_ratio]
           end
 
-        super width, height
+        super(width, height, **args)
 
         # Define #position dynamically based on the
         # calculated width and height

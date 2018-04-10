@@ -6,9 +6,9 @@ module Vissen
     #
     #
     module Context
-      attr_reader :width, :height
+      attr_reader :width, :height, :palettes
 
-      def initialize(width, height)
+      def initialize(width, height, palettes: PALETTES)
         if width.negative? || height.negative? || (width.zero? && height.zero?)
           raise RangeError, 'Contexts needs a size in at least one dimension'
         end
@@ -16,8 +16,9 @@ module Vissen
         # Normalize width and height
         normalizing_factor = 1.0 / [width, height].max
 
-        @width  = width * normalizing_factor
-        @height = height * normalizing_factor
+        @width    = width * normalizing_factor
+        @height   = height * normalizing_factor
+        @palettes = palettes
       end
 
       # Point Count

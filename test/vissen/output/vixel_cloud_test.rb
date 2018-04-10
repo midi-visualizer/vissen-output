@@ -2,17 +2,6 @@
 
 require 'test_helper'
 
-class MockVixelGridContext
-  include Vissen::Output::GridContext
-
-  attr_reader :palettes
-
-  def initialize(rows, columns, palettes)
-    super(rows, columns)
-    @palettes = palettes
-  end
-end
-
 describe Vissen::Output::VixelCloud do
   subject { Vissen::Output::VixelCloud }
 
@@ -32,8 +21,9 @@ describe Vissen::Output::VixelCloud do
       Vissen::Output::Palette.new(*colors.reverse)
     ]
   end
-  let(:grid_context) { MockVixelGridContext.new rows, columns, palettes }
-  let(:vixel_cloud) { subject.new grid_context }
+  let(:context_klass) { Vissen::Output::GridContext }
+  let(:grid_context) { context_klass.new rows, columns, palettes: palettes }
+  let(:vixel_cloud)  { subject.new grid_context }
 
   describe '.new' do
     it 'accepts a grid context' do

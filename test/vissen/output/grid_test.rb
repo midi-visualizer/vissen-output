@@ -4,16 +4,12 @@ class TestGridTarget
   include Vissen::Output::Grid
 end
 
-class TestGridContextTarget
-  include Vissen::Output::GridContext
-end
-
 describe Vissen::Output::Grid do
   subject { TestGridTarget }
 
   let(:rows)        { 6 }
   let(:columns)     { 8 }
-  let(:context)     { TestGridContextTarget.new rows, columns }
+  let(:context)     { Vissen::Output::GridContext.new rows, columns }
   let(:point_klass) { Struct.new :index }
   let(:grid)        { subject.new context, point_klass }
 
@@ -85,7 +81,7 @@ describe Vissen::Output::Grid do
     end
 
     it 'returns false for grids with different contexts' do
-      other_context = TestGridContextTarget.new rows, columns
+      other_context = Vissen::Output::GridContext.new rows, columns
       other_grid = subject.new other_context, point_klass
 
       refute_operator grid, :===, other_grid

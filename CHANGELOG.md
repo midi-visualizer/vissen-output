@@ -14,3 +14,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Made the Grid into a special kind of Cloud.
 - Made the VixelGrid into a VixelCloud.
 - Made the PixelGrid into a PixelCloud.
+- The GridContext is now a class instead of a module.
+- The Stack is now longer a GridContext but instead accepts one as its first argument.

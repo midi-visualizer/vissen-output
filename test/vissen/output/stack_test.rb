@@ -21,34 +21,15 @@ describe Vissen::Output::Stack do
       Vissen::Output::Palette.new(*colors.reverse)
     ]
   end
-  let(:stack) { subject.new rows, columns, layer_count, palettes }
-
-  it 'is a grid context' do
-    assert_kind_of Vissen::Output::GridContext, stack
-  end
+  let(:context_klass) { Vissen::Output::GridContext }
+  let(:context)       { context_klass.new rows, columns, palettes: palettes }
+  let(:stack)         { subject.new context, layer_count }
 
   describe '.new' do
     it 'raises a RangeError when layer_count <= 0' do
       assert_raises(RangeError) do
-        subject.new rows, columns, 0, palettes
+        subject.new context, 0
       end
-    end
-
-    it 'raises an ArgumentError if no palettes are given' do
-      assert_raises(ArgumentError) do
-        subject.new rows, columns, layer_count, []
-      end
-    end
-
-    it 'raises an TypeError if the palettes do not respond to #[]' do
-      assert_raises(TypeError) do
-        subject.new rows, columns, layer_count, [[], Object.new]
-      end
-    end
-
-    it 'defaults to using the built in palettes' do
-      stack = subject.new rows, columns, layer_count
-      assert_equal Vissen::Output::PALETTES, stack.palettes
     end
   end
 
@@ -61,7 +42,7 @@ describe Vissen::Output::Stack do
       layer  = rand layer_count
       row    = rand rows
       column = rand columns
-      index  = stack.index_from row, column
+      index  = stack.context.index_from row, column
       vixel  = stack.layers[layer].vixels[index]
 
       assert_equal vixel, stack[layer, row, column]
@@ -73,16 +54,16 @@ describe Vissen::Output::Stack do
       pixel_cloud = stack.pixel_cloud
 
       assert_kind_of Vissen::Output::PixelCloud, pixel_cloud
-      assert_equal stack.rows,    pixel_cloud.context.rows
-      assert_equal stack.columns, pixel_cloud.context.columns
-      assert_equal stack.width,   pixel_cloud.width
-      assert_equal stack.height,  pixel_cloud.height
+      assert_equal stack.context.rows,    pixel_cloud.context.rows
+      assert_equal stack.context.columns, pixel_cloud.context.columns
+      assert_equal stack.context.width,   pixel_cloud.width
+      assert_equal stack.context.height,  pixel_cloud.height
     end
   end
 
   describe '#render' do
     let(:pixel_cloud) { stack.pixel_cloud }
-    let(:pixels) { pixel_cloud.pixels }
+    let(:pixels)      { pixel_cloud.pixels }
 
     before do
       # Randomize the vixels
@@ -113,8 +94,10 @@ describe Vissen::Output::Stack do
     end
 
     it 'raises an error if the given grid does not share the same context' do
-      other_stack = subject.new rows, columns, layer_count, palettes
-      assert_raises(TypeError) { stack.render(other_stack.pixel_cloud) }
+      other_context     = context_klass.new rows, columns
+      other_pixel_cloud = Vissen::Output::PixelCloud.new other_context
+
+      assert_raises(TypeError) { stack.render other_pixel_cloud }
     end
   end
 end
