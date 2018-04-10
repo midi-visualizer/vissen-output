@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Output filters.
+- Gamma filter.
+- Quantizer filter.
 - Introduced the more general concept of point clouds.
 - Created the Context as a more general form of the GridContext.
 - Create a new CloudContext that handles arbitrarily positioned Point objects.
