@@ -8,10 +8,10 @@ module Vissen
     module Filter
       attr_reader :context
 
-      def initialize(grid_context)
-        raise TypeError unless grid_context.is_a? GridContext
+      def initialize(context)
+        raise TypeError unless context.is_a? Context
 
-        @context = grid_context
+        @context = context
       end
 
       def apply(_pixel_cloud)
