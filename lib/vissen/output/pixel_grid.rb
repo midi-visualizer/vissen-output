@@ -4,7 +4,7 @@ module Vissen
   module Output
     # Pixel Grid
     #
-    #
+    # TODO: Rename to pixel buffer.
     class PixelGrid
       include Grid
 
@@ -15,6 +15,9 @@ module Vissen
         freeze
       end
 
+      # Copy!
+      #
+      # Replaces the pixel values of this buffer with those of the given object.
       def copy!(other)
         raise TypeError unless other.is_a? PixelGrid
 
@@ -27,6 +30,9 @@ module Vissen
         end
       end
 
+      # Clear!
+      #
+      # Zeros the rbg components of each pixel in the buffer.
       def clear!
         pixels.each(&:clear!)
       end
