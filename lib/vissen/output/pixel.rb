@@ -7,11 +7,13 @@ module Vissen
     # TODO: How do we want the pixel to saturate? When written or when read?
     class Pixel < Color
       def clear!
-        @r = @g = @b = 0
+        self.r = 0
+        self.g = 0
+        self.b = 0
       end
 
       def inspect
-        format '(%.1f, %.1f, %.1f)', @r, @g, @b
+        format '(%.1f, %.1f, %.1f)', r, g, b
       end
     end
   end
