@@ -17,6 +17,10 @@ module Vissen
         self.i = i
       end
 
+      def ==(other)
+        @p == other.p && @i == other.i
+      end
+
       def p=(value)
         @p = self.class.truncate value
       end

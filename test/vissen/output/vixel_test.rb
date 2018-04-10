@@ -6,6 +6,16 @@ describe Vissen::Output::Vixel do
   subject { Vissen::Output::Vixel }
 
   describe '.new' do
+    it 'accepts a palette and intensity value' do
+      p = rand
+      i = rand
+
+      vixel = subject.new p, i
+
+      assert_equal p, vixel.p
+      assert_equal i, vixel.i
+    end
+
     it 'truncates values greater than 1' do
       vixel = subject.new 1.1, 4.3
 
@@ -18,6 +28,28 @@ describe Vissen::Output::Vixel do
 
       assert_equal 0.0, vixel.p
       assert_equal 0.0, vixel.i
+    end
+  end
+
+  describe '#==' do
+    it 'returns true when two vixels have the same values' do
+      p = rand
+      i = rand
+
+      vixel = subject.new p, i
+      other = subject.new p, i
+
+      assert_operator vixel, :==, other
+    end
+
+    it 'returns false when two vixels do not have the same values' do
+      p = rand
+      i = rand
+
+      vixel = subject.new 0.2, 0.4
+      other = subject.new 0.3, 0.5
+
+      refute_operator vixel, :==, other
     end
   end
 
