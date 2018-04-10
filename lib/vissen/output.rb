@@ -3,6 +3,9 @@
 require 'vissen/output/version'
 
 require 'vissen/output/color'
+require 'vissen/output/filter'
+require 'vissen/output/filter/quantizer'
+require 'vissen/output/filter/gamma'
 require 'vissen/output/pixel'
 require 'vissen/output/point'
 require 'vissen/output/vixel'
@@ -15,16 +18,14 @@ require 'vissen/output/grid_context'
 require 'vissen/output/grid'
 require 'vissen/output/pixel_cloud'
 require 'vissen/output/vixel_cloud'
-require 'vissen/output/filter'
-require 'vissen/output/filter/quantizer'
-require 'vissen/output/filter/gamma'
-require 'vissen/output/stack'
+require 'vissen/output/vixel_stack'
 
 module Vissen
   # Output
   #
-  # The main job of the output module is to transform a multi layered grid of
-  # Vixels, a VixelGrid, into a single layered grid of Pixels, a PixelGrid.
+  # The main job of the output module is to transform a multi layered collection
+  # of Vixels, a VixelCloud, into a single layered collection of Pixels, a
+  # PixelCloud.
   module Output
   end
 end

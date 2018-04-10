@@ -7,7 +7,7 @@ module Vissen
     # Stack
     #
     #
-    class Stack
+    class VixelStack
       extend Forwardable
 
       attr_reader :layers, :context

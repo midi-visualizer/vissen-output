@@ -2,8 +2,8 @@
 
 require 'test_helper'
 
-describe Vissen::Output::Stack do
-  subject { Vissen::Output::Stack }
+describe Vissen::Output::VixelStack do
+  subject { Vissen::Output::VixelStack }
 
   let(:rows)        { 2 }
   let(:columns)     { 3 }
