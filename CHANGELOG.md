@@ -6,4 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- Output filters
+- Output filters.
+- Introduced the more general concept of point clouds.
+- Created the Context as a more general form of the GridContext.
+
+### Changed
+- Made the Grid into a special kind of Cloud.
+- Made the VixelGrid into a VixelCloud.
+- Made the PixelGrid into a PixelCloud.
