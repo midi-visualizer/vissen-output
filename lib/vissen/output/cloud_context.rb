@@ -8,7 +8,7 @@ module Vissen
     class CloudContext
       include Context
 
-      attr_reader :rows, :columns
+      attr_reader :points
 
       def initialize(points, width: 1.0, height: 1.0, **args)
         super(width, height, **args)
