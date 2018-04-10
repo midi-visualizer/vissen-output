@@ -11,7 +11,7 @@ describe Vissen::Output::GridContext do
   let(:real_height)  { 5.0 }
   let(:grid_context) { subject.new rows, columns }
 
-  describe '#points' do
+  describe '#point_count' do
     it 'returns the number of points in the grid_context' do
       assert_equal (rows * columns), grid_context.point_count
     end
@@ -64,26 +64,6 @@ describe Vissen::Output::GridContext do
       assert_raises(RangeError) do
         subject.new rows, 0
       end
-    end
-  end
-
-  describe '#alloc_points' do
-    let(:klass) { Class.new }
-
-    it 'accepts a klass that will be used to fill the buffer' do
-      buffer = grid_context.alloc_points klass
-      buffer.each { |obj| assert_kind_of klass, obj }
-    end
-
-    it 'returns an array of the correct size' do
-      buffer = grid_context.alloc_points klass
-      assert_kind_of Array, buffer
-      assert_equal (rows * columns), buffer.length
-    end
-
-    it 'accepts a block' do
-      buffer = grid_context.alloc_points { 0 }
-      assert_equal 0, buffer[0]
     end
   end
 
@@ -158,41 +138,6 @@ describe Vissen::Output::GridContext do
 
     it 'returns an enumerator when no block is given' do
       assert_kind_of Enumerator, grid_context.each_row_and_column
-    end
-  end
-
-  describe '#each_position' do
-    it 'iterates over each point and yields its position' do
-      grid_context.each_position do |index, x, y|
-        x_ref, y_ref = grid_context.position index
-
-        assert_in_epsilon x_ref, x
-        assert_in_epsilon y_ref, y
-      end
-    end
-
-    it 'works for 0 width contexts' do
-      grid_context = subject.new rows, 1
-      grid_context.each_position do |index, x, y|
-        x_ref, y_ref = grid_context.position index
-
-        assert_in_epsilon x_ref, x
-        assert_in_epsilon y_ref, y
-      end
-    end
-
-    it 'works for 0 height contexts' do
-      grid_context = subject.new 1, columns
-      grid_context.each_position do |index, x, y|
-        x_ref, y_ref = grid_context.position index
-
-        assert_in_epsilon x_ref, x
-        assert_in_epsilon y_ref, y
-      end
-    end
-
-    it 'returns an enumerator when no block is given' do
-      assert_kind_of Enumerator, grid_context.each_position
     end
   end
 end
