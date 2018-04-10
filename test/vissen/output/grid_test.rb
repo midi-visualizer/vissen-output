@@ -68,8 +68,7 @@ describe Vissen::Output::Grid do
     it 'yields the element and x and y coordinates to the block' do
       index = 0
       grid.each_with_position do |element, x, y|
-        row, column = context.row_column_from index
-        true_x, true_y = context.position row, column
+        true_x, true_y = context.position index
 
         assert_equal grid.elements[index], element
         assert_in_epsilon true_x, x

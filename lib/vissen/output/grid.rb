@@ -31,7 +31,7 @@ module Vissen
 
       def each_with_row_and_column
         return to_enum(__callee__) unless block_given?
-        @context.each { |i, r, c| yield @elements[i], r, c }
+        @context.each_row_and_column { |i, r, c| yield @elements[i], r, c }
       end
 
       def each_with_position

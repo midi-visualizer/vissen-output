@@ -92,25 +92,25 @@ describe Vissen::Output::GridContext do
   end
 
   describe '#position' do
-    it 'returns the position of a row and column' do
-      assert_equal [0.00, 0.00], grid_context.position(0, 0)
-      assert_equal [1.00, 0.00], grid_context.position(0, columns - 1)
-      assert_equal [0.00, 0.75], grid_context.position(rows - 1, 0)
-      assert_equal [1.00, 0.75], grid_context.position(rows - 1, columns - 1)
+    it 'returns the position of an element index' do
+      assert_equal [0.00, 0.00], grid_context.position(0)
+      assert_equal [1.00, 0.00], grid_context.position((columns - 1) * rows)
+      assert_equal [0.00, 0.75], grid_context.position(rows - 1)
+      assert_equal [1.00, 0.75], grid_context.position(rows * columns - 1)
     end
 
     it 'works for 0 width contexts' do
       grid_context = subject.new(rows, 1)
 
-      assert_equal [0.00, 0.00], grid_context.position(0, 0)
-      assert_equal [0.00, 1.00], grid_context.position(rows - 1, 0)
+      assert_equal [0.00, 0.00], grid_context.position(0)
+      assert_equal [0.00, 1.00], grid_context.position(rows - 1)
     end
 
     it 'works for 0 height contexts' do
       grid_context = subject.new(1, columns)
 
-      assert_equal [0.00, 0.00], grid_context.position(0, 0)
-      assert_equal [1.00, 0.00], grid_context.position(0, columns - 1)
+      assert_equal [0.00, 0.00], grid_context.position(0)
+      assert_equal [1.00, 0.00], grid_context.position(columns - 1)
     end
   end
 
@@ -146,7 +146,7 @@ describe Vissen::Output::GridContext do
     end
   end
 
-  describe '#each' do
+  describe '#each_row_and_column' do
     it 'yields the index, row and column to arity 3 blocks' do
       last_index = -1
 
@@ -156,20 +156,19 @@ describe Vissen::Output::GridContext do
         last_index += 1
       end
 
-      grid_context.each(&block)
+      grid_context.each_row_and_column(&block)
       assert_equal grid_context.points - 1, last_index
     end
 
     it 'returns an enumerator when no block is given' do
-      assert_kind_of Enumerator, grid_context.each
+      assert_kind_of Enumerator, grid_context.each_row_and_column
     end
   end
 
   describe '#each_position' do
     it 'iterates over each point and yields its position' do
       grid_context.each_position do |index, x, y|
-        row, column = grid_context.row_column_from index
-        x_ref, y_ref = grid_context.position row, column
+        x_ref, y_ref = grid_context.position index
 
         assert_in_epsilon x_ref, x
         assert_in_epsilon y_ref, y
@@ -179,8 +178,7 @@ describe Vissen::Output::GridContext do
     it 'works for 0 width contexts' do
       grid_context = subject.new rows, 1
       grid_context.each_position do |index, x, y|
-        row, column = grid_context.row_column_from index
-        x_ref, y_ref = grid_context.position row, column
+        x_ref, y_ref = grid_context.position index
 
         assert_in_epsilon x_ref, x
         assert_in_epsilon y_ref, y
@@ -190,8 +188,7 @@ describe Vissen::Output::GridContext do
     it 'works for 0 height contexts' do
       grid_context = subject.new 1, columns
       grid_context.each_position do |index, x, y|
-        row, column = grid_context.row_column_from index
-        x_ref, y_ref = grid_context.position row, column
+        x_ref, y_ref = grid_context.position index
 
         assert_in_epsilon x_ref, x
         assert_in_epsilon y_ref, y

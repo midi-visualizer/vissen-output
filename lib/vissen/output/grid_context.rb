@@ -40,12 +40,11 @@ module Vissen
 
         # Position
         #
-        # Returns the x and y coordinates of the grid point at the given row and
-        # column.
-        define_singleton_method :position do |row, column|
+        # Returns the x and y coordinates of the grid point at the given index.
+        define_singleton_method(:position) do |index|
           [
-            x_factor * column,
-            y_factor * row
+            x_factor * (index / rows),
+            y_factor * (index % rows)
           ].freeze
         end
       end
@@ -99,19 +98,22 @@ module Vissen
       # point and the given coordinate.
       def distance_squared(x, y, target)
         target.each_with_index do |_, i|
-          row, column = row_column_from i
-          x_i, y_i = position row, column
+          x_i, y_i = position i
           dx = x_i - x
           dy = y_i - y
           target[i] = (dx * dx) + (dy * dy)
         end
       end
 
-      # Each
+      def each
+        point_count.times
+      end
+
+      # Each Row and Column
       #
       # Iterates over each point in the grid and yields the index, row and
       # column.
-      def each
+      def each_row_and_column
         return to_enum(__callee__) unless block_given?
 
         point_count.times { |i| yield(i, *row_column_from(i)) }
@@ -125,7 +127,7 @@ module Vissen
         return to_enum(__callee__) unless block_given?
 
         point_count.times do |index|
-          yield(index, *position(*row_column_from(index)))
+          yield(index, *position(index))
         end
       end
     end
