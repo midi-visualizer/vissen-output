@@ -17,7 +17,7 @@ describe Vissen::Output::GridContext do
 
   describe '#points' do
     it 'returns the number of points in the grid_context' do
-      assert_equal (rows * columns), grid_context.points
+      assert_equal (rows * columns), grid_context.point_count
     end
   end
 
@@ -157,7 +157,7 @@ describe Vissen::Output::GridContext do
       end
 
       grid_context.each_row_and_column(&block)
-      assert_equal grid_context.points - 1, last_index
+      assert_equal grid_context.point_count - 1, last_index
     end
 
     it 'returns an enumerator when no block is given' do

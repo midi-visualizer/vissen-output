@@ -10,7 +10,7 @@ module Vissen
 
       attr_reader :palettes, :layers
 
-      alias vixel_count grid_points
+      alias vixel_count point_count
 
       # Initialize
       #

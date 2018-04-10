@@ -14,7 +14,7 @@ describe Vissen::Output::Grid do
   let(:rows)        { 6 }
   let(:columns)     { 8 }
   let(:context)     { TestGridContextTarget.new rows, columns }
-  let(:point_klass) { Struct.new :row, :column }
+  let(:point_klass) { Struct.new :index }
   let(:grid)        { subject.new context, point_klass }
 
   describe '.new' do
@@ -24,19 +24,15 @@ describe Vissen::Output::Grid do
 
     it 'accepts a block used for allocating the elements' do
       index = 0
-      grid = subject.new(context) do |row, column|
-        true_row, true_column = context.row_column_from index
-        assert_equal true_row, row
-        assert_equal true_column, column
+      grid = subject.new(context) do |i|
+        assert_equal index, i
         index += 1
-        point_klass.new row, column
+        point_klass.new i
       end
 
       assert_equal (rows * columns), index
-      grid.each_with_row_and_column do |element, row, column|
-        assert_equal row, element.row
-        assert_equal column, element.column
-      end
+      some_index = rand index
+      assert_equal some_index, grid.elements[some_index].index
     end
   end
 

@@ -10,10 +10,10 @@ module Vissen
     #
     # Aspect ratio is defined as width/height. If it is not given each grid cell
     # is assumed to be square, meaning the aspect_ratio will equal columns/rows.
-    #
-    # TODO: Handle single row/column grids.
     module GridContext
-      attr_reader :rows, :columns, :width, :height
+      include Context
+
+      attr_reader :rows, :columns
 
       def initialize(rows, columns, aspect_ratio: columns.to_f / rows)
         raise RangeError if rows <= 0 || columns <= 0
@@ -22,7 +22,7 @@ module Vissen
         @rows    = rows
         @columns = columns
 
-        @width, @height =
+        width, height =
           if rows == 1
             [1.0, 0.0]
           elsif columns == 1
@@ -32,6 +32,8 @@ module Vissen
           else
             [1.0, 1.0 / aspect_ratio]
           end
+
+        super width, height
 
         # Define #position dynamically based on the
         # calculated width and height
@@ -56,23 +58,6 @@ module Vissen
         @rows * @columns
       end
 
-      alias grid_points point_count
-      alias points point_count
-
-      # Alloc Grid Points
-      #
-      # Returns an array of objects of the given class. Optionally takes a block
-      # that is expected to return each new object. The row and column of each
-      # element are passed to the given block.
-      def alloc_points(klass = nil, &block)
-        if klass
-          raise ArgumentError if block_given?
-          block = proc { klass.new }
-        end
-
-        Array.new(points) { |i| block.call(*row_column_from(i)) }
-      end
-
       # Index From
       #
       # Returns the index of a row and column.
@@ -91,24 +76,6 @@ module Vissen
         [row, column]
       end
 
-      # Distance Squared
-      #
-      # This utility method traverses the given target array and calculates for
-      # each corresponding grid point index the squared distance between the
-      # point and the given coordinate.
-      def distance_squared(x, y, target)
-        target.each_with_index do |_, i|
-          x_i, y_i = position i
-          dx = x_i - x
-          dy = y_i - y
-          target[i] = (dx * dx) + (dy * dy)
-        end
-      end
-
-      def each
-        point_count.times
-      end
-
       # Each Row and Column
       #
       # Iterates over each point in the grid and yields the index, row and
@@ -117,18 +84,6 @@ module Vissen
         return to_enum(__callee__) unless block_given?
 
         point_count.times { |i| yield(i, *row_column_from(i)) }
-      end
-
-      # Each Position
-      #
-      # Iterates over each point in the grid and yields the point index and x
-      # and y coordinates.
-      def each_position
-        return to_enum(__callee__) unless block_given?
-
-        point_count.times do |index|
-          yield(index, *position(index))
-        end
       end
     end
   end
