@@ -41,6 +41,18 @@ describe Vissen::Output::Color do
     end
   end
 
+  describe '#==' do
+    it 'returns true when the colors are the same' do
+      other = subject.new(*components)
+      assert_operator color, :==, other
+    end
+
+    it 'returns false when the colors are not the same' do
+      other = subject.new(*components.reverse)
+      refute_operator color, :==, other
+    end
+  end
+
   describe '#to_a' do
     it 'returns an array with the three elemenets' do
       assert_equal components, color.to_a

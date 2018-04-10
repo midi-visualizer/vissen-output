@@ -14,6 +14,16 @@ module Vissen
         @b = b
       end
 
+      # Equality
+      #
+      # Returns true when two colors are exactly the same.
+      #
+      # TODO: Add some small delta around what is considered the same color?
+      #       Perhaps scale to 255 and floor before comparing?
+      def ==(other)
+        r == other.r && g == other.g && b == other.b
+      end
+
       # To Array
       #
       # Returns a new array containing the red, green and blue color values.
