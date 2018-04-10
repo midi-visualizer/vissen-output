@@ -2,11 +2,11 @@
 
 module Vissen
   module Output
-    # Vixel Grid
+    # Vixel Cloud
     #
     #
-    class VixelGrid
-      include Grid
+    class VixelCloud
+      include Cloud
 
       attr_accessor :intensity, :palette
       alias vixels elements

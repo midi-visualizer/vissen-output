@@ -73,8 +73,8 @@ describe Vissen::Output::Stack do
       pixel_cloud = stack.pixel_cloud
 
       assert_kind_of Vissen::Output::PixelCloud, pixel_cloud
-      assert_equal stack.rows,    pixel_cloud.rows
-      assert_equal stack.columns, pixel_cloud.columns
+      assert_equal stack.rows,    pixel_cloud.context.rows
+      assert_equal stack.columns, pixel_cloud.context.columns
       assert_equal stack.width,   pixel_cloud.width
       assert_equal stack.height,  pixel_cloud.height
     end

@@ -15,8 +15,8 @@ describe Vissen::Output::PixelCloud do
 
   let(:pixel_cloud) { subject.new grid_context }
 
-  it 'is a grid' do
-    assert_kind_of Vissen::Output::Grid, pixel_cloud
+  it 'is a cloud' do
+    assert_kind_of Vissen::Output::Cloud, pixel_cloud
   end
 
   describe '#clear!' do

@@ -23,7 +23,7 @@ module Vissen
         raise TypeError unless palettes.all? { |pa| pa.respond_to?(:[]) }
 
         @palettes = palettes
-        @layers   = Array.new(layer_count) { VixelGrid.new self }
+        @layers   = Array.new(layer_count) { VixelCloud.new self }
 
         freeze
       end

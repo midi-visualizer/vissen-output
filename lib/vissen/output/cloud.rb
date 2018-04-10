@@ -12,7 +12,7 @@ module Vissen
       attr_reader :context, :elements
 
       def_delegators :@context, :width, :height
-      def_delegators :@elements, :each, :each_with_index, :[]
+      def_delegators :@elements, :each, :each_with_index
 
       # Initialize
       #
@@ -27,6 +27,10 @@ module Vissen
           else
             context.alloc_points(elements_klass).freeze
           end
+      end
+
+      def [](*args)
+        @elements[@context.index_from(*args)]
       end
 
       def each_with_position

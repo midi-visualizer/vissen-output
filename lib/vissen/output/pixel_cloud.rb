@@ -6,7 +6,7 @@ module Vissen
     #
     #
     class PixelCloud
-      include Grid
+      include Cloud
 
       alias pixels elements
 
