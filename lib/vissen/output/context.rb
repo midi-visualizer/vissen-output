@@ -49,15 +49,19 @@ module Vissen
         Array.new(point_count, &block)
       end
 
+      # Each
+      #
+      # Iterate over the context points. The index of the the point is passed to
+      # the given block.
+      def each
+        point_count.times
+      end
+
       # Position
       #
       # Should return the x and y coordinates of the point with the given index.
       def position(_index)
         raise NotImplementedError
-      end
-
-      def each
-        point_count.times
       end
 
       # Each Position
