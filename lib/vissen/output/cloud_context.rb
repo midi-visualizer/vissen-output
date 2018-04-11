@@ -8,8 +8,14 @@ module Vissen
     class CloudContext
       include Context
 
+      # @return [Array<Point>] the points in the context.
       attr_reader :points
 
+      # @param  points [Array<Point>, Array<Array<Integer>>] the position of the
+      #   points in the context.
+      # @param  width [Float] the width of the context.
+      # @param  height [Float] the height of the context.
+      # @param  args (see Context).
       def initialize(points, width: 1.0, height: 1.0, **args)
         super(width, height, **args)
 
@@ -18,16 +24,12 @@ module Vissen
         @points = points.map { |point| Point.from point, scale: factor }
       end
 
-      # Point Count
-      #
-      # Returns the number of grid points.
+      # @return [Integer] the number of grid points.
       def point_count
         @points.length
       end
 
-      # Position
-      #
-      # Returns the x and y coordinates of a point.
+      # @return [Array<Integer>] the x and y coordinates of a point.
       def position(index)
         @points[index].position
       end

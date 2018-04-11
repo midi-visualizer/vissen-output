@@ -9,15 +9,24 @@ module Vissen
     #
     module Cloud
       extend Forwardable
-      attr_reader :context, :elements
+      
+      # @return [Context] the context of the cloud.
+      attr_reader :context
+      
+      # @return [Object] the elements at the cloud points.
+      attr_reader :elements
 
       def_delegators :@context, :width, :height
       def_delegators :@elements, :each, :each_with_index
 
-      # Initialize
-      #
       # The grid is setup with a grid context as well as a class to places
       # instances of in every grid point.
+      #
+      # @param  context [Context] the context in which the cloud exists.
+      # @param  elements_klass [Class] the class to use when allocating
+      #   elements.
+      # @param  block [Proc] the block to use instead of `elements_klass` when
+      #   allocating element objects.
       def initialize(context, elements_klass = nil, &block)
         @context  = context
         @elements =
@@ -29,18 +38,28 @@ module Vissen
           end
       end
 
+      # Context specific element accessor. Depends on `Context#index_from` to
+      # transform `args` into an index.
+      #
+      # @param  (see Context#index_from).
+      # @return [Object] the element at the given index.
       def [](*args)
         @elements[@context.index_from(*args)]
       end
 
+      # Iterates over each element in the cloud and yields the element along
+      # with its x and y coordinates.
+      #
+      # @return (see Context#each_position).
       def each_with_position
         return to_enum(__callee__) unless block_given?
         @context.each_position { |i, x, y| yield @elements[i], x, y }
       end
 
-      # Grid Likeness
-      #
       # Two grids are considered equal if they share the same context.
+      #
+      # @param  other [Object]
+      # @return [true, false] true if the other object share the same context.
       def ===(other)
         @context == other.context
       rescue NoMethodError
