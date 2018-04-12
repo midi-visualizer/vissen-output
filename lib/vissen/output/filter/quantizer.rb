@@ -3,12 +3,18 @@
 module Vissen
   module Output
     module Filter
-      # Quantizer
-      #
       # Scales and rounds the color components to only take discrete values.
       class Quantizer
         include Filter
 
+        # @raise  [RangeError] if steps < 2.
+        # @raise  [ArgumentError] if the range is exclusive and has a floating
+        #   point end value.
+        #
+        # @param  args (see Filter)
+        # @param  steps [Integer] the number of quantized steps.
+        # @param  range [Range] the range in which the quantized values should
+        #   lie.
         def initialize(*args, steps: 256, range: 0...steps)
           super(*args)
 
@@ -27,6 +33,11 @@ module Vissen
           freeze
         end
 
+        # Applies the filter to the given pixel cloud.
+        #
+        # @see Filter
+        # @param pixel_cloud [PixelCloud] the pixel cloud to perform the filter
+        #   operation on.
         def apply(pixel_cloud)
           pixel_cloud.each do |pixel|
             pixel.r = @fn.call pixel.r

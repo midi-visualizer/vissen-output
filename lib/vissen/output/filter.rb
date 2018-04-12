@@ -9,6 +9,8 @@ module Vissen
     module Filter
       attr_reader :context
 
+      # @raise  [TypeError] if the context is not a `Context`.
+      #
       # @param  context [Context] the context within which the filter will be
       #   applied.
       def initialize(context)

@@ -49,6 +49,8 @@ module Vissen
       # Optionally takes a block that is expected to return each new object. The
       # index of the element is passed to the given block.
       #
+      # @raise  [ArgumentError] if both a class and a block are given.
+      #
       # @param  klass [Class] the class of the allocated objects.
       # @param  block [Proc] the block to call for allocating each object.
       # @return [Array<klass>] an array of new objects.

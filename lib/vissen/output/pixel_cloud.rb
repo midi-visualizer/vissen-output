@@ -19,6 +19,8 @@ module Vissen
 
       # Replaces the pixel values of this buffer with those of the given object.
       #
+      # @raise  [TypeError] if the other object is not a PixelCloud.
+      #
       # @param  other [PixelCloud] the pixel cloud to copy values from.
       def copy!(other)
         raise TypeError unless other.is_a? self.class

@@ -24,6 +24,8 @@ module Vissen
 
       # TODO: Make palettes a keyword argument in the next minor version.
       #
+      # @raise  [RangeError] if layer_count <= 0.
+      #
       # @param  context [Context] the context in which the stack exist.
       # @param  layer_count [Integer] the number of layers in the stack.
       def initialize(context, layer_count)
@@ -60,6 +62,8 @@ module Vissen
       # TODO: Could we cache the result of this operation at time t to an
       #       internal PixelGrid and copy the stored information for subsequent
       #       requests at or around the same time?
+      #
+      # @raise  [TypeError] if the pixel cloud does not share the same context.
       #
       # @param  pixel_cloud [PixelCloud] the buffer to store the resulting
       #   colors of each point in.

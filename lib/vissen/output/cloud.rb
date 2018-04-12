@@ -22,6 +22,8 @@ module Vissen
       # The grid is setup with a grid context as well as a class to places
       # instances of in every grid point.
       #
+      # @raise  [ArgumentError] if both an element class and a block are given.
+      #
       # @param  context [Context] the context in which the cloud exists.
       # @param  elements_klass [Class] the class to use when allocating
       #   elements.
