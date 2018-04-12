@@ -2,12 +2,26 @@
 
 module Vissen
   module Output
-    # Context
+    # The output context gives the points that relate to it their position and
+    # color. Contexts can come in different forms and offer different
+    # functionality but they must be able to answer three questions:
     #
+    # 1. How many points are in the context,
+    # 2. what is the absolute position of each point and
+    # 3. what color palette corresponds to a palette index.
     #
     module Context
       attr_reader :width, :height, :palettes
 
+      # Output contexts give the two things to the vixels within them: a
+      # position and a color.
+      #
+      # The width and height are always normalized to fit within a 1 x 1 square.
+      #
+      # @param  width [Numeric] the width of the context.
+      # @param  height [Numeric] the height of the context.
+      # @param  palettes [Array<Palette>] the color palettes to use when
+      #   rendering the context.
       def initialize(width, height, palettes: PALETTES)
         if width.negative? || height.negative? || (width.zero? && height.zero?)
           raise RangeError, 'Contexts needs a size in at least one dimension'
@@ -21,25 +35,23 @@ module Vissen
         @palettes = palettes
       end
 
-      # Point Count
-      #
-      # Returns the number of grid points.
+      # This method must be implemented by any class that includes this module.
       def point_count
         raise NotImplementedError
       end
 
-      # One Dimensional?
-      #
-      # Returns true if the context only has one dimention.
+      # @returns [true, false] true if the context has only one dimension.
       def one_dimensional?
         @width == 0.0 || @height == 0.0
       end
 
-      # Alloc Grid Points
+      # Allocates, for each grid point, one object of the given class.
+      # Optionally takes a block that is expected to return each new object. The
+      # index of the element is passed to the given block.
       #
-      # Returns an array of objects of the given class. Optionally takes a block
-      # that is expected to return each new object. The row and column of each
-      # element are passed to the given block.
+      # @param  klass [Class] the class of the allocated objects.
+      # @param  block [Proc] the block to call for allocating each object.
+      # @return [Array<klass>] an array of new objects.
       def alloc_points(klass = nil, &block)
         if klass
           raise ArgumentError if block_given?
@@ -49,25 +61,29 @@ module Vissen
         Array.new(point_count, &block)
       end
 
-      # Each
+      # Iterates over the context points. The index of the the point is passed
+      # to the given block.
       #
-      # Iterate over the context points. The index of the the point is passed to
-      # the given block.
+      # @return [Enumerator, Integer] an `Enumerator` if no block is given,
+      #   otherwise the number of points that was iterated over.
       def each
         point_count.times
       end
 
-      # Position
+      # This method must be implemented by a class that includes this module and
+      # should return the x and y coordinates of the point with the given index.
       #
-      # Should return the x and y coordinates of the point with the given index.
+      # @param  _index [Integer] the index of a point in the context.
+      # @return [Array<Float>] an array containing the x and y coordinates of
+      #   the point associated with the given intex.
       def position(_index)
         raise NotImplementedError
       end
 
-      # Each Position
-      #
       # Iterates over each point in the grid and yields the point index and x
       # and y coordinates.
+      #
+      # @returns (see #each)
       def each_position
         return to_enum(__callee__) unless block_given?
 
@@ -76,20 +92,25 @@ module Vissen
         end
       end
 
-      # Index From
-      #
       # Context specific method to convert any domain specifc property (like row
       # and column) to an index. The Cloud module calls this method when
       # resolving the index given to its #[] method.
+      #
+      # @param  [Object] the object or objects that are used to refer to points
+      #   in this context.
+      # @return [Integer] the index of the point.
       def index_from(index)
         index
       end
 
-      # Distance Squared
-      #
       # This utility method traverses the given target array and calculates for
       # each corresponding grid point index the squared distance between the
       # point and the given coordinate.
+      #
+      # @param  x [Float] the x coordinate to calculate distances from.
+      # @param  y [Float] the y coordinate to calculate distances from.
+      # @param  target [Array<Float>] the target array to populate with
+      #   distances.
       def distance_squared(x, y, target)
         target.each_with_index do |_, i|
           x_i, y_i = position i

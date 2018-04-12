@@ -9,10 +9,10 @@ module Vissen
     #
     module Cloud
       extend Forwardable
-      
+
       # @return [Context] the context of the cloud.
       attr_reader :context
-      
+
       # @return [Object] the elements at the cloud points.
       attr_reader :elements
 
