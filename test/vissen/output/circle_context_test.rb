@@ -12,16 +12,16 @@ describe Vissen::Output::CircleContext do
   describe '.new' do
     it 'accepts a radius' do
       points = circle_context.points
-      
+
       assert_in_delta radius,  points[0].x
       assert_in_delta 0,       points[0].y
-      
+
       assert_in_delta 0,       points[1].x
       assert_in_delta radius,  points[1].y
-      
+
       assert_in_delta(-radius, points[2].x)
       assert_in_delta 0,       points[2].y
-      
+
       assert_in_delta 0,       points[3].x
       assert_in_delta(-radius, points[3].y)
     end

@@ -24,7 +24,7 @@ module Vissen
         @points = points.map { |point| Point.from point, scale: factor }
         freeze
       end
-      
+
       def freeze
         @points.freeze
         super

@@ -11,13 +11,13 @@ module Vissen
         angle_factor = 2.0 * Math::PI / point_count
         points = Array.new(point_count) do |index|
           angle = index * angle_factor
-          
+
           x = radius * Math.cos(angle)
           y = radius * Math.sin(angle)
-          
+
           Point.new x, y
         end
-        
+
         super(points, **args)
       end
     end
