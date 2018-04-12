@@ -6,19 +6,26 @@ module Vissen
   module Output
     # Stack
     #
-    #
+    # TODO: Document this class.
     class VixelStack
       extend Forwardable
 
-      attr_reader :layers, :context
+      # @return [Array<VixelCloud>] the layers that make up the stack.
+      attr_reader :layers
 
+      # @return [Context] the context in which the stack exist.
+      attr_reader :context
+
+      # @!method point_count
+      # @return [Integer] the number of points in each layer of the stack.
       def_delegators :@context, :point_count
 
       alias vixel_count point_count
 
-      # Initialize
-      #
       # TODO: Make palettes a keyword argument in the next minor version.
+      #
+      # @param  context [Context] the context in which the stack exist.
+      # @param  layer_count [Integer] the number of layers in the stack.
       def initialize(context, layer_count)
         raise RangeError if layer_count <= 0
 
@@ -28,35 +35,37 @@ module Vissen
         freeze
       end
 
-      # Freeze
+      # Prevents more layers and palettes from being added.
       #
-      # Prevents any more layers and palettes from being added.
+      # @return [self]
       def freeze
         @layers.freeze
         super
       end
 
-      # Vixel Accessor
-      #
-      # Returns the vixel at the given layer.
+      # @param  layer [Integer] the index of the layer that is accessed.
+      # @param  args (see VixelCloud#[])
+      # @return [Vixel,nil] the vixel at the given layer.
       def [](layer, *args)
         @layers[layer][*args]
       end
 
-      # Pixel Cloud
-      #
-      # Returns a new, uninitialized pixel cloud.
+      # @return [PixelCloud] a new, uninitialized pixel cloud.
       def pixel_cloud
         PixelCloud.new context
       end
 
-      # Render
-      #
       # Renders each layer and combines the result in the given buffer.
       #
       # TODO: Could we cache the result of this operation at time t to an
       #       internal PixelGrid and copy the stored information for subsequent
       #       requests at or around the same time?
+      #
+      # @param  pixel_cloud [PixelCloud] the buffer to store the resulting
+      #   colors of each point in.
+      # @param  intensity [Float] the intensity to scale the vixels intensity
+      #   with.
+      # @return [PixelCloud] the same cloud that was given as a parameter.
       def render(pixel_cloud, intensity: 1.0)
         raise TypeError unless context == pixel_cloud.context
 
@@ -68,6 +77,8 @@ module Vissen
 
         # TODO: Apply filters to pixel_cloud. Perhaps through
         #       pixel_cloud.finalize! or something similar.
+
+        pixel_cloud
       end
     end
   end
