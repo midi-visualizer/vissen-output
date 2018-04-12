@@ -22,6 +22,12 @@ module Vissen
         factor = @width / width
 
         @points = points.map { |point| Point.from point, scale: factor }
+        freeze
+      end
+      
+      def freeze
+        @points.freeze
+        super
       end
 
       # @return [Integer] the number of grid points.
