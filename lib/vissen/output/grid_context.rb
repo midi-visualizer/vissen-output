@@ -2,8 +2,6 @@
 
 module Vissen
   module Output
-    # Grid Context
-    #
     # The grid structure stores the number of rows and columns as well as its
     # width and height. The dimensions are normalized to fit within a 1x1
     # square.
@@ -15,6 +13,14 @@ module Vissen
 
       attr_reader :rows, :columns
 
+      # TODO: Replace aspect_ratio with width and height to conform better with
+      #       other context types.
+      #
+      # @param  rows [Integer] the number of rows in the grid.
+      # @param  columns [Integer] the number of columns in the grid.
+      # @param  aspect_ratio [Float] the grid aspect ratio defined as width
+      #   divided by height.
+      # @param  args (see Context)
       def initialize(rows, columns, aspect_ratio: columns.to_f / rows, **args)
         raise RangeError if rows <= 0 || columns <= 0
         raise ArgumentError if aspect_ratio <= 0
@@ -51,35 +57,33 @@ module Vissen
         end
       end
 
-      # Point Count
-      #
-      # Returns the number of grid points.
+      # @return [Integer] the number of grid points.
       def point_count
         @rows * @columns
       end
 
-      # Index From
+      # See `Context#index_from`.
       #
-      # Returns the index of a row and column.
+      # WARNING: no range check is performed.
       #
-      # Warning: no range check is performed.
+      # @param  row [Integer] the row of the point of interest.
+      # @param  column [Integer] the column of the point of interest.
+      # @return [Integer] the index of a row and column.
       def index_from(row, column)
         column * @rows + row
       end
 
-      # Row-Column From
-      #
-      # Returns the row and column of a given index.
+      # @return [Array<Integer>] the row and column of a given index.
       def row_column_from(index)
         row    = (index % @rows)
         column = (index / @rows)
         [row, column]
       end
 
-      # Each Row and Column
-      #
       # Iterates over each point in the grid and yields the index, row and
       # column.
+      #
+      # @return [Integer] the number of points in the grid.
       def each_row_and_column
         return to_enum(__callee__) unless block_given?
 
