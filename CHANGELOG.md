@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - A Circle context.
 
+### Changed
+- Improved the documentation.
+
 ## [0.4.0] - 2018-04-10
 ### Added
 - Output filters.
