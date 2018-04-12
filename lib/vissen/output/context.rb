@@ -40,7 +40,7 @@ module Vissen
         raise NotImplementedError
       end
 
-      # @returns [true, false] true if the context has only one dimension.
+      # @return [true, false] true if the context has only one dimension.
       def one_dimensional?
         @width == 0.0 || @height == 0.0
       end
@@ -83,7 +83,7 @@ module Vissen
       # Iterates over each point in the grid and yields the point index and x
       # and y coordinates.
       #
-      # @returns (see #each)
+      # @return (see #each)
       def each_position
         return to_enum(__callee__) unless block_given?
 
@@ -96,8 +96,8 @@ module Vissen
       # and column) to an index. The Cloud module calls this method when
       # resolving the index given to its #[] method.
       #
-      # @param  [Object] the object or objects that are used to refer to points
-      #   in this context.
+      # @param  index [Object] the object or objects that are used to refer to
+      #   points in this context.
       # @return [Integer] the index of the point.
       def index_from(index)
         index

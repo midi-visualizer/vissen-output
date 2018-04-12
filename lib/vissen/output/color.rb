@@ -40,7 +40,7 @@ module Vissen
 
       # Creates a new array from the color.
       #
-      # @returns [Array<Float>] a new array containing the red, green and blue
+      # @return [Array<Float>] a new array containing the red, green and blue
       #   color values.
       def to_a
         [r, g, b]

@@ -41,7 +41,7 @@ module Vissen
       # Context specific element accessor. Depends on `Context#index_from` to
       # transform `args` into an index.
       #
-      # @param  (see Context#index_from).
+      # @param  args (see Context#index_from).
       # @return [Object] the element at the given index.
       def [](*args)
         @elements[@context.index_from(*args)]
