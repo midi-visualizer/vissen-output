@@ -2,14 +2,18 @@
 
 module Vissen
   module Output
-    # Palette
-    #
     # The Palette is, at its core, a transformation between a position (0..1)
-    # and a color value {(0..1) x 3}. It can either be continous or be based on
-    # a pre-allocated lookup table.
+    # and a color value \\{(0..1) x 3\\}. It can either be continous or be based
+    # on a pre-allocated lookup table.
     class Palette
       attr_reader :label
 
+      # @param  colors [Array<Color>, Array<#to_a>] the colors to use in the
+      #   palette.
+      # @param  steps [Integer] the number of discrete palette values. The
+      #   palette will be continuous if nil.
+      # @param  label [String] the optional label to use when identifying the
+      #   palette.
       def initialize(*colors, steps: nil, label: nil)
         @colors = colors.map { |c| Color.from(c).freeze }
         @label  = label
@@ -23,6 +27,9 @@ module Vissen
         freeze
       end
 
+      # Prevents both the palette colors and the label from changing.
+      #
+      # @return [self]
       def freeze
         @colors.freeze
         @label.freeze
@@ -30,14 +37,20 @@ module Vissen
         super
       end
 
-      # To Array
-      #
       # Discretize the palette into the given number of values. Palettes defined
       # with a step count are sampled as if they where continuous.
+      #
+      # @param  n [Integer] the number of discrete values to produce.
+      # @return [Array<Color>] an array of colors sampled from the palette.
       def to_a(n)
         Array.new(n) { |i| color_at(i.to_f / (n - 1)).freeze }
       end
 
+      # Example output:
+      #   "#42BEAF -> #020180 (rainbow)"
+      #
+      # @return [String] a string representation of the palette made up of the
+      #   palette colors as well as the (optional) label.
       def inspect
         @colors.map(&:inspect).join(' -> ').tap do |base|
           break "#{base} (#{@label})" if @label
