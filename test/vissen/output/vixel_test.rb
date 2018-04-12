@@ -5,6 +5,8 @@ require 'test_helper'
 describe Vissen::Output::Vixel do
   subject { Vissen::Output::Vixel }
 
+  let(:vixel) { subject.new rand, rand }
+
   describe '.new' do
     it 'accepts a palette and intensity value' do
       p = rand
@@ -47,6 +49,10 @@ describe Vissen::Output::Vixel do
       other = subject.new 0.3, 0.5
 
       refute_operator vixel, :==, other
+    end
+
+    it 'returns false for other objects' do
+      refute_operator vixel, :==, Object.new
     end
   end
 
