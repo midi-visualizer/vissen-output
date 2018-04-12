@@ -15,17 +15,15 @@ require 'vissen/output/context'
 require 'vissen/output/cloud'
 require 'vissen/output/cloud_context'
 require 'vissen/output/grid_context'
-require 'vissen/output/grid'
+require 'vissen/output/grid' # TODO: Depricate or find use for.
 require 'vissen/output/pixel_cloud'
 require 'vissen/output/vixel_cloud'
 require 'vissen/output/vixel_stack'
 
 module Vissen
-  # Output
-  #
   # The main job of the output module is to transform a multi layered collection
-  # of Vixels, a VixelCloud, into a single layered collection of Pixels, a
-  # PixelCloud.
+  # of `Vixel` objects, a `VixelCloud`, into a single layered collection of
+  # `Pixel`objects, a `PixelCloud`.
   module Output
   end
 end
