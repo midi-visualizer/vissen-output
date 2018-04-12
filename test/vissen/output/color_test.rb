@@ -51,6 +51,10 @@ describe Vissen::Output::Color do
       other = subject.new(*components.reverse)
       refute_operator color, :==, other
     end
+    
+    it 'returns false for other objects' do
+      refute_operator color, :==, Object.new
+    end
   end
 
   describe '#to_a' do
