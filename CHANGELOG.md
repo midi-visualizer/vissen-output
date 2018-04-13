@@ -6,12 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.4.1] - 2018-04-13
-### Added
-- A Circle context.
-
+## [0.5.0] - 2018-04-13
 ### Changed
-- Improved the documentation.
 - Changed the name of the Cloud module to Buffer to distance it from the cloud context.
 - Moved all context to their own submodule.
 - Changed the name of the PixelCloud to PixelBuffer to better indicate what it should be used for.
@@ -19,6 +15,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 - The Grid class.
+
+## [0.4.1] - 2018-04-13
+### Added
+- A Circle context.
+
+### Changed
+- Improved the documentation.
 
 ## [0.4.0] - 2018-04-10
 ### Added
