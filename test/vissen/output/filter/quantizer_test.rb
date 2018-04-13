@@ -5,7 +5,7 @@ require 'test_helper'
 describe Vissen::Output::Filter::Quantizer do
   subject { Vissen::Output::Filter::Quantizer }
 
-  let(:context)     { Vissen::Output::GridContext.new 2, 3 }
+  let(:context)     { Vissen::Output::Context::Grid.new 2, 3 }
   let(:pixel_cloud) { Vissen::Output::PixelCloud.new context }
   let(:filter)      { subject.new context }
   let(:red)         { rand }

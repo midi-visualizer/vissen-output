@@ -2,8 +2,8 @@
 
 require 'test_helper'
 
-describe Vissen::Output::GridContext do
-  subject { Vissen::Output::GridContext }
+describe Vissen::Output::Context::Grid do
+  subject { Vissen::Output::Context::Grid }
 
   let(:rows)         { 6 }
   let(:columns)      { 8 }

@@ -2,8 +2,8 @@
 
 require 'test_helper'
 
-describe Vissen::Output::CircleContext do
-  subject { Vissen::Output::CircleContext }
+describe Vissen::Output::Context::Circle do
+  subject { Vissen::Output::Context::Circle }
 
   let(:radius)         { rand(0.1..1.0) }
   let(:point_count)    { 4 }

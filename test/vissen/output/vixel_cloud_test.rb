@@ -21,7 +21,7 @@ describe Vissen::Output::VixelCloud do
       Vissen::Output::Palette.new(*colors.reverse)
     ]
   end
-  let(:context_klass) { Vissen::Output::GridContext }
+  let(:context_klass) { Vissen::Output::Context::Grid }
   let(:grid_context) { context_klass.new rows, columns, palettes: palettes }
   let(:vixel_cloud)  { subject.new grid_context }
 

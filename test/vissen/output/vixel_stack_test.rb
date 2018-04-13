@@ -21,7 +21,7 @@ describe Vissen::Output::VixelStack do
       Vissen::Output::Palette.new(*colors.reverse)
     ]
   end
-  let(:context_klass) { Vissen::Output::GridContext }
+  let(:context_klass) { Vissen::Output::Context::Grid }
   let(:context)       { context_klass.new rows, columns, palettes: palettes }
   let(:stack)         { subject.new context, layer_count }
 

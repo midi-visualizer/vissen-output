@@ -5,7 +5,7 @@ require 'test_helper'
 describe Vissen::Output::Filter::Gamma do
   subject { Vissen::Output::Filter::Gamma }
 
-  let(:context)     { Vissen::Output::GridContext.new 2, 3 }
+  let(:context)     { Vissen::Output::Context::Grid.new 2, 3 }
   let(:pixel_cloud) { Vissen::Output::PixelCloud.new context }
   let(:filter)      { subject.new context }
   let(:red)         { rand }

@@ -2,8 +2,8 @@
 
 require 'test_helper'
 
-describe Vissen::Output::CloudContext do
-  subject { Vissen::Output::CloudContext }
+describe Vissen::Output::Context::Cloud do
+  subject { Vissen::Output::Context::Cloud }
 
   let(:point_count)   { 4 }
   let(:points)        { Array.new(point_count) { [rand, rand] } }

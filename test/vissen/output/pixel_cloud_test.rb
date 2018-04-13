@@ -7,7 +7,7 @@ describe Vissen::Output::PixelCloud do
 
   let(:rows)         { 6 }
   let(:columns)      { 8 }
-  let(:grid_context) { Vissen::Output::GridContext.new rows, columns }
+  let(:grid_context) { Vissen::Output::Context::Grid.new rows, columns }
 
   let(:pixel_cloud) { subject.new grid_context }
 
