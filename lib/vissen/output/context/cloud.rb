@@ -73,7 +73,7 @@ module Vissen
               d2 = distance**2
               raise RangeError if 2 * d2 * point_count > width * height
             else
-              d2 = 2.0 / (width * height)
+              d2 = (width * height) / (2.0 * point_count)
             end
 
             condition = ->(p, q) { (p[0] - q[0])**2 + (p[1] - q[1])**2 > d2 }
