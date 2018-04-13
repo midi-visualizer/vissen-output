@@ -16,7 +16,6 @@ require 'vissen/output/context'
 require 'vissen/output/context/cloud'
 require 'vissen/output/context/circle'
 require 'vissen/output/context/grid'
-require 'vissen/output/grid' # TODO: Depricate or find use for.
 require 'vissen/output/pixel_cloud'
 require 'vissen/output/vixel_cloud'
 require 'vissen/output/vixel_stack'
