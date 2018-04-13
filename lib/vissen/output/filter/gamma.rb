@@ -23,10 +23,10 @@ module Vissen
         # Applies the filter to the given pixel cloud.
         #
         # @see Filter
-        # @param pixel_cloud [PixelCloud] the pixel cloud to perform the filter
-        #   operation on.
-        def apply(pixel_cloud)
-          pixel_cloud.each do |pixel|
+        # @param pixel_buffer [PixelBuffer] the pixel buffer to perform the
+        #   filter operation on.
+        def apply(pixel_buffer)
+          pixel_buffer.each do |pixel|
             pixel.r = pixel.r**@value
             pixel.g = pixel.g**@value
             pixel.b = pixel.b**@value

@@ -2,16 +2,16 @@
 
 module Vissen
   module Output
-    # The pixel cloud is an implementation of the general `Buffer` module that
-    # places `Pixel` objects in each cloud point.
-    class PixelCloud
+    # The pixel buffer is an implementation of the general `Buffer` module that
+    # places `Pixel` objects in each buffer element.
+    class PixelBuffer
       include Buffer
 
       # @!method pixels
-      # @return [Pixel] the pixels in the cloud.
+      # @return [Pixel] the pixels in the buffer.
       alias pixels elements
 
-      # @param  context [Context] the context in which the pixel cloud exists.
+      # @param  context [Context] the context in which the pixel buffer exists.
       def initialize(context)
         super context, Pixel
         freeze
@@ -19,9 +19,9 @@ module Vissen
 
       # Replaces the pixel values of this buffer with those of the given object.
       #
-      # @raise  [TypeError] if the other object is not a PixelCloud.
+      # @raise  [TypeError] if the other object is not a PixelBuffer.
       #
-      # @param  other [PixelCloud] the pixel cloud to copy values from.
+      # @param  other [PixelBuffer] the pixel buffer to copy values from.
       def copy!(other)
         raise TypeError unless other.is_a? self.class
 

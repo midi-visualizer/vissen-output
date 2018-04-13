@@ -52,9 +52,9 @@ module Vissen
         @layers[layer][*args]
       end
 
-      # @return [PixelCloud] a new, uninitialized pixel cloud.
-      def pixel_cloud
-        PixelCloud.new context
+      # @return [PixelBuffer] a new, uninitialized pixel buffer.
+      def pixel_buffer
+        PixelBuffer.new context
       end
 
       # Renders each layer and combines the result in the given buffer.
@@ -63,26 +63,26 @@ module Vissen
       #       internal PixelGrid and copy the stored information for subsequent
       #       requests at or around the same time?
       #
-      # @raise  [TypeError] if the pixel cloud does not share the same context.
+      # @raise  [TypeError] if the pixel buffer does not share the same context.
       #
-      # @param  pixel_cloud [PixelCloud] the buffer to store the resulting
+      # @param  pixel_buffer [PixelBuffer] the buffer to store the resulting
       #   colors of each point in.
       # @param  intensity [Float] the intensity to scale the vixels intensity
       #   with.
-      # @return [PixelCloud] the same cloud that was given as a parameter.
-      def render(pixel_cloud, intensity: 1.0)
-        raise TypeError unless context == pixel_cloud.context
+      # @return [PixelBuffer] the same buffer that was given as a parameter.
+      def render(pixel_buffer, intensity: 1.0)
+        raise TypeError unless context == pixel_buffer.context
 
-        pixel_cloud.clear!
+        pixel_buffer.clear!
 
-        @layers.reduce(pixel_cloud) do |a, e|
+        @layers.reduce(pixel_buffer) do |a, e|
           e.render a, intensity: intensity
         end
 
-        # TODO: Apply filters to pixel_cloud. Perhaps through
-        #       pixel_cloud.finalize! or something similar.
+        # TODO: Apply filters to pixel_buffer. Perhaps through
+        #       pixel_buffer.finalize! or something similar.
 
-        pixel_cloud
+        pixel_buffer
       end
     end
   end

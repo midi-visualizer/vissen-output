@@ -49,21 +49,21 @@ describe Vissen::Output::VixelStack do
     end
   end
 
-  describe '#pixel_cloud' do
+  describe '#pixel_buffer' do
     it 'returns a pixel grid of the same size' do
-      pixel_cloud = stack.pixel_cloud
+      pixel_buffer = stack.pixel_buffer
 
-      assert_kind_of Vissen::Output::PixelCloud, pixel_cloud
-      assert_equal stack.context.rows,    pixel_cloud.context.rows
-      assert_equal stack.context.columns, pixel_cloud.context.columns
-      assert_equal stack.context.width,   pixel_cloud.width
-      assert_equal stack.context.height,  pixel_cloud.height
+      assert_kind_of Vissen::Output::PixelBuffer, pixel_buffer
+      assert_equal stack.context.rows,    pixel_buffer.context.rows
+      assert_equal stack.context.columns, pixel_buffer.context.columns
+      assert_equal stack.context.width,   pixel_buffer.width
+      assert_equal stack.context.height,  pixel_buffer.height
     end
   end
 
   describe '#render' do
-    let(:pixel_cloud) { stack.pixel_cloud }
-    let(:pixels)      { pixel_cloud.pixels }
+    let(:pixel_buffer) { stack.pixel_buffer }
+    let(:pixels)       { pixel_buffer.pixels }
 
     before do
       # Randomize the vixels
@@ -76,7 +76,7 @@ describe Vissen::Output::VixelStack do
     end
 
     it 'renders the vixels to a pixel grid' do
-      stack.render(pixel_cloud)
+      stack.render(pixel_buffer)
 
       pixels.each_with_index do |pixel, index|
         v_bg = stack.layers[0].vixels[index]
@@ -94,10 +94,10 @@ describe Vissen::Output::VixelStack do
     end
 
     it 'raises an error if the given grid does not share the same context' do
-      other_context     = context_klass.new rows, columns
-      other_pixel_cloud = Vissen::Output::PixelCloud.new other_context
+      other_context = context_klass.new rows, columns
+      other_pixel_buffer = Vissen::Output::PixelBuffer.new other_context
 
-      assert_raises(TypeError) { stack.render other_pixel_cloud }
+      assert_raises(TypeError) { stack.render other_pixel_buffer }
     end
   end
 end

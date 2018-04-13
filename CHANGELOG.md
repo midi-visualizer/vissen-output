@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Improved the documentation.
 - Changed the name of the Cloud module to Buffer to distance it from the cloud context.
 - Moved all context to their own submodule.
+- Changed the name of the PixelCloud to PixelBuffer to better indicate what it should be used for.
 
 ### Removed
 - The Grid class.

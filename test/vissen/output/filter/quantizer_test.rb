@@ -5,8 +5,8 @@ require 'test_helper'
 describe Vissen::Output::Filter::Quantizer do
   subject { Vissen::Output::Filter::Quantizer }
 
-  let(:context)     { Vissen::Output::Context::Grid.new 2, 3 }
-  let(:pixel_cloud) { Vissen::Output::PixelCloud.new context }
+  let(:context) { Vissen::Output::Context::Grid.new 2, 3 }
+  let(:pixel_buffer) { Vissen::Output::PixelBuffer.new context }
   let(:filter)      { subject.new context }
   let(:red)         { rand }
   let(:green)       { rand }
@@ -24,7 +24,7 @@ describe Vissen::Output::Filter::Quantizer do
 
   describe '#apply' do
     before do
-      pixel_cloud.each do |pixel|
+      pixel_buffer.each do |pixel|
         pixel.r = red
         pixel.g = green
         pixel.b = blue
@@ -32,13 +32,13 @@ describe Vissen::Output::Filter::Quantizer do
     end
 
     it 'discretizes the values' do
-      filter.apply pixel_cloud
+      filter.apply pixel_buffer
 
       discrete_red   = (red * 255).round
       discrete_green = (green * 255).round
       discrete_blue  = (blue * 255).round
 
-      pixel_cloud.each do |pixel|
+      pixel_buffer.each do |pixel|
         assert_equal discrete_red,   pixel.r
         assert_equal discrete_green, pixel.g
         assert_equal discrete_blue,  pixel.b
@@ -47,11 +47,11 @@ describe Vissen::Output::Filter::Quantizer do
 
     it 'scales and quantizes the values to fit a range' do
       filter = subject.new context, steps: 2, range: (1..3)
-      filter.apply pixel_cloud
+      filter.apply pixel_buffer
 
-      assert_equal (2 * red.round + 1),   pixel_cloud.pixels[0].r
-      assert_equal (2 * green.round + 1), pixel_cloud.pixels[0].g
-      assert_equal (2 * blue.round + 1),  pixel_cloud.pixels[0].b
+      assert_equal (2 * red.round + 1),   pixel_buffer.pixels[0].r
+      assert_equal (2 * green.round + 1), pixel_buffer.pixels[0].g
+      assert_equal (2 * blue.round + 1),  pixel_buffer.pixels[0].b
     end
   end
 end

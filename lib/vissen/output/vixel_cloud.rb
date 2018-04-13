@@ -30,11 +30,11 @@ module Vissen
 
       # Render the layer vixels to the given buffer.
       #
-      # @param  buffer [PixelCloud] the buffer to store the resulting colors of
+      # @param  buffer [PixelBuffer] the buffer to store the resulting colors of
       #   each point in.
       # @param  intensity [Float] the intensity to scale the vixels intensity
       #   with.
-      # @return [PixelCloud] the same cloud that was given as a parameter.
+      # @return [PixelBuffer] the same buffer that was given as a parameter.
       def render(buffer, intensity: 1.0)
         palette = context.palettes[@palette]
         buffer.each_with_index do |color, index|

@@ -19,9 +19,9 @@ module Vissen
         @context = context
       end
 
-      # @param  _pixel_cloud [PixelCloud] the pixel cloud to which the filter
+      # @param  _pixel_buffer [PixelBuffer] the pixel cloud to which the filter
       #   should be applied.
-      def apply(_pixel_cloud)
+      def apply(_pixel_buffer)
         raise NotImplementedError
       end
     end

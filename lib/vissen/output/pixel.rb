@@ -2,7 +2,7 @@
 
 module Vissen
   module Output
-    # The `Pixel` object is used by the `PixelCloud` to store the colors of its
+    # The `Pixel` object is used by the `PixelBuffer` to store the colors of its
     # points.
     #
     # TODO: How do we want the pixel to saturate? When written or when read?

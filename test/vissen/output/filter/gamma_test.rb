@@ -5,8 +5,8 @@ require 'test_helper'
 describe Vissen::Output::Filter::Gamma do
   subject { Vissen::Output::Filter::Gamma }
 
-  let(:context)     { Vissen::Output::Context::Grid.new 2, 3 }
-  let(:pixel_cloud) { Vissen::Output::PixelCloud.new context }
+  let(:context) { Vissen::Output::Context::Grid.new 2, 3 }
+  let(:pixel_buffer) { Vissen::Output::PixelBuffer.new context }
   let(:filter)      { subject.new context }
   let(:red)         { rand }
   let(:green)       { rand }
@@ -25,7 +25,7 @@ describe Vissen::Output::Filter::Gamma do
 
   describe '#apply' do
     before do
-      pixel_cloud.each do |pixel|
+      pixel_buffer.each do |pixel|
         pixel.r = red
         pixel.g = green
         pixel.b = blue
@@ -33,13 +33,13 @@ describe Vissen::Output::Filter::Gamma do
     end
 
     it 'changes the color gamut' do
-      filter.apply pixel_cloud
+      filter.apply pixel_buffer
 
       corrected_red   = red**2.2
       corrected_green = green**2.2
       corrected_blue  = blue**2.2
 
-      pixel_cloud.each do |pixel|
+      pixel_buffer.each do |pixel|
         assert_in_epsilon corrected_red,   pixel.r
         assert_in_epsilon corrected_green, pixel.g
         assert_in_epsilon corrected_blue,  pixel.b
