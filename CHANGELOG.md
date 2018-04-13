@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- PixelBuffer#finalize!.
+
 ### Fixed
 - A bug in the Circle context caused the circle to be centered in (0,0), rather than in the center of the context.
 

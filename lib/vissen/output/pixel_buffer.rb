@@ -16,6 +16,11 @@ module Vissen
         super context, Pixel
         freeze
       end
+      
+      # Zeros the RGB components of each pixel in the buffer.
+      def clear!
+        pixels.each(&:clear!)
+      end
 
       # Replaces the pixel values of this buffer with those of the given object.
       #
@@ -34,9 +39,13 @@ module Vissen
         end
       end
 
-      # Zeros the rbg components of each pixel in the buffer.
-      def clear!
-        pixels.each(&:clear!)
+      # Signals to the `PixelBuffer` that the user is done updating the color
+      # values and that the buffer should perform any post processing that is
+      # needed.
+      #
+      # @return [self]
+      def finalize!
+        self
       end
     end
   end

@@ -82,7 +82,7 @@ module Vissen
         # TODO: Apply filters to pixel_buffer. Perhaps through
         #       pixel_buffer.finalize! or something similar.
 
-        pixel_buffer
+        pixel_buffer.finalize!
       end
     end
   end

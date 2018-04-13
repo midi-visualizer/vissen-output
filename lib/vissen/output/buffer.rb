@@ -40,6 +40,14 @@ module Vissen
           end
       end
 
+      # Prevents the context and element array from being changed.
+      #
+      # @return [self]
+      def freeze
+        @elements.freeze
+        super
+      end
+
       # Context specific element accessor. Depends on `Context#index_from` to
       # transform `args` into an index.
       #
