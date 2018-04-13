@@ -2,23 +2,23 @@
 
 module Vissen
   module Output
-    # Vixel Cloud
+    # Vixel Buffer
     #
     # TODO: Document this class.
-    class VixelCloud
+    class VixelBuffer
       include Buffer
 
-      # @return [Float] the global intensity of the cloud.
+      # @return [Float] the global intensity of the buffer.
       attr_accessor :intensity
 
       # @return [Integer] the palette number currently in use.
       attr_accessor :palette
 
       # @!method vixels
-      # @return [Array<Vixel>] an array with the `Vixel` objects in the cloud.
+      # @return [Array<Vixel>] an array with the `Vixel` objects in the buffer.
       alias vixels elements
 
-      # @param  context [Context] the context in which the cloud exists.
+      # @param  context [Context] the context in which the buffer exists.
       # @param  palette [Integer] the palette number to use when rendering.
       # @param  intensity [Float] the global intensity at which to render.
       def initialize(context, palette: 0, intensity: 1.0)
@@ -47,7 +47,7 @@ module Vissen
         buffer
       end
 
-      # @return [Integer] the number of vixels in the cloud.
+      # @return [Integer] the number of vixels in the buffer.
       def vixel_count
         vixels.length
       end

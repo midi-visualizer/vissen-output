@@ -10,7 +10,7 @@ module Vissen
     class VixelStack
       extend Forwardable
 
-      # @return [Array<VixelCloud>] the layers that make up the stack.
+      # @return [Array<VixelBuffer>] the layers that make up the stack.
       attr_reader :layers
 
       # @return [Context] the context in which the stack exist.
@@ -32,7 +32,7 @@ module Vissen
         raise RangeError if layer_count <= 0
 
         @context = context
-        @layers  = Array.new(layer_count) { VixelCloud.new context }
+        @layers  = Array.new(layer_count) { VixelBuffer.new context }
 
         freeze
       end
@@ -46,7 +46,7 @@ module Vissen
       end
 
       # @param  layer [Integer] the index of the layer that is accessed.
-      # @param  args (see VixelCloud#[])
+      # @param  args (see VixelBuffer#[])
       # @return [Vixel,nil] the vixel at the given layer.
       def [](layer, *args)
         @layers[layer][*args]

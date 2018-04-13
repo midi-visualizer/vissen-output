@@ -2,8 +2,8 @@
 
 require 'test_helper'
 
-describe Vissen::Output::VixelCloud do
-  subject { Vissen::Output::VixelCloud }
+describe Vissen::Output::VixelBuffer do
+  subject { Vissen::Output::VixelBuffer }
 
   let(:intensity) { rand }
   let(:rows) { 6 }
@@ -22,28 +22,28 @@ describe Vissen::Output::VixelCloud do
     ]
   end
   let(:context_klass) { Vissen::Output::Context::Grid }
-  let(:grid_context) { context_klass.new rows, columns, palettes: palettes }
-  let(:vixel_cloud)  { subject.new grid_context }
+  let(:grid_context)  { context_klass.new rows, columns, palettes: palettes }
+  let(:vixel_buffer)  { subject.new grid_context }
 
   describe '.new' do
     it 'accepts a grid context' do
-      assert_equal (rows * columns), vixel_cloud.vixel_count
-      assert_equal 1.0, vixel_cloud.intensity
+      assert_equal (rows * columns), vixel_buffer.vixel_count
+      assert_equal 1.0, vixel_buffer.intensity
 
       # Test the individual vixels
       count =
-        vixel_cloud.vixels.each.reduce(0) do |c, vixel|
+        vixel_buffer.vixels.each.reduce(0) do |c, vixel|
           assert_equal 0.0, vixel.p
           assert_equal 0.0, vixel.i
           c + 1
         end
 
-      assert_equal vixel_cloud.vixel_count, count
+      assert_equal vixel_buffer.vixel_count, count
     end
 
     it 'accepts a grid context and an initial intensity' do
-      vixel_cloud = subject.new grid_context, intensity: intensity
-      assert_equal intensity, vixel_cloud.intensity
+      vixel_buffer = subject.new grid_context, intensity: intensity
+      assert_equal intensity, vixel_buffer.intensity
     end
   end
 
@@ -51,21 +51,21 @@ describe Vissen::Output::VixelCloud do
     # A pixel should be anything with red, green and blue
     # components
     let(:pixel)  { Vissen::Output::Color }
-    let(:buffer) { Array.new(vixel_cloud.vixel_count) { pixel.new 0, 0, 0 } }
+    let(:buffer) { Array.new(vixel_buffer.vixel_count) { pixel.new 0, 0, 0 } }
 
     before do
       # Randomize the vixels
-      vixel_cloud.each do |vixel|
+      vixel_buffer.each do |vixel|
         vixel.p = rand
         vixel.i = rand
       end
     end
 
     it 'renders the vixels to an empty buffer' do
-      vixel_cloud.render(buffer)
+      vixel_buffer.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel = vixel_cloud.vixels[index]
+        vixel = vixel_buffer.vixels[index]
         color = palettes[0][vixel.p]
 
         assert_in_epsilon color.r * vixel.i, pixel.r
@@ -81,10 +81,10 @@ describe Vissen::Output::VixelCloud do
         pixel.b = 0.5
       end
 
-      vixel_cloud.render(buffer)
+      vixel_buffer.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel = vixel_cloud.vixels[index]
+        vixel = vixel_buffer.vixels[index]
         color = palettes[0][vixel.p]
 
         r = vixel.i
@@ -97,11 +97,11 @@ describe Vissen::Output::VixelCloud do
     end
 
     it 'renders the vixels with a global intensity' do
-      vixel_cloud.intensity = 0.5
-      vixel_cloud.render(buffer)
+      vixel_buffer.intensity = 0.5
+      vixel_buffer.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel = vixel_cloud.vixels[index]
+        vixel = vixel_buffer.vixels[index]
         color = palettes[0][vixel.p]
 
         r = vixel.i * 0.5
@@ -113,11 +113,11 @@ describe Vissen::Output::VixelCloud do
     end
 
     it 'renders from the given palette' do
-      vixel_cloud.palette = 1
-      vixel_cloud.render(buffer)
+      vixel_buffer.palette = 1
+      vixel_buffer.render(buffer)
 
       buffer.each_with_index do |pixel, index|
-        vixel = vixel_cloud.vixels[index]
+        vixel = vixel_buffer.vixels[index]
         color = palettes[1][vixel.p]
 
         r = vixel.i
