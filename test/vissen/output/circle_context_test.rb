@@ -29,5 +29,14 @@ describe Vissen::Output::CircleContext do
     it 'accepts a point_count' do
       assert_equal point_count, circle_context.point_count
     end
+
+    it 'accepts an optional angle offset' do
+      offset = rand(0...(2 * Math::PI))
+      circle_context = subject.new radius, point_count, offset: offset
+      points = circle_context.points
+
+      assert_in_delta radius * Math.cos(offset), points[0].x
+      assert_in_delta radius * Math.sin(offset), points[0].y
+    end
   end
 end
