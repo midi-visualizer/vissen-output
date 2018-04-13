@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PixelBuffer#finalize!.
 - The convenience method Context::Cloud.scatter that randomly places n points.
 
+## Changed
+- Grid context now accepts a with and height instead of an aspect ratio.
+
 ### Fixed
 - A bug in the Circle context caused the circle to be centered in (0,0), rather than in the center of the context.
 

@@ -5,8 +5,8 @@ require 'test_helper'
 describe Vissen::Output::Context::Grid do
   subject { Vissen::Output::Context::Grid }
 
-  let(:rows)         { 6 }
-  let(:columns)      { 8 }
+  let(:rows)         { 4 }
+  let(:columns)      { 5 }
   let(:real_width)   { 10.0 }
   let(:real_height)  { 5.0 }
   let(:grid_context) { subject.new rows, columns }
@@ -21,25 +21,11 @@ describe Vissen::Output::Context::Grid do
     it 'accepts row and column counts' do
       assert_equal rows,    grid_context.rows
       assert_equal columns, grid_context.columns
-      # The points are assumed to be placed in a square grid_context
+    end
+
+    it 'defaults to a width and height proportional to the rows and columns' do
       assert_equal 1.00, grid_context.width
       assert_equal 0.75, grid_context.height
-    end
-
-    it 'accepts an aspect ratio defined as w/h greater than 1' do
-      grid_context =
-        subject.new(rows, columns, aspect_ratio: real_width / real_height)
-
-      assert_equal 1.0, grid_context.width
-      assert_equal 0.5, grid_context.height
-    end
-
-    it 'accepts an aspect ratio defined as w/h less than 1' do
-      grid_context =
-        subject.new(rows, columns, aspect_ratio: real_height / real_width)
-
-      assert_equal 0.5, grid_context.width
-      assert_equal 1.0, grid_context.height
     end
 
     it 'works for single row contexts' do
@@ -78,15 +64,15 @@ describe Vissen::Output::Context::Grid do
     it 'works for 0 width contexts' do
       grid_context = subject.new(rows, 1)
 
-      assert_equal [0.00, 0.00], grid_context.position(0)
-      assert_equal [0.00, 1.00], grid_context.position(rows - 1)
+      assert_equal [0.0, 0.0], grid_context.position(0)
+      assert_equal [0.0, 1.0], grid_context.position(rows - 1)
     end
 
     it 'works for 0 height contexts' do
       grid_context = subject.new(1, columns)
 
-      assert_equal [0.00, 0.00], grid_context.position(0)
-      assert_equal [1.00, 0.00], grid_context.position(columns - 1)
+      assert_equal [0.0, 0.0], grid_context.position(0)
+      assert_equal [1.0, 0.0], grid_context.position(columns - 1)
     end
   end
 

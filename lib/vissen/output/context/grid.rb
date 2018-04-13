@@ -19,41 +19,27 @@ module Vissen
         # @return [Integer] the number of columns in the grid.
         attr_reader :columns
 
-        # TODO: Replace aspect_ratio with width and height to conform better
-        #       with other context types.
-        #
         # @param  rows [Integer] the number of rows in the grid.
         # @param  columns [Integer] the number of columns in the grid.
-        # @param  aspect_ratio [Float] the grid aspect ratio defined as width
-        #   divided by height.
+        # @param  width [Float] (see Context)
+        # @param  height [float] (see Context)
         # @param  args (see Context)
         def initialize(rows,
                        columns,
-                       aspect_ratio: columns.to_f / rows,
+                       width: (columns - 1).to_f,
+                       height: (rows - 1).to_f,
                        **args)
           raise RangeError if rows <= 0 || columns <= 0
-          raise ArgumentError if aspect_ratio <= 0
 
           @rows    = rows
           @columns = columns
-
-          width, height =
-            if rows == 1
-              [1.0, 0.0]
-            elsif columns == 1
-              [0.0, 1.0]
-            elsif aspect_ratio < 1.0
-              [aspect_ratio, 1.0]
-            else
-              [1.0, 1.0 / aspect_ratio]
-            end
 
           super(width, height, **args)
 
           # Define #position dynamically based on the
           # calculated width and height
-          x_factor = columns == 1 ? 0.0 : width / (columns - 1)
-          y_factor = rows == 1 ? 0.0 : height / (rows - 1)
+          x_factor = columns == 1 ? 0.0 : self.width / (columns - 1)
+          y_factor = rows == 1 ? 0.0 : self.height / (rows - 1)
 
           # Position
           #
