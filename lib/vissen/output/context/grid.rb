@@ -15,7 +15,7 @@ module Vissen
 
         # @return [Integer] the number of rows in the grid.
         attr_reader :rows
-        
+
         # @return [Integer] the number of columns in the grid.
         attr_reader :columns
 

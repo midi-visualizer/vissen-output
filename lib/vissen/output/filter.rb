@@ -7,6 +7,7 @@ module Vissen
     # chance to precompute some results. The rest of the work is done in
     # `#apply` and should not depend on time.
     module Filter
+      # @return [Context] the filter context.
       attr_reader :context
 
       # @raise  [TypeError] if the context is not a `Context`.

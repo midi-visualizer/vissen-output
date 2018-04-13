@@ -83,6 +83,10 @@ module Vissen
 
       class << self
         # Cast a given object to a color.
+        #
+        # @param  obj [Color, Array<Numeric>, Integer, #to_a] the object to
+        #   coerce.
+        # @return [Color] a new color object.
         def from(obj)
           case obj
           when self    then obj

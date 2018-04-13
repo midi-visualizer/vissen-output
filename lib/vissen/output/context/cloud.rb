@@ -26,6 +26,9 @@ module Vissen
           freeze
         end
 
+        # Prevents any more points from being added.
+        #
+        # @return [self]
         def freeze
           @points.freeze
           super

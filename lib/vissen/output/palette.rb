@@ -6,6 +6,7 @@ module Vissen
     # and a color value \\{(0..1) x 3\\}. It can either be continous or be based
     # on a pre-allocated lookup table.
     class Palette
+      # @return [String, nil] the optional palette label.
       attr_reader :label
 
       # @param  colors [Array<Color>, Array<#to_a>] the colors to use in the
