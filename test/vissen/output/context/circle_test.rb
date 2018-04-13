@@ -7,10 +7,11 @@ describe Vissen::Output::Context::Circle do
 
   let(:radius)         { rand(0.1..0.5) }
   let(:point_count)    { 4 }
-  let(:circle_context) { subject.new radius, point_count }
+  let(:circle_context) { subject.new point_count }
 
   describe '.new' do
     it 'accepts a radius' do
+      circle_context = subject.new point_count, radius: radius
       points = circle_context.points
 
       x0 = circle_context.width / 2
@@ -35,7 +36,8 @@ describe Vissen::Output::Context::Circle do
 
     it 'accepts an optional angle offset' do
       offset = rand(0...(2 * Math::PI))
-      circle_context = subject.new radius, point_count, offset: offset
+      circle_context = subject.new point_count, offset: offset
+      radius = 0.5
 
       x0 = circle_context.width / 2
       y0 = circle_context.height / 2
@@ -49,13 +51,12 @@ describe Vissen::Output::Context::Circle do
     it 'accepts a width and a height' do
       width  = 10
       height = 5
-      radius = 2.5
 
-      circle_context = subject.new radius, point_count, width: width,
-                                                        height: height
+      circle_context = subject.new point_count, width: width,
+                                                height: height
 
       points = circle_context.points
-      radius_normalized = 1.0 / width * radius
+      radius_normalized = 1.0 / width * (height.to_f / 2)
 
       x0 = circle_context.width / 2
       y0 = circle_context.height / 2

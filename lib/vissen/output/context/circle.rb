@@ -4,9 +4,6 @@ module Vissen
   module Output
     module Context
       # Output context with the points placed on a circle.
-      #
-      # TODO: Switch the order of radius and point_count and make radius a
-      #       keyword argument with a default value of [width, height].min
       class Circle < Cloud
         # @param  radius [Float] the radius of the context.
         # @param  point_count [Integer] the number of points.
@@ -14,9 +11,12 @@ module Vissen
         # @param  width [Float] (see Context)
         # @param  height [float] (see Context)
         # @param  args (see CloudContext).
-        def initialize(radius, point_count, offset: 0,
+        def initialize(point_count,
+                       offset: 0,
                        width: 1.0,
-                       height: 1.0, **args)
+                       height: 1.0,
+                       radius: [width, height].min / 2.0,
+                       **args)
           angle_factor = 2.0 * Math::PI / point_count
 
           x0 = width.to_f / 2
