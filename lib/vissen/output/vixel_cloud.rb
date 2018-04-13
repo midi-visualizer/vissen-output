@@ -6,7 +6,7 @@ module Vissen
     #
     # TODO: Document this class.
     class VixelCloud
-      include Cloud
+      include Buffer
 
       # @return [Float] the global intensity of the cloud.
       attr_accessor :intensity

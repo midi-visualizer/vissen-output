@@ -4,16 +4,16 @@ require 'forwardable'
 
 module Vissen
   module Output
-    # Cloud
+    # Buffer
     #
     #
-    module Cloud
+    module Buffer
       extend Forwardable
 
-      # @return [Context] the context of the cloud.
+      # @return [Context] the context of the buffer.
       attr_reader :context
 
-      # @return [Object] the elements at the cloud points.
+      # @return [Object] the elements at the buffer points.
       attr_reader :elements
 
       def_delegators :@context, :width, :height
@@ -24,7 +24,7 @@ module Vissen
       #
       # @raise  [ArgumentError] if both an element class and a block are given.
       #
-      # @param  context [Context] the context in which the cloud exists.
+      # @param  context [Context] the context in which the buffer exists.
       # @param  elements_klass [Class] the class to use when allocating
       #   elements.
       # @param  block [Proc] the block to use instead of `elements_klass` when
@@ -49,7 +49,7 @@ module Vissen
         @elements[@context.index_from(*args)]
       end
 
-      # Iterates over each element in the cloud and yields the element along
+      # Iterates over each element in the buffer and yields the element along
       # with its x and y coordinates.
       #
       # @return (see Context#each_position).

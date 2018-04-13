@@ -12,9 +12,9 @@ module Vissen
       # columns/rows.
       class Grid
         include Context
-  
+
         attr_reader :rows, :columns
-  
+
         # TODO: Replace aspect_ratio with width and height to conform better
         #       with other context types.
         #
@@ -26,10 +26,10 @@ module Vissen
         def initialize(rows, columns, aspect_ratio: columns.to_f / rows, **args)
           raise RangeError if rows <= 0 || columns <= 0
           raise ArgumentError if aspect_ratio <= 0
-  
+
           @rows    = rows
           @columns = columns
-  
+
           width, height =
             if rows == 1
               [1.0, 0.0]
@@ -40,14 +40,14 @@ module Vissen
             else
               [1.0, 1.0 / aspect_ratio]
             end
-  
+
           super(width, height, **args)
-  
+
           # Define #position dynamically based on the
           # calculated width and height
           x_factor = columns == 1 ? 0.0 : width / (columns - 1)
           y_factor = rows == 1 ? 0.0 : height / (rows - 1)
-  
+
           # Position
           #
           # Returns the x and y coordinates of the grid point at the given
@@ -59,12 +59,12 @@ module Vissen
             ].freeze
           end
         end
-  
+
         # @return [Integer] the number of grid points.
         def point_count
           @rows * @columns
         end
-  
+
         # See `Context#index_from`.
         #
         # WARNING: no range check is performed.
@@ -75,21 +75,21 @@ module Vissen
         def index_from(row, column)
           column * @rows + row
         end
-  
+
         # @return [Array<Integer>] the row and column of a given index.
         def row_column_from(index)
           row    = (index % @rows)
           column = (index / @rows)
           [row, column]
         end
-  
+
         # Iterates over each point in the grid and yields the index, row and
         # column.
         #
         # @return [Integer] the number of points in the grid.
         def each_row_and_column
           return to_enum(__callee__) unless block_given?
-  
+
           point_count.times { |i| yield(i, *row_column_from(i)) }
         end
       end

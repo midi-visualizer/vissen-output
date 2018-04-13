@@ -9,7 +9,7 @@ module Vissen
     #
     module Grid
       extend  Forwardable
-      include Cloud
+      include Buffer
 
       def_delegators :@context, :rows, :columns
 

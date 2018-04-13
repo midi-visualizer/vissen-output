@@ -2,10 +2,10 @@
 
 module Vissen
   module Output
-    # The pixel cloud is an implementation of the general `Cloud` module that
+    # The pixel cloud is an implementation of the general `Buffer` module that
     # places `Pixel` objects in each cloud point.
     class PixelCloud
-      include Cloud
+      include Buffer
 
       # @!method pixels
       # @return [Pixel] the pixels in the cloud.

@@ -11,10 +11,6 @@ describe Vissen::Output::PixelCloud do
 
   let(:pixel_cloud) { subject.new grid_context }
 
-  it 'is a cloud' do
-    assert_kind_of Vissen::Output::Cloud, pixel_cloud
-  end
-
   describe '#copy!' do
     it 'copies the pixels from another pixel_cloud' do
       pixel_cloud.pixels.each do |pixel|
