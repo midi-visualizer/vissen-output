@@ -45,6 +45,27 @@ describe Vissen::Output::Context::Cloud do
     end
   end
 
+  describe '.scatter' do
+    it 'places points inside the context' do
+      context = subject.scatter(10, width: 10, height: 5)
+      context.each_position do |_, x, y|
+        assert_operator x, :>=, 0.0
+        assert_operator y, :>=, 0.0
+        assert_operator x, :<=, 1.0
+        assert_operator y, :<=, 0.5
+      end
+    end
+
+    it 'keeps the distance between points' do
+      min_distance = Math.sqrt(1.0 / (2 * 10))
+      context = subject.scatter(10, distance: min_distance)
+      context.points.permutation(2) do |p1, p2|
+        d = Math.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2)
+        assert_operator d, :>=, min_distance
+      end
+    end
+  end
+
   describe '#position' do
     it 'returns the position of an element index' do
       points.each_with_index do |(x, y), index|

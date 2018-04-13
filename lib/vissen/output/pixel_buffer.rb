@@ -16,7 +16,7 @@ module Vissen
         super context, Pixel
         freeze
       end
-      
+
       # Zeros the RGB components of each pixel in the buffer.
       def clear!
         pixels.each(&:clear!)
