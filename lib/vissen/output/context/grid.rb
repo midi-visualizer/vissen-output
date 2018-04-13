@@ -13,7 +13,11 @@ module Vissen
       class Grid
         include Context
 
-        attr_reader :rows, :columns
+        # @return [Integer] the number of rows in the grid.
+        attr_reader :rows
+        
+        # @return [Integer] the number of columns in the grid.
+        attr_reader :columns
 
         # TODO: Replace aspect_ratio with width and height to conform better
         #       with other context types.
