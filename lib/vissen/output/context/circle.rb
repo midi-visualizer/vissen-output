@@ -4,6 +4,9 @@ module Vissen
   module Output
     module Context
       # Output context with the points placed on a circle.
+      #
+      # TODO: Switch the order of radius and point_count and make radius a
+      #       keyword argument with a default value of [width, height].min
       class Circle < Cloud
         # @param  radius [Float] the radius of the context.
         # @param  point_count [Integer] the number of points.

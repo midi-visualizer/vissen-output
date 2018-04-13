@@ -23,7 +23,10 @@ module Vissen
         # @param  aspect_ratio [Float] the grid aspect ratio defined as width
         #   divided by height.
         # @param  args (see Context)
-        def initialize(rows, columns, aspect_ratio: columns.to_f / rows, **args)
+        def initialize(rows,
+                       columns,
+                       aspect_ratio: columns.to_f / rows,
+                       **args)
           raise RangeError if rows <= 0 || columns <= 0
           raise ArgumentError if aspect_ratio <= 0
 
