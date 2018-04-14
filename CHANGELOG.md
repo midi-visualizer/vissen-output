@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - PixelBuffer#finalize!.
 - The convenience method Context::Cloud.scatter that randomly places n points.
+- Output filter support in PixelBuffer.
 
 ### Fixed
 - A bug in the Circle context caused the circle to be centered in (0,0), rather than in the center of the context.

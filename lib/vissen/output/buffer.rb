@@ -66,9 +66,9 @@ module Vissen
         @context.each_position { |i, x, y| yield @elements[i], x, y }
       end
 
-      # Two grids are considered equal if they share the same context.
+      # Two buffers are considered equal if they share the same context.
       #
-      # @param  other [Object]
+      # @param  other [#context, Object]
       # @return [true, false] true if the other object share the same context.
       def ===(other)
         @context == other.context

@@ -12,9 +12,24 @@ module Vissen
       alias pixels elements
 
       # @param  context [Context] the context in which the pixel buffer exists.
-      def initialize(context)
+      # @param  filters [Array<Filter>] the output filters to apply when
+      #   finalizing the buffer.
+      def initialize(context, filters = [])
         super context, Pixel
+        # Verify that all filters share the same context
+        # before adding them.
+        filters.each { |f| raise TypeError unless self === f }
+        @filters = filters
+
         freeze
+      end
+      
+      # Prevent any more filters from being added.
+      #
+      # @return [self]
+      def freeze
+        @filters.freeze
+        super
       end
 
       # Zeros the RGB components of each pixel in the buffer.
@@ -45,6 +60,7 @@ module Vissen
       #
       # @return [self]
       def finalize!
+        @filters.each { |filter| filter.apply self }
         self
       end
     end
