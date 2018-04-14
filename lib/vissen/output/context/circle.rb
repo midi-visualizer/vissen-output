@@ -3,13 +3,16 @@
 module Vissen
   module Output
     module Context
-      # Output context with the points placed on a circle.
+      # Output context with the points placed counter clockwise on a circle. By
+      # specifying an offset it is possible to adjust the position of the end
+      # points of the element array.
       class Circle < Cloud
-        # @param  radius [Float] the radius of the context.
         # @param  point_count [Integer] the number of points.
-        # @param  offset [Float] the angle offset of the first point.
+        # @param  offset [Float] the angle offset, in radians, of the first
+        #   point.
         # @param  width [Float] (see Context)
         # @param  height [float] (see Context)
+        # @param  radius [Float] the radius of the context.
         # @param  args (see CloudContext).
         def initialize(point_count,
                        offset: 0,
