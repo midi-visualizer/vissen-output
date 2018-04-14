@@ -3,8 +3,17 @@
 module Vissen
   module Output
     module Context
-      # Cloud Context
+      # The cloud context imposes no structure on the placement of its elements
+      # but instead accepts coordinates for each individual point.
       #
+      # == Usage
+      # The following example creates a context with three points, placed on a
+      # straight line.
+      #
+      #   placement = [[0.1, 0.1],
+      #                [0.5, 0.5],
+      #                [0.9, 0.9]]
+      #   context = Cloud.new placement
       #
       class Cloud
         include Context
