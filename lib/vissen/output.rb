@@ -2,6 +2,8 @@
 
 require 'vissen/output/version'
 
+require 'vissen/output/error'
+require 'vissen/output/context_error'
 require 'vissen/output/color'
 require 'vissen/output/filter'
 require 'vissen/output/filter/quantizer'

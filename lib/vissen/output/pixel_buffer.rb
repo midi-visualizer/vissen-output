@@ -11,6 +11,9 @@ module Vissen
       # @return [Pixel] the pixels in the buffer.
       alias pixels elements
 
+      # @raise  [ContextError] if any of the filters does not share the same
+      #   context.
+      #
       # @param  context [Context] the context in which the pixel buffer exists.
       # @param  filters [Array<Filter>] the output filters to apply when
       #   finalizing the buffer.
@@ -18,12 +21,12 @@ module Vissen
         super context, Pixel
         # Verify that all filters share the same context
         # before adding them.
-        filters.each { |f| raise TypeError unless self === f }
+        filters.each { |f| raise ContextError unless self === f }
         @filters = filters
 
         freeze
       end
-      
+
       # Prevent any more filters from being added.
       #
       # @return [self]

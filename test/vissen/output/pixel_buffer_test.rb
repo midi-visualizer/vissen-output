@@ -18,13 +18,15 @@ describe Vissen::Output::PixelBuffer do
       filters = [filter]
       assert_silent { subject.new grid_context, filters }
     end
-    
-    it 'raises a TypeError if any of the filters does not share context' do
+
+    it 'raises an error if any of the filters does not share context' do
       other_context = context_klass.new 1, 2
       other_filter  = filter_klass.new other_context
       filters = [filter, other_filter]
-      
-      assert_raises(TypeError) { subject.new grid_context, filters }
+
+      assert_raises Vissen::Output::ContextError do
+        subject.new grid_context, filters
+      end
     end
   end
 
@@ -67,23 +69,23 @@ describe Vissen::Output::PixelBuffer do
   describe '#finalize!' do
     it 'applies the output filters' do
       pixel_buffer = subject.new grid_context, [filter]
-      
+
       r = rand
       g = rand
       b = rand
-      
+
       pixel_buffer.pixels.each do |pixel|
         pixel.r = r
         pixel.g = g
         pixel.b = b
       end
-      
+
       r_gamma = r**filter.value
       g_gamma = g**filter.value
       b_gamma = b**filter.value
-      
+
       pixel_buffer.finalize!
-      
+
       pixel_buffer.pixels.each do |pixel|
         assert_in_epsilon r_gamma, pixel.r
         assert_in_epsilon g_gamma, pixel.g

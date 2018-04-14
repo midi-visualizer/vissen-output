@@ -63,7 +63,8 @@ module Vissen
       #       internal PixelGrid and copy the stored information for subsequent
       #       requests at or around the same time?
       #
-      # @raise  [TypeError] if the pixel buffer does not share the same context.
+      # @raise  [ContextError] if the pixel buffer does not share the same
+      #   context.
       #
       # @param  pixel_buffer [PixelBuffer] the buffer to store the resulting
       #   colors of each point in.
@@ -71,7 +72,7 @@ module Vissen
       #   with.
       # @return [PixelBuffer] the same buffer that was given as a parameter.
       def render(pixel_buffer, intensity: 1.0)
-        raise TypeError unless context == pixel_buffer.context
+        raise ContextError unless context == pixel_buffer.context
 
         pixel_buffer.clear!
 

@@ -93,11 +93,13 @@ describe Vissen::Output::VixelStack do
       end
     end
 
-    it 'raises an error if the given grid does not share the same context' do
+    it 'raises an error if the given buffer does not share the same context' do
       other_context = context_klass.new rows, columns
       other_pixel_buffer = Vissen::Output::PixelBuffer.new other_context
 
-      assert_raises(TypeError) { stack.render other_pixel_buffer }
+      assert_raises Vissen::Output::ContextError do
+        stack.render other_pixel_buffer
+      end
     end
   end
 end

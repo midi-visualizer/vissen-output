@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Output filter support in PixelBuffer.
+- More descriptive ContextErrors that are raised when contexts do not match.
 
 ### Changed
 - Grid context now accepts a with and height instead of an aspect ratio.
