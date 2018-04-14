@@ -28,6 +28,15 @@ describe Vissen::Output::Context::Grid do
       assert_equal 0.75, grid_context.height
     end
 
+    it 'accepts a width and a height' do
+      grid_context = subject.new rows, columns,
+                                 width: 10,
+                                 height: 5
+
+      assert_in_epsilon 1.0, grid_context.width
+      assert_in_epsilon 0.5, grid_context.height
+    end
+
     it 'works for single row contexts' do
       grid_context = subject.new(1, columns)
 
