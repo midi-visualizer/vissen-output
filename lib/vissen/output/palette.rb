@@ -5,6 +5,20 @@ module Vissen
     # The Palette is, at its core, a transformation between a position (0..1)
     # and a color value \\{(0..1) x 3\\}. It can either be continous or be based
     # on a pre-allocated lookup table.
+    #
+    # == Usage
+    # The following example creates a continuous palette and acesses the color
+    # at index 0.42.
+    #
+    #   palette = Palette.new 0x11998e, 0x38ef7d, label: 'Quepal'
+    #   palette[0.42] => #21BD87
+    #
+    # A discrete palette can also be created by specifying the number of steps
+    # to use.
+    #
+    #   palette = Palette.new 0x11998e, 0x38ef7d, steps: 5
+    #   palette[0.42] => #1BAF8A
+    #
     class Palette
       # @return [String, nil] the optional palette label.
       attr_reader :label
