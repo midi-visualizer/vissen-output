@@ -5,14 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## Changed
+- Grid context now accepts a with and height instead of an aspect ratio.
 
 ## [0.5.1] - 2018-04-14
 ### Added
 - PixelBuffer#finalize!.
 - The convenience method Context::Cloud.scatter that randomly places n points.
-
-## Changed
-- Grid context now accepts a with and height instead of an aspect ratio.
 
 ### Fixed
 - A bug in the Circle context caused the circle to be centered in (0,0), rather than in the center of the context.
