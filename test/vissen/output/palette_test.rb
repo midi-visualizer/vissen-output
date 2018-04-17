@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'color'
 
 describe Vissen::Output::Palette do
   subject { Vissen::Output::Palette }
 
   let(:colors) do
     [
-      Color::RGB.new(0xFF, 0, 0),
-      Color::RGB.new(0, 0xFF, 0),
-      Color::RGB.new(0, 0, 0xFF)
+      Vissen::Output::Color.new(1.0, 0, 0),
+      Vissen::Output::Color.new(0, 1.0, 0),
+      Vissen::Output::Color.new(0, 0, 1.0)
     ]
   end
 
@@ -43,8 +42,8 @@ describe Vissen::Output::Palette do
 
   describe '#[]' do
     it 'mixes the colors' do
-      ab = colors[0].mix_with(colors[1], 50)
-      bc = colors[1].mix_with(colors[2], 50)
+      ab = colors[0].mix_with(colors[1], 0.50)
+      bc = colors[1].mix_with(colors[2], 0.50)
 
       assert_color_equal(ab, palette[0.25])
       assert_color_equal(bc, palette[0.75])
@@ -53,8 +52,8 @@ describe Vissen::Output::Palette do
     it 'returns the nearest color down when discrete' do
       palette = subject.new(*colors, steps: 5)
 
-      ab = colors[0].mix_with(colors[1], 50)
-      bc = colors[1].mix_with(colors[2], 50)
+      ab = colors[0].mix_with(colors[1], 0.50)
+      bc = colors[1].mix_with(colors[2], 0.50)
 
       assert_color_equal(ab,        palette[0.30])
       assert_color_equal(colors[1], palette[0.70])

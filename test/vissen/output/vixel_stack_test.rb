@@ -10,9 +10,9 @@ describe Vissen::Output::VixelStack do
   let(:layer_count) { 2 }
   let(:colors) do
     [
-      Color::RGB.new(0xFF, 0, 0),
-      Color::RGB.new(0, 0xFF, 0),
-      Color::RGB.new(0, 0, 0xFF)
+      Vissen::Output::Color.new(1.0, 0, 0),
+      Vissen::Output::Color.new(0, 1.0, 0),
+      Vissen::Output::Color.new(0, 0, 1.0)
     ]
   end
   let(:palettes) do
