@@ -1,5 +1,8 @@
 # Vissen::Output
 
+[![Build Status](https://travis-ci.org/midi-visualizer/vissen-output.svg?branch=master)](https://travis-ci.org/midi-visualizer/vissen-output)
+[![Inline docs](http://inch-ci.org/github/midi-visualizer/vissen-output.svg?branch=master)](http://inch-ci.org/github/midi-visualizer/vissen-output)
+
 The Vissen Output library implements the objects used by the Vissen Engine to talk to the various sinks.
 
 ## Installation
