@@ -21,7 +21,7 @@ module Vissen
         super context, Pixel
         # Verify that all filters share the same context
         # before adding them.
-        filters.each { |f| raise ContextError unless self === f }
+        filters.each { |f| raise ContextError unless share_context? f }
         @filters = filters
 
         freeze

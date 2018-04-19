@@ -49,20 +49,20 @@ describe Vissen::Output::Buffer do
     end
   end
 
-  describe '#===' do
+  describe '#share_context?' do
     it 'returns true when the other object share the same context' do
       other = subject.new context, element_klass
-      assert_operator buffer, :===, other
+      assert_operator buffer, :share_context?, other
     end
 
     it 'returns false when the other object has a different context' do
       other_context = context_klass.new 2, 3
       other = subject.new other_context, element_klass
-      refute_operator buffer, :===, other
+      refute_operator buffer, :share_context?, other
     end
 
     it 'returns false for other objects' do
-      refute_operator buffer, :===, Object.new
+      refute_operator buffer, :share_context?, Object.new
     end
   end
 end

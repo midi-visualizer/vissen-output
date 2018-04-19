@@ -46,3 +46,19 @@ Metrics/BlockLength:
 Metrics/ModuleLength:
   Exclude:
     - 'test/**/*.rb'
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - x
+    - y
+    - i
+    - p
+    - n
+    - r
+    - g
+    - b
+    - to
+    

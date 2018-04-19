@@ -70,11 +70,13 @@ module Vissen
       #
       # @param  other [#context, Object]
       # @return [true, false] true if the other object share the same context.
-      def ===(other)
+      def share_context?(other)
         @context == other.context
       rescue NoMethodError
         false
       end
+
+      alias === share_context?
     end
   end
 end

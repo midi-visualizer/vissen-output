@@ -76,30 +76,45 @@ module Vissen
                       height: 1.0,
                       distance: nil,
                       **args)
-            points = Array.new(point_count) { [0.0, 0.0] }
+            points    = Array.new(point_count) { [0.0, 0.0] }
+            scrambler = position_scrambler width, height
 
-            x_range = 0.0..width.to_f
-            y_range = 0.0..height.to_f
+            d2 =
+              if distance
+                (distance**2).tap do |d|
+                  raise RangeError if 2 * d * point_count > width * height
+                end
+              else
+                (width * height) / (2.0 * point_count)
+              end
 
-            if distance
-              d2 = distance**2
-              raise RangeError if 2 * d2 * point_count > width * height
-            else
-              d2 = (width * height) / (2.0 * point_count)
-            end
-
-            condition = ->(p, q) { (p[0] - q[0])**2 + (p[1] - q[1])**2 > d2 }
+            condition = distance_condition d2
 
             points.each_with_index do |point, i|
               loop do
-                point[0] = rand x_range
-                point[1] = rand y_range
-
+                scrambler.call point
                 break if points[0...i].all?(&condition.curry[point])
               end
             end
 
             new(points, width: width, height: height, **args)
+          end
+
+          private
+
+          def position_scrambler(x_max, y_max)
+            x_range = 0.0..x_max.to_f
+            y_range = 0.0..y_max.to_f
+
+            lambda do |pos|
+              pos[0] = rand x_range
+              pos[1] = rand y_range
+              pos
+            end
+          end
+
+          def distance_condition(distance_squared)
+            ->(p, q) { (p[0] - q[0])**2 + (p[1] - q[1])**2 > distance_squared }
           end
         end
       end

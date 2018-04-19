@@ -39,6 +39,21 @@ describe Vissen::Output::Color do
       assert_in_delta components[1], color.g, delta
       assert_in_delta components[2], color.b, delta
     end
+
+    it 'accepts any object responding to #to_a' do
+      color_like_klass = Struct.new(:r, :g, :b) do
+        def to_a
+          [r, g, b]
+        end
+      end
+
+      color_like = color_like_klass.new rand, rand, rand
+      color = subject.from color_like
+
+      assert_equal color_like.r, color.r
+      assert_equal color_like.g, color.g
+      assert_equal color_like.b, color.b
+    end
   end
 
   describe '#==' do
