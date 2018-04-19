@@ -76,9 +76,6 @@ module Vissen
                       height: 1.0,
                       distance: nil,
                       **args)
-            points    = Array.new(point_count) { [0.0, 0.0] }
-            scrambler = position_scrambler width, height
-
             d2 =
               if distance
                 (distance**2).tap do |d|
@@ -88,29 +85,39 @@ module Vissen
                 (width * height) / (2.0 * point_count)
               end
 
-            condition = distance_condition d2
-
-            points.each_with_index do |point, i|
-              loop do
-                scrambler.call point
-                break if points[0...i].all?(&condition.curry[point])
-              end
-            end
+            points = place_points point_count,
+                                  position_scrambler(width, height)
+            distance_condition(d2)
 
             new(points, width: width, height: height, **args)
           end
 
           private
 
+          # @param  x_max [#to_f] the largest value x is allowed to take.
+          # @param  y_max [#to_f] the largest value y is allowed to take.
+          # @return [Proc] a proc that ranomizes the first and second element of
+          #   the given array.
           def position_scrambler(x_max, y_max)
             x_range = 0.0..x_max.to_f
             y_range = 0.0..y_max.to_f
 
-            lambda do |pos|
+            proc do |pos|
               pos[0] = rand x_range
               pos[1] = rand y_range
               pos
             end
+          end
+
+          def place_points(point_count, scrambler, condition)
+            points = Array.new(point_count) { [0.0, 0.0] }
+            points.each_with_index do |point, i|
+              loop do
+                scrambler.call point
+                break if points[0...i].all?(&condition.curry[point])
+              end
+            end
+            points
           end
 
           def distance_condition(distance_squared)
