@@ -20,19 +20,32 @@ module Vissen
                        height: 1.0,
                        radius: [width, height].min / 2.0,
                        **args)
-          angle_factor = 2.0 * Math::PI / point_count
 
-          x0 = width.to_f / 2
-          y0 = height.to_f / 2
-
-          points = Array.new(point_count) do |index|
-            angle = index * angle_factor + offset
-
-            Point.new x0 + radius * Math.cos(angle),
-                      y0 + radius * Math.sin(angle)
-          end
+          circle = self.class.position_generator(point_count, radius, offset)
+          center = [width.to_f / 2, height.to_f / 2]
+          points = self.class.place_points point_count, center, circle
 
           super(points, width: width, height: height, **args)
+        end
+
+        class << self
+          def position_generator(point_count, radius, offset)
+            angle_factor = 2.0 * Math::PI / point_count
+
+            proc do |index|
+              angle = index * angle_factor + offset
+              [radius * Math.cos(angle), radius * Math.sin(angle)]
+            end
+          end
+
+          def place_points(point_count, center, generator)
+            x0, y0 = center
+
+            Array.new(point_count) do |index|
+              x, y = generator.call index
+              Point.new x0 + x, y0 + y
+            end
+          end
         end
       end
     end

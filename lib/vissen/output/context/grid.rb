@@ -36,21 +36,7 @@ module Vissen
 
           super(width, height, **args)
 
-          # Define #position dynamically based on the
-          # calculated width and height
-          x_factor = columns == 1 ? 0.0 : self.width / (columns - 1)
-          y_factor = rows == 1 ? 0.0 : self.height / (rows - 1)
-
-          # Position
-          #
-          # Returns the x and y coordinates of the grid point at the given
-          # index.
-          define_singleton_method(:position) do |index|
-            [
-              x_factor * (index / rows),
-              y_factor * (index % rows)
-            ].freeze
-          end
+          define_position
         end
 
         # @return [Integer] the number of grid points.
@@ -84,6 +70,26 @@ module Vissen
           return to_enum(__callee__) unless block_given?
 
           point_count.times { |i| yield(i, *row_column_from(i)) }
+        end
+
+        private
+
+        def define_position
+          # Define #position dynamically based on the
+          # calculated width and height
+          x_factor = @columns == 1 ? 0.0 : width / (@columns - 1)
+          y_factor = @rows == 1 ? 0.0 : height / (@rows - 1)
+
+          # Position
+          #
+          # Returns the x and y coordinates of the grid point at the given
+          # index.
+          define_singleton_method(:position) do |index|
+            [
+              x_factor * (index / @rows),
+              y_factor * (index % @rows)
+            ].freeze
+          end
         end
       end
     end
