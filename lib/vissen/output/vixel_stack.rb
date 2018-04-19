@@ -45,6 +45,8 @@ module Vissen
         super
       end
 
+      # Accesses a vixel in one of the vixelbuffers stored in the stack.
+      #
       # @param  layer [Integer] the index of the layer that is accessed.
       # @param  args (see VixelBuffer#[])
       # @return [Vixel,nil] the vixel at the given layer.

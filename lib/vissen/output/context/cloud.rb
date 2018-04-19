@@ -43,6 +43,8 @@ module Vissen
           super
         end
 
+        # See `Context#point_count`.
+        #
         # @return [Integer] the number of grid points.
         def point_count
           @points.length

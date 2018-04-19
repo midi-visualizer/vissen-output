@@ -43,6 +43,8 @@ module Vissen
       end
 
       class << self
+        # Coerce objects into points.
+        #
         # @param  obj [#to_a] the object to be coerced into a `Point`.
         # @param  args (see #initialize)
         # @return [Point] a new `Point` object.
