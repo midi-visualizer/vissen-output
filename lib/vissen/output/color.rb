@@ -46,6 +46,8 @@ module Vissen
         [r, g, b]
       end
 
+      # rubocop:disable Metrics/AbcSize
+
       # Moves this color toword the other based on the given ratio.
       #
       # ratio = 0 -> 100 % of this color
@@ -63,6 +65,7 @@ module Vissen
 
         self
       end
+      # rubocop:enable Metrics/AbcSize
 
       # Returns a new color that is a mix between this and the other color,
       # based on the ratio. See `#mix_with!` for more details.
