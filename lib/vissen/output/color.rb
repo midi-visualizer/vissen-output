@@ -14,6 +14,7 @@ module Vissen
     #   color_a.mix_with(color_b, 0.5).to_a => [0.2, 0.3, 0.35]
     #
     class Color
+      # Accessors for the red, green and blue color components.
       attr_accessor :r, :g, :b
 
       # @param  r [Float] the red color value in the range (0..1).

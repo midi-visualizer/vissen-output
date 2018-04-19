@@ -11,7 +11,15 @@ module Vissen
     # 3. what color palette corresponds to a palette index.
     #
     module Context
-      attr_reader :width, :height, :palettes
+      # @return [Float] the normalized width of the context.
+      attr_reader :width
+
+      # @return [Float] the normalized width of the context.
+      attr_reader :height
+
+      # @return [Array<Palette>] the array of palettes used to render the
+      #   context.
+      attr_reader :palettes
 
       # Output contexts give the two things to the vixels within them: a
       # position and a color.

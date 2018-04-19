@@ -5,6 +5,7 @@ module Vissen
     # Context errors occur when two components of the output stack are used
     # together even though they do not share the same context.
     class ContextError < Error
+      # @param  msg [String] the error messge.
       def initialize(msg = 'The context of the given object does not match')
         super
       end

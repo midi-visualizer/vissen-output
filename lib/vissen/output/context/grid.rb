@@ -39,6 +39,8 @@ module Vissen
           define_position
         end
 
+        # See `Context#point_count`.
+        #
         # @return [Integer] the number of grid points.
         def point_count
           @rows * @columns
@@ -55,6 +57,10 @@ module Vissen
           column * @rows + row
         end
 
+        # Calculates the row and column of the the point stored at the given
+        # index.
+        #
+        # @param  index [Integer] the index of the point of interest.
         # @return [Array<Integer>] the row and column of a given index.
         def row_column_from(index)
           row    = (index % @rows)
