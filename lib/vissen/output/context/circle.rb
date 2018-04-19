@@ -28,10 +28,8 @@ module Vissen
           points = Array.new(point_count) do |index|
             angle = index * angle_factor + offset
 
-            x = x0 + radius * Math.cos(angle)
-            y = y0 + radius * Math.sin(angle)
-
-            Point.new x, y
+            Point.new x0 + radius * Math.cos(angle),
+                      y0 + radius * Math.sin(angle)
           end
 
           super(points, width: width, height: height, **args)
