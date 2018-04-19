@@ -86,8 +86,8 @@ module Vissen
               end
 
             points = place_points point_count,
-                                  position_scrambler(width, height)
-            distance_condition(d2)
+                                  position_scrambler(width, height),
+                                  distance_condition(d2)
 
             new(points, width: width, height: height, **args)
           end
