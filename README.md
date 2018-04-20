@@ -1,5 +1,6 @@
-# Vissen::Output
+# 🥀 Vissen Output
 
+[![Gem Version](https://badge.fury.io/rb/vissen-output.svg)](https://badge.fury.io/rb/vissen-output)
 [![Build Status](https://travis-ci.org/midi-visualizer/vissen-output.svg?branch=master)](https://travis-ci.org/midi-visualizer/vissen-output)
 [![Inline docs](http://inch-ci.org/github/midi-visualizer/vissen-output.svg?branch=master)](http://inch-ci.org/github/midi-visualizer/vissen-output)
 
@@ -23,7 +24,33 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+include Vissen::Output
+
+# First we create a grid shaped context with 64 points.
+context = Context::Grid.new 8, 8
+
+# We then create a vixel stack with a single layer.
+stack = VixelStack.new context, 1
+
+# We go through each vixel in the layer and randomize its
+# palette value (p). We also set the layer palette to
+# palette number 1.
+stack.layers[0].tap do |layer|
+    layer.palette = 1
+    layer.each do |vixel|
+        vixel.i = 1.0
+        vixel.p = rand
+    end
+end
+
+# Finally we allocate a pixel buffer and render to it.
+pixel_buffer = stack.pixel_buffer
+stack.render pixel_buffer
+
+```
+
+Please see the [documentation](http://www.rubydoc.info/gems/vissen-output/) for more details.
 
 ## Development
 
