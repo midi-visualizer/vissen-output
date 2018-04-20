@@ -14,8 +14,8 @@ module Vissen
       # @return [Float] the vixel palette position.
       attr_reader :p
 
-      # @param  i [Float] the vixel intensity.
-      # @param  p [Float] the vixel palette position.
+      # @param  i [Numeric] the vixel intensity.
+      # @param  p [Numeric] the vixel palette position.
       def initialize(i = 0.0, p = 0.0)
         self.i = i
         self.p = p
@@ -30,13 +30,13 @@ module Vissen
         false
       end
 
-      # @param  value [Float] the new intensity value.
+      # @param  value [Numeric] the new intensity value.
       # @return [Float] the truncated intensity value.
       def i=(value)
         @i = self.class.truncate value
       end
 
-      # @param  value [Float] the new palette position.
+      # @param  value [Numeric] the new palette position.
       # @return [Float] the truncated palette position.
       def p=(value)
         @p = self.class.truncate value
@@ -50,7 +50,7 @@ module Vissen
       class << self
         # Makes sure n is in the range 0..1.
         #
-        # @param  n [Float] the value to truncate.
+        # @param  n [Numeric] the value to truncate.
         # @return [Float] n truncated to fit within the range 0..1.
         def truncate(n)
           if n <= 0    then 0.0

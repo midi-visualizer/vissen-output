@@ -20,7 +20,7 @@ module Vissen
 
       # @param  context [Context] the context in which the buffer exists.
       # @param  palette [Integer] the palette number to use when rendering.
-      # @param  intensity [Float] the global intensity at which to render.
+      # @param  intensity [Numeric] the global intensity at which to render.
       def initialize(context, palette: 0, intensity: 1.0)
         super(context, Vixel)
 
@@ -32,7 +32,7 @@ module Vissen
       #
       # @param  buffer [PixelBuffer] the buffer to store the resulting colors of
       #   each point in.
-      # @param  intensity [Float] the intensity to scale the vixels intensity
+      # @param  intensity [Numeric] the intensity to scale the vixels intensity
       #   with.
       # @return [PixelBuffer] the same buffer that was given as a parameter.
       def render(buffer, intensity: 1.0)

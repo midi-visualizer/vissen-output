@@ -117,8 +117,8 @@ module Vissen
       # each corresponding grid point index the squared distance between the
       # point and the given coordinate.
       #
-      # @param  x [Float] the x coordinate to calculate distances from.
-      # @param  y [Float] the y coordinate to calculate distances from.
+      # @param  x [Numeric] the x coordinate to calculate distances from.
+      # @param  y [Numeric] the y coordinate to calculate distances from.
       # @param  target [Array<Float>] the target array to populate with
       #   distances.
       def distance_squared(x, y, target)

@@ -21,8 +21,8 @@ module Vissen
 
         # @param  rows [Integer] the number of rows in the grid.
         # @param  columns [Integer] the number of columns in the grid.
-        # @param  width [Float] (see Context)
-        # @param  height [float] (see Context)
+        # @param  width [Numeric] (see Context)
+        # @param  height [Numeric] (see Context)
         # @param  args (see Context)
         def initialize(rows,
                        columns,

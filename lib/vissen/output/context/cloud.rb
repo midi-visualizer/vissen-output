@@ -69,9 +69,9 @@ module Vissen
           #   algorithm therefore is unlikely to converge.
           #
           # @param  point_count [Integer] the number of points to scatter.
-          # @param  width [Float] the width of the context.
-          # @param  height [Float] the height of the context.
-          # @param  distance [Float] the minimum distance between each point.
+          # @param  width [Numeric] the width of the context.
+          # @param  height [Numeric] the height of the context.
+          # @param  distance [Numeric] the minimum distance between each point.
           # @param  args (see Context).
           def scatter(point_count,
                       width: 1.0,

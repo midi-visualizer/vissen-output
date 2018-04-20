@@ -70,7 +70,7 @@ module Vissen
       #
       # @param  pixel_buffer [PixelBuffer] the buffer to store the resulting
       #   colors of each point in.
-      # @param  intensity [Float] the intensity to scale the vixels intensity
+      # @param  intensity [Numeric] the intensity to scale the vixels intensity
       #   with.
       # @return [PixelBuffer] the same buffer that was given as a parameter.
       def render(pixel_buffer, intensity: 1.0)
@@ -81,9 +81,6 @@ module Vissen
         @layers.reduce(pixel_buffer) do |a, e|
           e.render a, intensity: intensity
         end
-
-        # TODO: Apply filters to pixel_buffer. Perhaps through
-        #       pixel_buffer.finalize! or something similar.
 
         pixel_buffer.finalize!
       end
