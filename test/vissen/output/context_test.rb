@@ -68,6 +68,15 @@ describe Vissen::Output::Context do
     end
   end
 
+  describe '#center' do
+    it 'returns the coordinates of the center of the context' do
+      x, y = context.center
+
+      assert_in_epsilon 0.50, x
+      assert_in_epsilon 0.25, y
+    end
+  end
+
   describe 'point_count dependent methods' do
     before { context.define_singleton_method(:point_count) { 3 } }
 

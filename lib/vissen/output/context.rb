@@ -71,6 +71,14 @@ module Vissen
         Array.new(point_count, &block)
       end
 
+      # Uses the width and height och the context to calculate the x and y
+      # coordinates of the center point.
+      #
+      # @return [Array<Float>] the center coordinates.
+      def center
+        [width / 2.0, height / 2.0]
+      end
+
       # Iterates over the context points. The index of the the point is passed
       # to the given block.
       #
