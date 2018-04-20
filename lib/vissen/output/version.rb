@@ -3,6 +3,6 @@
 module Vissen
   module Output
     # The Vissen Output library version number.
-    VERSION = '0.6.0'
+    VERSION = '0.6.1'
   end
 end
