@@ -78,14 +78,12 @@ module Vissen
                       height: 1.0,
                       distance: nil,
                       **args)
-            d2 =
-              if distance
-                (distance**2).tap do |d|
-                  raise RangeError if 2 * d * point_count > width * height
-                end
-              else
-                (width * height) / (2.0 * point_count)
-              end
+            if distance
+              d2 = (distance**2)
+              raise RangeError if 2 * d2 * point_count > width * height
+            else
+              d2 = (width * height) / (2.0 * point_count)
+            end
 
             points = place_points point_count,
                                   position_scrambler(width, height),
