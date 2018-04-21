@@ -3,6 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/vissen-output.svg)](https://badge.fury.io/rb/vissen-output)
 [![Build Status](https://travis-ci.org/midi-visualizer/vissen-output.svg?branch=master)](https://travis-ci.org/midi-visualizer/vissen-output)
 [![Inline docs](http://inch-ci.org/github/midi-visualizer/vissen-output.svg?branch=master)](http://inch-ci.org/github/midi-visualizer/vissen-output)
+[![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](http://www.rubydoc.info/gems/vissen-output/)
 
 The Vissen Output library implements the objects used by the Vissen Engine to talk to the various sinks.
 
