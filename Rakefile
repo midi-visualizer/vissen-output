@@ -15,6 +15,7 @@ RuboCop::RakeTask.new(:rubocop)
 
 YARD::Rake::YardocTask.new(:yard) do |t|
   t.stats_options = %w[--list-undoc]
+  t.files = ['lib/**/*.rb', '-', 'CHANGELOG.md']
 end
 
 desc 'Generate Ruby documentation'
