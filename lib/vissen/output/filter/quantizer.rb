@@ -24,8 +24,7 @@ module Vissen
           to   = if range.exclude_end?
                    raise ArgumentError if range.end.is_a?(Float)
                    range.end - 1
-                 else
-                   range.end
+                 else range.end
                  end
 
           design_function from, to, steps
