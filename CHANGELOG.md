@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Introduced the #center method in contexts to easily find the x and y coordinates of the center point.
 
+### Changed
+- Context#distance_squared now yields each distance to a block instead of writing to an array.
+
 ## [0.6.1] - 2018-04-20
 ### Changed
 - Improved, more descriptive comments.

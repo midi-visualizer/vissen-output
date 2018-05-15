@@ -138,9 +138,14 @@ describe Vissen::Output::Context do
     end
 
     describe '#distance_squared' do
-      it 'populates the array with squared distances' do
-        target = Array.new(3)
-        context.distance_squared 0, 0, target
+      it 'returns an enumerator when not given a block' do
+        enum = context.distance_squared(0, 0)
+        assert_in_epsilon 4.0, enum.next
+      end
+
+      it 'yields each squared distance' do
+        target = []
+        context.distance_squared(0, 0) { |d2| target << d2 }
 
         assert_in_epsilon 4.0, target[0]
         assert_in_epsilon 2.0, target[1]

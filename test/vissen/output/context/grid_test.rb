@@ -87,8 +87,7 @@ describe Vissen::Output::Context::Grid do
 
   describe '#distance_squared' do
     it 'populates the array with squared distances' do
-      target = Array.new(rows * columns)
-      grid_context.distance_squared 0, 0, target
+      target = grid_context.distance_squared(0, 0).to_a
       x = grid_context.width
       y = grid_context.height
 

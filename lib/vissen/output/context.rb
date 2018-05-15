@@ -123,18 +123,19 @@ module Vissen
 
       # This utility method traverses the given target array and calculates for
       # each corresponding grid point index the squared distance between the
-      # point and the given coordinate.
+      # point and the given coordinate. The squared distance is then yielded to
+      # the given block.
       #
       # @param  x [Numeric] the x coordinate to calculate distances from.
       # @param  y [Numeric] the y coordinate to calculate distances from.
-      # @param  target [Array<Float>] the target array to populate with
-      #   distances.
-      def distance_squared(x, y, target)
-        target.each_with_index do |_, i|
-          x_i, y_i = position i
+      def distance_squared(x, y)
+        return to_enum(__callee__, x, y) unless block_given?
+
+        each_position do |_, x_i, y_i|
           dx = x_i - x
           dy = y_i - y
-          target[i] = (dx * dx) + (dy * dy)
+
+          yield (dx * dx) + (dy * dy)
         end
       end
     end
