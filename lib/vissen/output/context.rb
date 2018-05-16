@@ -121,21 +121,43 @@ module Vissen
         index
       end
 
-      # This utility method traverses the given target array and calculates for
-      # each corresponding grid point index the squared distance between the
-      # point and the given coordinate. The squared distance is then yielded to
-      # the given block.
+      # This utility method calculates the squared distance between each point
+      # and the given coordinate. The squared distance is then yielded to the
+      # given block.
       #
       # @param  x [Numeric] the x coordinate to calculate distances from.
       # @param  y [Numeric] the y coordinate to calculate distances from.
-      def distance_squared(x, y)
+      # @return [Enumerable] if no block is given.
+      def each_distance_squared(x, y)
+        return to_enum(__callee__, x, y) unless block_given?
+
+        each_position do |_, x_i, y_i|
+          yield (x_i - x)**2 + (y_i - y)**2
+        end
+      end
+
+      alias distance_squared each_distance_squared
+
+      # This method calculates the distance and angle to each point and the
+      # given coordinate. The distance and angle are then yielded to the given
+      # block.
+      #
+      # @param  x [Numeric] the x coordinate to calculate angle and distance
+      #   from.
+      # @param  y [Numeric] the y coordinate to calculate angle and distance
+      #   from.
+      # @return [Enumerable] if no block is given.
+      def each_polar_offset(x, y)
         return to_enum(__callee__, x, y) unless block_given?
 
         each_position do |_, x_i, y_i|
           dx = x_i - x
           dy = y_i - y
 
-          yield (dx * dx) + (dy * dy)
+          distance = Math.sqrt(dx**2 + dy**2)
+          angle    = Math.atan2 dy, dx
+
+          yield distance, angle
         end
       end
     end

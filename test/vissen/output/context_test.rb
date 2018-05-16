@@ -137,19 +137,36 @@ describe Vissen::Output::Context do
       end
     end
 
-    describe '#distance_squared' do
+    describe '#each_distance_squared' do
       it 'returns an enumerator when not given a block' do
-        enum = context.distance_squared(0, 0)
+        enum = context.each_distance_squared(0, 0)
         assert_in_epsilon 4.0, enum.next
       end
 
       it 'yields each squared distance' do
         target = []
-        context.distance_squared(0, 0) { |d2| target << d2 }
+        context.each_distance_squared(0, 0) { |d2| target << d2 }
 
         assert_in_epsilon 4.0, target[0]
         assert_in_epsilon 2.0, target[1]
         assert_in_epsilon 4.0, target[2]
+      end
+    end
+
+    describe '#each_polar_offset' do
+      it 'returns an enumerator when not given a block' do
+        enum = context.each_polar_offset(*context.center)
+        r, theta = enum.next
+        assert_in_delta 1.820, r
+        assert_in_delta 1.849, theta
+      end
+
+      it 'returns the distance and angle to each position' do
+        target = []
+        context.each_polar_offset(*context.center) { |r, th| target << [r, th] }
+        r, theta = target[0]
+        assert_in_delta 1.820, r
+        assert_in_delta 1.849, theta
       end
     end
   end

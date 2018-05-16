@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Introduced the #center method in contexts to easily find the x and y coordinates of the center point.
+- The utility method Context#each_polar_offset.
 
 ### Changed
 - Context#distance_squared now yields each distance to a block instead of writing to an array.
+- Changed the name of Context#distance_squared to Context#each_distance_squared.  The old method is still available as an alias.
 
 ## [0.6.1] - 2018-04-20
 ### Changed
