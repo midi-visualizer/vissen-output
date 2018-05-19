@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Context#distance_squared now yields each distance to a block instead of writing to an array.
 - Changed the name of Context#distance_squared to Context#each_distance_squared.  The old method is still available as an alias.
+- Vixels no longer truncate values (for performance reasons).
 
 ## [0.6.1] - 2018-04-20
 ### Changed

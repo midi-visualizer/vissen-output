@@ -17,20 +17,6 @@ describe Vissen::Output::Vixel do
       assert_equal p, vixel.p
       assert_equal i, vixel.i
     end
-
-    it 'truncates values greater than 1' do
-      vixel = subject.new 1.1, 4.3
-
-      assert_equal 1.0, vixel.p
-      assert_equal 1.0, vixel.i
-    end
-
-    it 'truncates values smaller than 0' do
-      vixel = subject.new(-4.2, -1.1)
-
-      assert_equal 0.0, vixel.p
-      assert_equal 0.0, vixel.i
-    end
   end
 
   describe '#==' do

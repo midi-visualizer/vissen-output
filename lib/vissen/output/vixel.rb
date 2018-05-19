@@ -9,10 +9,10 @@ module Vissen
     # TODO: How do we want the vixel to saturate? When written or when read?
     class Vixel
       # @return [Float] the vixel intensity.
-      attr_reader :i
+      attr_accessor :i
 
       # @return [Float] the vixel palette position.
-      attr_reader :p
+      attr_accessor :p
 
       # @param  i [Numeric] the vixel intensity.
       # @param  p [Numeric] the vixel palette position.
@@ -30,34 +30,9 @@ module Vissen
         false
       end
 
-      # @param  value [Numeric] the new intensity value.
-      # @return [Float] the truncated intensity value.
-      def i=(value)
-        @i = self.class.truncate value
-      end
-
-      # @param  value [Numeric] the new palette position.
-      # @return [Float] the truncated palette position.
-      def p=(value)
-        @p = self.class.truncate value
-      end
-
       # @return [String] a string representation of the vixel.
       def inspect
         format '(%.1f, %.1f)', @i, @p
-      end
-
-      class << self
-        # Makes sure n is in the range 0..1.
-        #
-        # @param  n [Numeric] the value to truncate.
-        # @return [Float] n truncated to fit within the range 0..1.
-        def truncate(n)
-          if n <= 0    then 0.0
-          elsif n >= 1 then 1.0
-          else              n
-          end
-        end
       end
     end
   end

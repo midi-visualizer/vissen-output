@@ -59,6 +59,14 @@ describe Vissen::Output::Palette do
       assert_color_equal(colors[1], palette[0.70])
       assert_color_equal(bc,        palette[0.80])
     end
+
+    it 'handles values less than zero' do
+      assert_color_equal palette[0.0], palette[-0.1]
+    end
+
+    it 'handles values greater than one' do
+      assert_color_equal palette[1.0], palette[1.1]
+    end
   end
 
   describe '#inspect' do
