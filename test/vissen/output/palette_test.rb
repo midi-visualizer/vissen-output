@@ -69,6 +69,20 @@ describe Vissen::Output::Palette do
     end
   end
 
+  describe '#discretize' do
+    let(:discrete_palette) { palette.discretize 3 }
+    it 'returns a new palette with the same colors' do
+      assert_color_equal(colors[0], discrete_palette[0])
+      assert_color_equal(colors[1], discrete_palette[0.5])
+      assert_color_equal(colors[2], discrete_palette[1])
+    end
+
+    it 'returns a discrete palette' do
+      assert_color_equal(colors[0], discrete_palette[0.25])
+      assert_color_equal(colors[1], discrete_palette[0.75])
+    end
+  end
+
   describe '#inspect' do
     it 'returns a string representation of the palette' do
       assert_equal '#FF0000 -> #00FF00 -> #0000FF',

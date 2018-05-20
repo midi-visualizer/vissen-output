@@ -52,6 +52,12 @@ module Vissen
         super
       end
 
+      # @param  steps [Fixnum] the number of discrete colors in the new palette.
+      # @return [Palette] a new, discrete palette.
+      def discretize(steps)
+        self.class.new(*@colors, steps: steps, label: @label)
+      end
+
       # Discretize the palette into the given number of values. Palettes defined
       # with a step count are sampled as if they where continuous.
       #
@@ -75,11 +81,12 @@ module Vissen
       private
 
       def define_discrete_accessor(steps)
-        @palette = to_a steps
+        @palette = to_a(steps).freeze
+        last_color_index = @palette.length - 1
         define_singleton_method :[] do |index|
-          index = if index >= 1.0 then @palette.length - 1
+          index = if index >= 1.0 then last_color_index
                   elsif index < 0.0 then 0
-                  else (index * (@palette.length - 1)).floor
+                  else (index * last_color_index).floor
                   end
 
           @palette[index]
