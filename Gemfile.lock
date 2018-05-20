@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vissen-output (0.6.2.pre)
+    vissen-output (0.7.0)
 
 GEM
   remote: https://rubygems.org/
