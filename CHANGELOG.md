@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.7.0] - 2018-05-20
 ### Added
 - Introduced the #center method in contexts to easily find the x and y coordinates of the center point.
 - The utility method Context#each_polar_offset.
